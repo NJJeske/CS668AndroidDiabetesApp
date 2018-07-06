@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">CS 668 Android Diabetes App</string>
+    <string name="listData">Data</string>
+    <string name="btn_graph">GRAPHS</string>
+    <string name="btn_lists">LISTS</string>
+    <string name="btn_stats">STATS</string>
+    <string name="activity">Activity Type</string>
+    <string name="blood_glucose">Blood Glucose</string>
+    <string name="exercise">Exercise</string>
+    <string name="diet">Diet</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="search">Search</string>
+    <string name="keyword">Keyword</string>
+    <string name="graph_preview">Graph Preview</string>
+    <string name="from_date">Enter From Date</string>
+    <string name="to_date">Enter To Date</string>
 </resources>

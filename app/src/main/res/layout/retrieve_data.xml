@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_viewGraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_graph"
+        app:layout_constraintBottom_toTopOf="@+id/rdBtn_bloodGlucose"
+        app:layout_constraintEnd_toStartOf="@+id/btn_viewList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_viewList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/btn_lists"
+        app:layout_constraintBottom_toTopOf="@+id/rdBtn_exercise"
+        app:layout_constraintEnd_toEndOf="@+id/txtView_dataTitle"
+        app:layout_constraintStart_toStartOf="@+id/txtView_dataTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btn_Stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/btn_stats"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.818"
+        app:layout_constraintStart_toEndOf="@+id/btn_viewList"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtView_dataTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="108dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/listData"
+        app:layout_constraintBottom_toTopOf="@+id/txtView_dataActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtView_dataActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/activity"
+        app:layout_constraintBottom_toTopOf="@+id/rdBtn_exercise"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioButton
+        android:id="@+id/rdBtn_bloodGlucose"
+        android:layout_width="112dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/blood_glucose"
+        app:layout_constraintEnd_toStartOf="@+id/rdBtn_exercise"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity"
+        app:layout_constraintTop_toTopOf="@+id/txtView_dataActivity" />
+
+    <RadioButton
+        android:id="@+id/rdBtn_exercise"
+        android:layout_width="112dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginStart="12dp"
+        android:text="@string/exercise"
+        app:layout_constraintBottom_toTopOf="@+id/date_from"
+        app:layout_constraintEnd_toStartOf="@+id/rdBtn_diet"
+        app:layout_constraintStart_toEndOf="@+id/rdBtn_bloodGlucose" />
+
+    <RadioButton
+        android:id="@+id/rdBtn_diet"
+        android:layout_width="112dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/diet"
+        app:layout_constraintBottom_toTopOf="@+id/date_from"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Stats"
+        app:layout_constraintVertical_bias="0.912" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/from"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rdBtn_bloodGlucose" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/to"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/date_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="152dp"
+        android:ems="10"
+        android:hint="@string/from_date"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Stats" />
+
+    <EditText
+        android:id="@+id/date_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="116dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/to_date"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/date_from" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:text="@string/keyword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Button
+        android:id="@+id/btn_Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plainText_search" />
+
+    <EditText
+        android:id="@+id/plainText_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="@string/search"
+        android:inputType="textPersonName"
+        android:text="@string/search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.903"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/date_to" />
+
+
+
+</android.support.constraint.ConstraintLayout>
