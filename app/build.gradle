@@ -8,8 +8,8 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.njjeske.cs668androiddiabetesapp"
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 19
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

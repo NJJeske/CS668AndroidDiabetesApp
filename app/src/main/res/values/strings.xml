@@ -15,4 +15,5 @@
     <string name="graph_preview">Graph Preview</string>
     <string name="from_date">Enter From Date</string>
     <string name="to_date">Enter To Date</string>
+    <string name="appbar_scrolling_view_behavior">Menu</string>
 </resources>

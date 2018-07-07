@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Diet"
+    tools:showIn="@layout/activity_diet">
+
+    <Button
+        android:id="@+id/Diet.Lunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/Diet.Dinner"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Diet.Breakfast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/Diet.Lunch"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Diet.Dinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/Diet.Snack"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Diet.Water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="371dp" />
+
+    <Button
+        android:id="@+id/Diet.Snack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/Diet.Water"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="LUNCH"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintStart_toEndOf="@+id/Diet.Lunch"
+        tools:layout_editor_absoluteY="155dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="SNACK"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintStart_toEndOf="@+id/Diet.Snack"
+        tools:layout_editor_absoluteY="308dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="WATER"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintStart_toEndOf="@+id/Diet.Water"
+        tools:layout_editor_absoluteY="374dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="DINNER"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintStart_toEndOf="@+id/Diet.Dinner"
+        tools:layout_editor_absoluteY="240dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginStart="25dp"
+        android:text="BREAKFAST"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        app:layout_constraintStart_toEndOf="@+id/Diet.Breakfast"
+        tools:layout_editor_absoluteY="96dp" />
+
+    <ImageButton
+        android:id="@+id/Diet.Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?attr/homeAsUpIndicator"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="441dp" />
+
+    <ImageButton
+        android:id="@+id/Diet.Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?attr/actionModePasteDrawable"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="441dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.constraint.Group
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>
