@@ -1,19 +1,20 @@
 <resources>
     <string name="app_name">CS 668 Android Diabetes App</string>
-    <string name="listData">Data</string>
+    <string name="txtView_data">Data</string>
     <string name="btn_graph">GRAPHS</string>
     <string name="btn_lists">LISTS</string>
     <string name="btn_stats">STATS</string>
-    <string name="activity">Activity Type</string>
-    <string name="blood_glucose">Blood Glucose</string>
-    <string name="exercise">Exercise</string>
-    <string name="diet">Diet</string>
-    <string name="from">From:</string>
-    <string name="to">To:</string>
+    <string name="txtView_activity">Activity Type</string>
+    <string name="radio_blood_glucose">Blood Glucose</string>
+    <string name="radio_exercise">Exercise</string>
+    <string name="radio_diet">Diet</string>
+    <string name="txtView_search_from">From:</string>
+    <string name="txtView_search_to">To:</string>
     <string name="search">Search</string>
-    <string name="keyword">Keyword</string>
+    <string name="txtView_search_keyword">Keyword</string>
     <string name="graph_preview">Graph Preview</string>
-    <string name="from_date">Enter From Date</string>
-    <string name="to_date">Enter To Date</string>
+    <string name="hint_fromDate">Enter From Date</string>
+    <string name="hint_toDate">Enter To Date</string>
     <string name="appbar_scrolling_view_behavior">Menu</string>
+    <string name="hint_keyword">Enter keywords</string>
 </resources>
