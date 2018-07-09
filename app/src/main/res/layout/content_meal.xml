@@ -52,6 +52,7 @@
         tools:layout_editor_absoluteY="81dp" />
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/Meal.Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,7 +100,7 @@
         android:layout_height="38dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:hint="Name"
         tools:layout_editor_absoluteX="131dp"
         tools:layout_editor_absoluteY="81dp" />
 
