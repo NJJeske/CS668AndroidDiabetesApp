@@ -6,9 +6,9 @@
     android:layout_height="match_parent">
 
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/btn_viewGraph"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -21,19 +21,20 @@
     <Button
         android:id="@+id/btn_viewList"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/btn_lists"
-        app:layout_constraintEnd_toEndOf="@+id/txtView_dataTitle"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/txtView_dataTitle"
+        app:layout_constraintEnd_toStartOf="@+id/btn_stats"
+        app:layout_constraintStart_toEndOf="@+id/btn_viewGraph"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataTitle" />
 
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/btn_stats"
-        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -56,7 +57,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/textView_Heading" />
 
     <TextView
         android:id="@+id/txtView_dataActivity"
@@ -70,18 +72,20 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_viewList" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_viewList"
+        style="@style/textView_Heading" />
 
     <RadioButton
         android:id="@+id/rdBtn_bloodGlucose"
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/radio_blood_glucose"
-        app:layout_constraintBaseline_toBaselineOf="@+id/rdBtn_exercise"
         app:layout_constraintEnd_toStartOf="@+id/rdBtn_exercise"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <RadioButton
         android:id="@+id/rdBtn_exercise"
@@ -89,6 +93,7 @@
         android:layout_height="38dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_exercise"
+        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_bloodGlucose"
         app:layout_constraintEnd_toStartOf="@+id/rdBtn_diet"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/rdBtn_bloodGlucose"
@@ -99,11 +104,13 @@
         android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/radio_diet"
-        app:layout_constraintBaseline_toBaselineOf="@+id/rdBtn_exercise"
+        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_exercise"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/rdBtn_exercise" />
+        app:layout_constraintStart_toEndOf="@+id/rdBtn_exercise"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <TextView
         android:id="@+id/txtView_data_searchFrom"
@@ -183,8 +190,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/btn_Search"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
