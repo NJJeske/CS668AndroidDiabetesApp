@@ -9,4 +9,5 @@
     <color name="color_btnPrimaryLight">#91DDD5</color>
     <color name="color_btnGray">#6E758F</color>
     <color name="color_btnGreen">#4B9B44</color>
+    <color name="backgroundcolor">#fcfcfc</color>
 </resources>

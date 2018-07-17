@@ -2,9 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.njjeske.cs668androiddiabetesapp">
 
-    <uses-sdk android:minSdkVersion="19"
-        android:targetSdkVersion="25"
-        android:maxSdkVersion="25" />
+    <uses-sdk
+        android:maxSdkVersion="25"
+        android:minSdkVersion="19"
+        android:targetSdkVersion="25" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,13 +18,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".Home"
+            android:label="Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".BGL"
+            android:label="Blood Glucose"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Exercise"
+            android:label="Exercise"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Medicine"
+            android:label="Medicine"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Data"
+            android:label="Data"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Food"
+            android:label="Food"
+            android:parentActivityName=".Home" />
     </application>
 
 </manifest>
