@@ -32,26 +32,10 @@ public class Diet extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent i = new Intent(this, Food.class);
-        String name = "Meal";
-        switch (v.getId()) {
-            case R.id.Diet_Breakfast:
-                name = "Breakfast";
-                break;
-            case R.id.Diet_Lunch:
-                name = "Lunch";
-                break;
-            case R.id.Diet_Dinner:
-                name = "Dinner";
-                break;
-            case R.id.Diet_Water:
-                name = "Water";
-                break;
-            case R.id.Diet_Snack:
-                name = "Snack";
-                break;
-            default:
-                break;
-        }
+
+        // Send button name to Meal activity
+        Button b = (Button) v;
+        String name = b.getText().toString();
         i.putExtra("dietKey", name);
         startActivity(i);
     }
