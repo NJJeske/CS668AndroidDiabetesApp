@@ -35,7 +35,7 @@ public class BGL extends AppCompatActivity {
         String submitString;
         submitString = String.format("%s, %s", time_editText.getText().toString(), value_editText.getText().toString());
         Intent i;
-        i = new Intent(this, Data.class);
+        i = new Intent(this, Results.class);
         i.putExtra("bgl_info", submitString);
         startActivity(i);
     }
