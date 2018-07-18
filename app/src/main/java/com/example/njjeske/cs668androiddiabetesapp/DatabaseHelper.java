@@ -52,22 +52,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //User
+//        db.execSQL("CREATE TABLE " + userTable + " (" + colUserID + " INTEGER PRIMARY KEY, " + colUserName + " TEXT, " +
+//                colGlucose + " Integer NOT NULL ,FOREIGN KEY ("+ colGlucose + ") REFERENCES " + glucoseTable + "(" + colGlucoseID + ")" +
+//                colExercise + " Integer NOT NULL ,FOREIGN KEY ("+ colExercise + ") REFERENCES " + exerciseTable + "(" + colExerciseID + ")" +
+//                colMedication + " Integer NOT NULL ,FOREIGN KEY ("+ colMedication + ") REFERENCES " + medicationTable + "(" + colMedicationID + ")" +
+//                colDiet + " INTEGER NOT NULL ,FOREIGN KEY (" + colDiet + ") REFERENCES " + dietTable + " (" + colDietID + "));");
+
+        //Diet
         db.execSQL("CREATE TABLE " + dietTable + " (" + colDietID + " INTEGER PRIMARY KEY , " +
-                colDietType + " TEXT)");
+                colDietType + " TEXT, " + colDietName + " TEXT, " + colDietAmount + " REAL, " + colDietTime + " TEXT );");
 
-        db.execSQL("CREATE TABLE " + userTable + " (" + colUserID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                colUserName + " TEXT, " + colGlucose + " Integer, " + colDiet + " INTEGER NOT NULL ,FOREIGN KEY (" + colDiet + ") REFERENCES " +
-                dietTable + " (" + colDietID + "));");
+        //Glucose
+        db.execSQL("CREATE TABLE " + glucoseTable + " (" + colGlucoseID + " INTEGER PRIMARY KEY , " +
+                colGlucoseValue + " INTEGER, " + colGlucoseTime + " TEXT );");
+
+        //Medication
+        db.execSQL("CREATE TABLE " + medicationTable + " (" + colMedicationID + " INTEGER PRIMARY KEY , " +
+                colMedicationName + " TEXT, " + colMedicationAmount + " INTEGER, " + colMedicationTime + " TEXT );");
+
+        //Exercise
+        db.execSQL("CREATE TABLE " + exerciseTable + " (" + colExerciseID + " INTEGER PRIMARY KEY , " +
+                colExerciseActivity + " TEXT, " + colExerciseDuration + " INTEGER, " + colExerciseTime + " TEXT );");
 
 
-        db.execSQL("CREATE TRIGGER fk_empdept_deptid " + " BEFORE INSERT " + " ON " + userTable + " FOR EACH ROW BEGIN" +
-                " SELECT CASE WHEN ((SELECT " + colDietID + " FROM " + dietTable + " WHERE " +
-                colDietID + " = new." + colDiet + " ) IS NULL)" + " THEN RAISE (ABORT,'Foreign Key Violation') END;" + "  END;");
-
-        db.execSQL("CREATE VIEW " + viewEmps + " AS SELECT " + userTable + "." + colUserID + " AS _id," +
-                " " + userTable + "." + colUserName + "," + " " + userTable + "." + colGlucose + "," +
-                " " + dietTable + "." + colDietType + "" + " FROM " + userTable + " JOIN " + dietTable +
-                " ON " + userTable + "." + colDiet + " =" + dietTable + "." + colDietID);
+//        db.execSQL("CREATE TRIGGER fk_empdept_deptid " + " BEFORE INSERT " + " ON " + userTable + " FOR EACH ROW BEGIN" +
+//                " SELECT CASE WHEN ((SELECT " + colDietID + " FROM " + dietTable + " WHERE " +
+//                colDietID + " = new." + colDiet + " ) IS NULL)" + " THEN RAISE (ABORT,'Foreign Key Violation') END;" + "  END;");
+//
+//        db.execSQL("CREATE VIEW " + viewEmps + " AS SELECT " + userTable + "." + colUserID + " AS _id," +
+//                " " + userTable + "." + colUserName + "," + " " + userTable + "." + colGlucose + "," +
+//                " " + dietTable + "." + colDietType + "" + " FROM " + userTable + " JOIN " + dietTable +
+//                " ON " + userTable + "." + colDiet + " =" + dietTable + "." + colDietID);
         //Inserts pre-defined departments
 //        InsertDepts(db);
     }
@@ -78,11 +94,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + userTable);
         db.execSQL("DROP TABLE IF EXISTS " + dietTable);
+        db.execSQL("DROP TABLE IF EXISTS " + glucoseTable);
+        db.execSQL("DROP TABLE IF EXISTS " + medicationTable);
+        db.execSQL("DROP TABLE IF EXISTS " + exerciseTable);
 
-        db.execSQL("DROP TRIGGER IF EXISTS dept_id_trigger");
-        db.execSQL("DROP TRIGGER IF EXISTS dept_id_trigger22");
-        db.execSQL("DROP TRIGGER IF EXISTS fk_empdept_deptid");
-        db.execSQL("DROP VIEW IF EXISTS " + viewEmps);
+//        db.execSQL("DROP TRIGGER IF EXISTS dept_id_trigger");
+//        db.execSQL("DROP TRIGGER IF EXISTS dept_id_trigger22");
+//        db.execSQL("DROP TRIGGER IF EXISTS fk_empdept_deptid");
+//        db.execSQL("DROP VIEW IF EXISTS " + viewEmps);
         onCreate(db);
     }
 }
