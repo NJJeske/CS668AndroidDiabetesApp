@@ -46,6 +46,7 @@
 
     <TextView
         android:id="@+id/txtView_dataTitle"
+        style="@style/textView_Heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -57,8 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/textView_Heading" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtView_dataActivity"
@@ -77,39 +77,49 @@
 
     <RadioButton
         android:id="@+id/rdBtn_bloodGlucose"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_blood_glucose"
-        app:layout_constraintEnd_toStartOf="@+id/rdBtn_exercise"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <RadioButton
         android:id="@+id/rdBtn_exercise"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_exercise"
         app:layout_constraintBottom_toBottomOf="@+id/rdBtn_bloodGlucose"
         app:layout_constraintEnd_toStartOf="@+id/rdBtn_diet"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/rdBtn_bloodGlucose"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <RadioButton
         android:id="@+id/rdBtn_diet"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_diet"
         app:layout_constraintBottom_toBottomOf="@+id/rdBtn_exercise"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/rdBtn_medicine"
         app:layout_constraintStart_toEndOf="@+id/rdBtn_exercise"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <RadioButton
+        android:id="@+id/rdBtn_medicine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Medication"
+        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_diet"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <TextView
@@ -142,7 +152,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="@string/hint_fromDate"
+        android:hint="@string/hint_date"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -157,7 +167,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="@string/hint_toDate"
+        android:hint="@string/hint_date"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtView_data_searchTo"

@@ -39,7 +39,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(i);
                 break;
             case R.id.food_card:
-                i = new Intent(this, Food.class);
+                i = new Intent(this, Diet.class);
                 startActivity(i);
                 break;
             case R.id.exercise_card:

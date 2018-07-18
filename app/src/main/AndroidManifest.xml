@@ -45,6 +45,10 @@
         <activity
             android:name=".Food"
             android:label="Food"
+            android:parentActivityName=".Diet" />
+        <activity
+            android:name=".Diet"
+            android:label="Diet"
             android:parentActivityName=".Home" />
     </application>
 

@@ -13,8 +13,6 @@
     <string name="search">Search</string>
     <string name="txtView_search_keyword">Keyword</string>
     <string name="graph_preview">Graph Preview</string>
-    <string name="hint_fromDate">Enter From Date</string>
-    <string name="hint_toDate">Enter To Date</string>
     <string name="appbar_scrolling_view_behavior">Menu</string>
     <string name="hint_keyword">Enter keywords</string>
     <string name="meal">Meal</string>
@@ -31,4 +29,5 @@
     <string name="medicine">Medicine</string>
     <string name="medication">Medication</string>
     <string name="medicationhint">Insulin</string>
+    <string name="hint_date">MM/DD/YYYY</string>
 </resources>
