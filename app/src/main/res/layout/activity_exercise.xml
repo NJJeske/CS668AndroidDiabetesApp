@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/BGL.heading"
+            android:id="@+id/Exercise.heading"
             style="@style/textView_Heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,40 +38,40 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/BGL.Value.label"
+            android:id="@+id/Exercise.Value.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="40dp"
             android:text="@string/time"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/BGL.editText.value"
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.value"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/BGL.Time.label"
+            android:id="@+id/Exercise.Time.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="Duration"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/BGL.editText.time"
-            app:layout_constraintEnd_toEndOf="@+id/BGL.Value.label" />
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.time"
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.Value.label" />
 
         <TextView
-            android:id="@+id/Meal.Name.label"
+            android:id="@+id/Exercise.Name.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:text="Activity"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/Meal.editText.Food"
-            app:layout_constraintEnd_toEndOf="@+id/BGL.Time.label"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.heading" />
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.name"
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.Time.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.heading" />
 
         <EditText
-            android:id="@+id/BGL.editText.value"
+            android:id="@+id/Exercise.editText.value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -81,11 +81,11 @@
             android:hint="@string/timehint"
             android:inputType="time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/BGL.Value.label"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.editText.time" />
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Value.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.time" />
 
         <EditText
-            android:id="@+id/BGL.editText.time"
+            android:id="@+id/Exercise.editText.time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -93,12 +93,12 @@
             android:ems="10"
             android:hint="40 minutes"
             android:inputType="text|number"
-            app:layout_constraintEnd_toEndOf="@+id/BGL.editText.value"
-            app:layout_constraintStart_toEndOf="@+id/BGL.Time.label"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.editText.Food" />
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.editText.value"
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Time.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.name" />
 
         <EditText
-            android:id="@+id/Meal.editText.Food"
+            android:id="@+id/Exercise.editText.name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -108,11 +108,11 @@
             android:hint="Walking"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Meal.Name.label"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.heading" />
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Name.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.heading" />
 
         <Button
-            android:id="@+id/Meal.Submit"
+            android:id="@+id/Exercise.Submit"
             style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,11 +124,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.editText.value" />
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.value" />
     </android.support.constraint.ConstraintLayout>
 
     <ImageButton
-        android:id="@+id/Meal.data"
+        android:id="@+id/Exercise.data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

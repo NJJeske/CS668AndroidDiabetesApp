@@ -31,7 +31,7 @@ public class Diet extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this, Food.class);
+        Intent i = new Intent(this, Meal.class);
 
         // Send button name to Meal activity
         Button b = (Button) v;

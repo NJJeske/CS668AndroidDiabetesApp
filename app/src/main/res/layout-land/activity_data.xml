@@ -6,20 +6,20 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btn_viewGraph"
+        android:id="@+id/Data.btn.graphs"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/btn_graph"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_viewList"
-        app:layout_constraintEnd_toStartOf="@+id/btn_viewList"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Data.btn.lists"
+        app:layout_constraintEnd_toStartOf="@+id/Data.btn.lists"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn_viewList"
+        android:id="@+id/Data.btn.lists"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,22 +27,22 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/btn_lists"
-        app:layout_constraintEnd_toStartOf="@+id/btn_stats"
-        app:layout_constraintStart_toEndOf="@+id/btn_viewGraph"
+        app:layout_constraintEnd_toStartOf="@+id/Data.btn.stats"
+        app:layout_constraintStart_toEndOf="@+id/Data.btn.graphs"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataTitle" />
 
     <Button
-        android:id="@+id/btn_stats"
+        android:id="@+id/Data.btn.stats"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/btn_stats"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_viewList"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Data.btn.lists"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toEndOf="@+id/btn_viewList" />
+        app:layout_constraintStart_toEndOf="@+id/Data.btn.lists" />
 
     <TextView
         android:id="@+id/txtView_dataTitle"
@@ -73,10 +73,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_viewList" />
+        app:layout_constraintTop_toBottomOf="@+id/Data.btn.lists" />
 
     <RadioButton
-        android:id="@+id/rdBtn_bloodGlucose"
+        android:id="@+id/Data.Radio.bloodGlucose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -86,39 +86,39 @@
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <RadioButton
-        android:id="@+id/rdBtn_exercise"
+        android:id="@+id/Data.Radio.exercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_exercise"
-        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_bloodGlucose"
-        app:layout_constraintEnd_toStartOf="@+id/rdBtn_diet"
-        app:layout_constraintStart_toEndOf="@+id/rdBtn_bloodGlucose"
+        app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.bloodGlucose"
+        app:layout_constraintEnd_toStartOf="@+id/Data.Radio.diet"
+        app:layout_constraintStart_toEndOf="@+id/Data.Radio.bloodGlucose"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
     <RadioButton
-        android:id="@+id/rdBtn_diet"
+        android:id="@+id/Data.Radio.diet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/radio_diet"
-        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_exercise"
-        app:layout_constraintEnd_toStartOf="@+id/rdBtn_medicine"
-        app:layout_constraintStart_toEndOf="@+id/rdBtn_exercise"
+        app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.exercise"
+        app:layout_constraintEnd_toStartOf="@+id/Data.Radio.medication"
+        app:layout_constraintStart_toEndOf="@+id/Data.Radio.exercise"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity"
         app:layout_constraintVertical_bias="1.0" />
 
     <RadioButton
-        android:id="@+id/rdBtn_medicine"
+        android:id="@+id/Data.Radio.medication"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="Medication"
-        app:layout_constraintBottom_toBottomOf="@+id/rdBtn_diet"
+        app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.diet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
@@ -131,7 +131,7 @@
         android:textAlignment="textEnd"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText_search_fromDate"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Data.editText.fromDate"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -144,10 +144,10 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtView_data_searchFrom"
-        app:layout_constraintStart_toEndOf="@+id/editText_search_fromDate" />
+        app:layout_constraintStart_toEndOf="@+id/Data.editText.fromDate" />
 
     <EditText
-        android:id="@+id/editText_search_fromDate"
+        android:id="@+id/Data.editText.fromDate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -156,21 +156,21 @@
         android:hint="@string/hint_date"
         android:inputType="date"
         app:layout_constraintStart_toEndOf="@+id/txtView_data_searchFrom"
-        app:layout_constraintTop_toBottomOf="@+id/rdBtn_exercise" />
+        app:layout_constraintTop_toBottomOf="@+id/Data.Radio.exercise" />
 
     <EditText
-        android:id="@+id/editText_search_toDate"
+        android:id="@+id/Data.editText.toDate"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ems="10"
         android:hint="@string/hint_date"
         android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_search_fromDate"
+        app:layout_constraintBottom_toBottomOf="@+id/Data.editText.fromDate"
         app:layout_constraintStart_toEndOf="@+id/txtView_data_searchTo" />
 
     <EditText
-        android:id="@+id/editText_search_keyword"
+        android:id="@+id/Data.editText.keywords"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -178,7 +178,7 @@
         android:ems="10"
         android:hint="@string/hint_keyword"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_search_toDate"
+        app:layout_constraintBottom_toBottomOf="@+id/Data.editText.toDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtView_data_searchKeyword" />
 
@@ -192,7 +192,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/txtView_data_searchTo"
-        app:layout_constraintStart_toEndOf="@+id/editText_search_toDate" />
+        app:layout_constraintStart_toEndOf="@+id/Data.editText.toDate" />
 
     <Button
         android:id="@+id/btn_Search"
@@ -207,7 +207,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_search_keyword" />
+        app:layout_constraintTop_toBottomOf="@+id/Data.editText.keywords" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

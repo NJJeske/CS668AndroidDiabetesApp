@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/BGL.heading"
+            android:id="@+id/Medicine.heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -38,27 +38,27 @@
             style="@style/textView_Heading" />
 
         <TextView
-            android:id="@+id/BGL.Value.label"
+            android:id="@+id/Medicine.Value.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/time"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/BGL.editText.value"
-            app:layout_constraintEnd_toEndOf="@+id/BGL.Time.label" />
+            app:layout_constraintBottom_toBottomOf="@+id/Medicine.editText.value"
+            app:layout_constraintEnd_toEndOf="@+id/Medicine.Time.label" />
 
         <TextView
-            android:id="@+id/BGL.Time.label"
+            android:id="@+id/Medicine.Time.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/amount"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/BGL.editText.time"
-            app:layout_constraintEnd_toEndOf="@+id/Meal.Name.label" />
+            app:layout_constraintBottom_toBottomOf="@+id/Medicine.editText.time"
+            app:layout_constraintEnd_toEndOf="@+id/Medicine.Name.label" />
 
         <TextView
-            android:id="@+id/Meal.Name.label"
+            android:id="@+id/Medicine.Name.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -66,35 +66,35 @@
             android:layout_marginTop="16dp"
             android:text="@string/medication"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/Meal.editText.Food"
+            app:layout_constraintBottom_toBottomOf="@+id/Medicine.editText.name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.heading"
+            app:layout_constraintTop_toBottomOf="@+id/Medicine.heading"
             app:layout_constraintVertical_bias="0.857" />
 
         <EditText
-            android:id="@+id/BGL.editText.value"
+            android:id="@+id/Medicine.editText.value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/timehint"
             android:inputType="time"
-            app:layout_constraintEnd_toEndOf="@+id/BGL.editText.time"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.editText.time" />
+            app:layout_constraintEnd_toEndOf="@+id/Medicine.editText.time"
+            app:layout_constraintTop_toBottomOf="@+id/Medicine.editText.time" />
 
         <EditText
-            android:id="@+id/BGL.editText.time"
+            android:id="@+id/Medicine.editText.time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/amountHint"
             android:inputType="text|number"
-            app:layout_constraintEnd_toEndOf="@+id/Meal.editText.Food"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.editText.Food" />
+            app:layout_constraintEnd_toEndOf="@+id/Medicine.editText.name"
+            app:layout_constraintTop_toBottomOf="@+id/Medicine.editText.name" />
 
         <EditText
-            android:id="@+id/Meal.editText.Food"
+            android:id="@+id/Medicine.editText.name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -103,8 +103,8 @@
             android:hint="@string/medicationhint"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Meal.Name.label"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.heading" />
+            app:layout_constraintStart_toEndOf="@+id/Medicine.Name.label"
+            app:layout_constraintTop_toBottomOf="@+id/Medicine.heading" />
 
         <Button
             android:id="@+id/Medicine.Submit"
@@ -119,7 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BGL.editText.value" />
+            app:layout_constraintTop_toBottomOf="@+id/Medicine.editText.value" />
     </android.support.constraint.ConstraintLayout>
 
     <ImageButton
