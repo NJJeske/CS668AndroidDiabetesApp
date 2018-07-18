@@ -17,4 +17,18 @@
     <string name="hint_toDate">Enter To Date</string>
     <string name="appbar_scrolling_view_behavior">Menu</string>
     <string name="hint_keyword">Enter keywords</string>
+    <string name="meal">Meal</string>
+    <string name="time">Time:</string>
+    <string name="amount">Amount:</string>
+    <string name="name">Name:</string>
+    <string name="timehint">00:00am/pm</string>
+    <string name="amountHint">8 oz</string>
+    <string name="foodNameHint">Apple</string>
+    <string name="submit">Submit</string>
+    <string name="bloodGlucoseLevel">Blood Glucose Level</string>
+    <string name="value">Value</string>
+    <string name="valuehint">90</string>
+    <string name="medicine">Medicine</string>
+    <string name="medication">Medication</string>
+    <string name="medicationhint">Insulin</string>
 </resources>
