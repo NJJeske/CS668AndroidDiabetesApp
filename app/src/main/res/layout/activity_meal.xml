@@ -24,106 +24,107 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/Meal.Meal"
+            android:id="@+id/Exercise.heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Meal"
+            android:text="@string/meal"
             android:textAppearance="@android:style/TextAppearance.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/textView_Heading" />
 
         <TextView
-            android:id="@+id/Meal.Time"
+            android:id="@+id/Exercise.Time.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="40dp"
-            android:text="Time:"
+            android:text="@string/time"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/Meal.Time.editText"
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.time"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/Meal.Amount"
+            android:id="@+id/Exercise.Duration.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Amount:"
+            android:text="@string/amount"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/Meal.Amount.editText"
-            app:layout_constraintEnd_toEndOf="@+id/Meal.Time" />
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.duration"
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.Time.label" />
 
         <TextView
-            android:id="@+id/Meal.Name"
+            android:id="@+id/Exercise.Activity.label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
-            android:text="Name:"
+            android:text="@string/name"
             android:textAppearance="@android:style/TextAppearance.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/Meal.Name.editText"
-            app:layout_constraintEnd_toEndOf="@+id/Meal.Amount"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.Meal" />
+            app:layout_constraintBottom_toBottomOf="@+id/Exercise.editText.Activity"
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.Duration.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.heading" />
 
         <EditText
-            android:id="@+id/Meal.Time.editText"
+            android:id="@+id/Exercise.editText.time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="00:00am/pm"
+            android:hint="@string/timehint"
             android:inputType="time"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Meal.Time"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.Amount.editText" />
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Time.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.duration" />
 
         <EditText
-            android:id="@+id/Meal.Amount.editText"
+            android:id="@+id/Exercise.editText.duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="8 oz"
+            android:hint="@string/amountHint"
             android:inputType="number"
-            app:layout_constraintEnd_toEndOf="@+id/Meal.Time.editText"
-            app:layout_constraintStart_toEndOf="@+id/Meal.Amount"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.Name.editText" />
+            app:layout_constraintEnd_toEndOf="@+id/Exercise.editText.time"
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Duration.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.Activity" />
 
         <EditText
-            android:id="@+id/Meal.Name.editText"
+            android:id="@+id/Exercise.editText.Activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="Apple"
+            android:hint="@string/foodNameHint"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/Meal.Name"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.Meal" />
+            app:layout_constraintStart_toEndOf="@+id/Exercise.Activity.label"
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.heading" />
 
         <Button
             android:id="@+id/Meal.Submit"
-            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Submit"
+            android:text="@string/submit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Meal.Time.editText" />
+            app:layout_constraintTop_toBottomOf="@+id/Exercise.editText.time"
+            style="@style/button_style" />
     </android.support.constraint.ConstraintLayout>
 
     <ImageButton
