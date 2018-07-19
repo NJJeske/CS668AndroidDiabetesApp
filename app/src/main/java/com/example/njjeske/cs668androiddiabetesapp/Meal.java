@@ -11,15 +11,6 @@ public class Meal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
-
-        // set heading to selected button from Diet activity
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String value = extras.getString("dietKey");
-            TextView tv1 = findViewById(R.id.Meal_heading);
-            tv1.setText(value);
-            //The key argument here must match that used in the other activity
-        }
     }
 
     private View.OnClickListener submitOnClickListener = new View.OnClickListener() {

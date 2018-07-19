@@ -30,4 +30,5 @@
     <string name="medication">Medication</string>
     <string name="medicationhint">Insulin</string>
     <string name="hint_date">MM/DD/YYYY</string>
+    <string name="history">History</string>
 </resources>

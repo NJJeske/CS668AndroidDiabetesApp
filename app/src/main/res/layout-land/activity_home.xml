@@ -176,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Data"
+                    android:text="@string/history"
                     android:textStyle="bold" />
             </LinearLayout>
         </android.support.v7.widget.CardView>

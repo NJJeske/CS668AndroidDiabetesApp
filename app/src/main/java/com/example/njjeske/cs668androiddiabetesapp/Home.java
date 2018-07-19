@@ -39,7 +39,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(i);
                 break;
             case R.id.food_card:
-                i = new Intent(this, Diet.class);
+                i = new Intent(this, Meal.class);
                 startActivity(i);
                 break;
             case R.id.exercise_card:
@@ -51,7 +51,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                 startActivity(i);
                 break;
             case R.id.data_card:
-                i = new Intent(this, Data.class);
+                i = new Intent(this, History.class);
                 startActivity(i);
                 break;
             default:

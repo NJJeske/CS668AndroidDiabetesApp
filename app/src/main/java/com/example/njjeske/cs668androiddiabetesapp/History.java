@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class Data extends AppCompatActivity {
+public class History extends AppCompatActivity {
     private Button searchButton, graphs, lists, stats;
     private EditText fromDate, toDate, keywords;
     private RadioButton radio_bgl, radio_exercise, radio_diet, radio_medication;
@@ -19,7 +19,7 @@ public class Data extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data);
+        setContentView(R.layout.activity_history);
 
         // connect buttons to XML & onClick listeners
         searchButton = findViewById(R.id.Data_search);
@@ -75,7 +75,7 @@ public class Data extends AppCompatActivity {
 
     // submit into database
     private void search(View v) {
-        Log.d("Button", "Search clicked");
+        Log.d("Button", "History clicked");
         // checkData to make sure valid info passed
         if (checkData()) {
             String submitString;
