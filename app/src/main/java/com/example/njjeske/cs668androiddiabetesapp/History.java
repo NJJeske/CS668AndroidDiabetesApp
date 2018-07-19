@@ -22,26 +22,26 @@ public class History extends AppCompatActivity {
         setContentView(R.layout.activity_history);
 
         // connect buttons to XML & onClick listeners
-        searchButton = findViewById(R.id.Data_search);
+        searchButton = (Button) findViewById(R.id.Data_search);
         searchButton.setOnClickListener(dataOnClickListener);
 
-        graphs = findViewById(R.id.Data_btn_graphs);
-        lists = findViewById(R.id.Data_btn_lists);
-        stats = findViewById(R.id.Data_btn_stats);
+        graphs = (Button) findViewById(R.id.Data_btn_graphs);
+        lists = (Button) findViewById(R.id.Data_btn_lists);
+        stats = (Button) findViewById(R.id.Data_btn_stats);
         graphs.setOnClickListener(dataOnClickListener);
         lists.setOnClickListener(dataOnClickListener);
         stats.setOnClickListener(dataOnClickListener);
 
         // connect editText to XML
-        fromDate = findViewById(R.id.Data_editText_fromDate);
-        toDate = findViewById(R.id.Data_editText_toDate);
-        keywords = findViewById(R.id.Data_editText_keywords);
+        fromDate = (EditText) findViewById(R.id.Data_editText_fromDate);
+        toDate = (EditText) findViewById(R.id.Data_editText_toDate);
+        keywords = (EditText) findViewById(R.id.Data_editText_keywords);
 
         // connect radio to XML
-        radio_bgl = findViewById(R.id.Data_Radio_bloodGlucose);
-        radio_exercise = findViewById(R.id.Data_Radio_exercise);
-        radio_diet = findViewById(R.id.Data_Radio_diet);
-        radio_medication = findViewById(R.id.Data_Radio_medication);
+        radio_bgl = (RadioButton) findViewById(R.id.Data_Radio_bloodGlucose);
+        radio_exercise = (RadioButton) findViewById(R.id.Data_Radio_exercise);
+        radio_diet = (RadioButton) findViewById(R.id.Data_Radio_diet);
+        radio_medication = (RadioButton) findViewById(R.id.Data_Radio_medication);
 
         // simple selected array
         buttonSelected = new int[3];

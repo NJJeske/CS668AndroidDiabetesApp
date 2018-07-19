@@ -15,11 +15,11 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
 
         // defining Cards
-        bglCard = findViewById(R.id.bgl_card);
-        foodCard = findViewById(R.id.food_card);
-        exerciseCard = findViewById(R.id.exercise_card);
-        medicineCard = findViewById(R.id.medicine_card);
-        dataCard = findViewById(R.id.data_card);
+        bglCard = (CardView) findViewById(R.id.bgl_card);
+        foodCard = (CardView) findViewById(R.id.food_card);
+        exerciseCard = (CardView) findViewById(R.id.exercise_card);
+        medicineCard = (CardView) findViewById(R.id.medicine_card);
+        dataCard = (CardView) findViewById(R.id.data_card);
 
         // Add click listeners to the card
         bglCard.setOnClickListener(this);

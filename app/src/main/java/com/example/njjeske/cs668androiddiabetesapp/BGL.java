@@ -16,9 +16,9 @@ public class BGL extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bgl);
 
-        submitbutton = findViewById(R.id.BGL_Submit);
-        time_editText = findViewById(R.id.BGL_editText_time);
-        value_editText = findViewById(R.id.BGL_editText_value);
+        submitbutton = (Button) findViewById(R.id.BGL_Submit);
+        time_editText = (EditText) findViewById(R.id.BGL_editText_time);
+        value_editText = (EditText) findViewById(R.id.BGL_editText_value);
 
         submitbutton.setOnClickListener(submitOnClickListener);
     }
