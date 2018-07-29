@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -49,5 +50,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result != -1;
     }
+
+    public Cursor getAllData() {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor result = db.rawQuery("SELECT * from " + TABLE_NAME + " order by " + colTime, null);
+        return result;
+    }
+
+    public Cursor getRowByID(int id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + colActivityId + " = " + id, null);
+        return result;
+    }
+
+    public boolean deleteRowByID(int id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int result = db.delete(TABLE_NAME, colActivityId + "=" + id, null);
+        if (result == 0)
+            return false;
+        return true;
+    }
+
 
 }
