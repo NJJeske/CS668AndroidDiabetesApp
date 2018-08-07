@@ -2,8 +2,12 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +50,14 @@ public class History extends AppCompatActivity {
         // simple selected array
         buttonSelected = new int[3];
         radioSelected = new int[4];
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // Ensure correct menu item is selected (where the magic happens)
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(2); //index of history
+        menuItem.setChecked(true);
     }
 
     private View.OnClickListener dataOnClickListener = new View.OnClickListener() {
@@ -102,4 +114,28 @@ public class History extends AppCompatActivity {
         }
         return true;
     }
+
+    // Bottom Navigation actions
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(History.this, Home.class));
+                    break;
+                case R.id.navigation_activity:
+                    startActivity(new Intent(History.this, AddActivity.class));
+                    break;
+                case R.id.navigation_history:
+//                    startActivity(new Intent(History.this, History.class));
+                    break;
+                case R.id.navigation_regimen:
+                    startActivity(new Intent(History.this, Regimen.class));
+                    break;
+            }
+            return true;
+        }
+    };
 }

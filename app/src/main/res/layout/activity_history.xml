@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/radio_blood_glucose"
+        android:text="@string/blood_glucose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
 
@@ -92,7 +92,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/radio_exercise"
+        android:text="@string/exercise"
         app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.bloodGlucose"
         app:layout_constraintEnd_toStartOf="@+id/Data.Radio.diet"
         app:layout_constraintStart_toEndOf="@+id/Data.Radio.bloodGlucose"
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/radio_diet"
+        android:text="@string/diet"
         app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.exercise"
         app:layout_constraintEnd_toStartOf="@+id/Data.Radio.medication"
         app:layout_constraintStart_toEndOf="@+id/Data.Radio.exercise"
@@ -117,7 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="Medication"
+        android:text="@string/medication"
         app:layout_constraintBottom_toBottomOf="@+id/Data.Radio.diet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_dataActivity" />
@@ -209,10 +209,20 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/search"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Data.editText.keywords" />
 
-
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
 </android.support.constraint.ConstraintLayout>

@@ -5,9 +5,9 @@
     <string name="btn_lists">LISTS</string>
     <string name="btn_stats">STATS</string>
     <string name="txtView_activity">Activity Type</string>
-    <string name="radio_blood_glucose">Blood Glucose</string>
-    <string name="radio_exercise">Exercise</string>
-    <string name="radio_diet">Diet</string>
+    <string name="blood_glucose">Blood Glucose</string>
+    <string name="exercise">Exercise</string>
+    <string name="diet">Diet</string>
     <string name="txtView_search_from">From:</string>
     <string name="txtView_search_to">To:</string>
     <string name="search">Search</string>
@@ -31,4 +31,22 @@
     <string name="medicationhint">Insulin</string>
     <string name="hint_date">MM/DD/YYYY</string>
     <string name="history">History</string>
+    <string name="title_activity_bottom_nav">BottomNav</string>
+    <string name="title_home">Home</string>
+    <string name="regimen">Regimen</string>
+    <string name="food">Food</string>
+    <string name="logout">Logout</string>
+    <string name="dialog_message">Logout from app?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="add_activity">Add Activity</string>
+    <string name="description">Description:</string>
+    <string name="date">Date:</string>
+    <string name="welcome">Welcome</string>
+    <string-array name="activity_array">
+        <item>Blood Glucose</item>
+        <item>Food</item>
+        <item>Exercise</item>
+        <item>Medicine</item>
+    </string-array>
 </resources>
