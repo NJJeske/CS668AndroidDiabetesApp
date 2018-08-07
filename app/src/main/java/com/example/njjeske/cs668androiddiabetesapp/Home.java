@@ -78,23 +78,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     // Card Navigation
     @Override
     public void onClick(View v) {
-        Intent i;
+        Intent i = new Intent(this, AddActivity.class);
 
         switch (v.getId()) {
             case R.id.bgl_card:
-                i = new Intent(this, BGL.class);
+                i.putExtra("SPINNER_SELECT", "BGL");
                 startActivity(i);
                 break;
             case R.id.food_card:
-                i = new Intent(this, Meal.class);
+                i.putExtra("SPINNER_SELECT", "Food");
                 startActivity(i);
                 break;
             case R.id.exercise_card:
-                i = new Intent(this, Exercise.class);
+                i.putExtra("SPINNER_SELECT", "Exercise");
                 startActivity(i);
                 break;
             case R.id.medicine_card:
-                i = new Intent(this, Medicine.class);
+                i.putExtra("SPINNER_SELECT", "Medicine");
                 startActivity(i);
                 break;
             default:

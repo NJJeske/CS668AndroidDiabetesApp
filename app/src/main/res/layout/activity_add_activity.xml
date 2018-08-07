@@ -43,7 +43,6 @@
                 android:id="@+id/AddActivity.Value.label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:textAlignment="center"
                 android:text="@string/description" />
 
@@ -61,7 +60,6 @@
                 android:id="@+id/AddActivity.Date.label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:textAlignment="center"
                 android:text="@string/date" />
 
@@ -69,8 +67,8 @@
                 android:id="@+id/AddActivity.editText.date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:ems="10"
+                android:focusable="false"
                 android:inputType="date" />
         </TableRow>
 
@@ -80,7 +78,6 @@
                 android:id="@+id/AddActivity.Time.label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:textAlignment="center"
                 android:text="@string/time" />
 
@@ -88,8 +85,8 @@
                 android:id="@+id/AddActivity.editText.time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:ems="10"
+                android:focusable="false"
                 android:inputType="time" />
         </TableRow>
 
