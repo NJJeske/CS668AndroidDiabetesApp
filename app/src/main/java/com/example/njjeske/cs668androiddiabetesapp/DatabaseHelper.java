@@ -13,8 +13,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private String password = "password";
 
+    private static final String TABLE_NAME_LOGIN = "LOGIN_DB";
+    private static final String colName = "NAME";
+    private static final String colPassword = "PASSWORD";
+
     private static final String DATABASE_NAME = "ACTIVITY_DB";
-    private static final String TABLE_NAME = "ACTIVITY_TABLE";
+    private static final String TABLE_NAME_ACT = "ACTIVITY_TABLE";
     private static final String colActivityId = "ACTIVITY_ID";
     private static final String colActivityType = "ACTIVITY_TYPE";
     private static final String colTime = "TIME";
@@ -30,14 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-//        db.execSQL("CREATE TABLE " + TABLE_NAME + "("
-////                + colActivityId + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-////                + colActivityType + "TEXT NOT NULL,"
-////                + colDate + "TEXT NOT NULL,"
-////                + colTime + "TEXT NOT NULL,"
-////                + colDescription + "TEXT NOT NULL);");
 
-        db.execSQL(" create table " + TABLE_NAME + " ("
+        db.execSQL(" create table " + TABLE_NAME_LOGIN + " ("
+                + colName + " text primary key, "
+                + colPassword + " text);");
+
+        db.execSQL(" create table " + TABLE_NAME_ACT + " ("
                 + colActivityId + " integer primary key autoincrement, "
                 + colActivityType + " text, "
                 + colDate + " text, "
@@ -47,12 +49,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ACT);
         onCreate(db);
     }
 
     public void insertData(String activityType, String date, String time, String description) {
-        SQLiteDatabase DB = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
@@ -60,19 +63,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(colDate, date);
         contentValues.put(colTime, time);
         contentValues.put(colDescription, description);
-        DB.insert(TABLE_NAME, null, contentValues);
+        db.insert(TABLE_NAME_ACT, null, contentValues);
 
-
-        System.out.println("ADDED TO DB");
-        DB.close();
+        db.close();
     }
+
+//    public void update(int ID, IDatabaseObject object) {
+//
+//        SQLiteDatabase db = getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        Activity act = (Activity) object;
+//
+//
+//        contentValues.put(colActivityType, activityType);
+//        contentValues.put(colDate, date);
+//        contentValues.put(colTime, time);
+//        contentValues.put(colDescription, description);
+//        db.update(TABLE_NAME_ACT, contentValues, colActivityId + " = ? ", new String[]{Integer.toString(id)});
+//
+//        db.close();
+//
+//
+//    }
 
 
     public Cursor getAllData() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("SELECT * from " + TABLE_NAME + " order by " + colTime, null);
+        Cursor result = db.rawQuery("SELECT * from " + TABLE_NAME_ACT, null);
         return result;
     }
 
@@ -80,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("select * from " + TABLE_NAME + " where " + colActivityId + " = " + id, null);
+        Cursor result = db.rawQuery("select * from " + TABLE_NAME_ACT + " where " + colActivityId + " = " + id, null);
         return result;
     }
 
@@ -88,30 +107,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int result = db.delete(TABLE_NAME, colActivityId + "=" + id, null);
+        int result = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
         if (result == 0)
             return false;
         return true;
 
 
     }
-//
-//    public Cursor getRegimenByDate(String date, String userName) {
-//        Cursor result = null;
-//        SQLiteDatabase db = getWritableDatabase(password);
-//        result = db.rawQuery("Select * from " + Constants.TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'", null);
-//        System.out.println("Select * from " + Constants.TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'");
-//        return result;
-//    }
+
+    public void addUser(User user) {
+        // Will need password in db somehow
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(colName, user.getName());
+        values.put(colPassword, user.getPassword());
+        db.insert(TABLE_NAME_LOGIN, null, values);
+        db.close();
+    }
+
+    public boolean isUserRegistered(String userName) {
+        boolean registered = false;
+        Cursor result;
+        User userFound = new User();
+        // Will need password in db somehow
+        SQLiteDatabase db = getWritableDatabase();
+        result = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
+        if (result.getCount() == 0) {
+            System.out.println("User not found!");
+            registered = false;
+        } else {
+            registered = true;
+            while (result.moveToNext()) {
+                userFound.setName(result.getString(0));
+                userFound.setPassword(result.getString(1));
+            }
+        }
+        result.close();
+        return registered;
+    }
 
 
-//    public void addUser(User user) {
-//        SQLiteDatabase db = getWritableDatabase(password);
-//        ContentValues values = new ContentValues();
-//        values.put(Constants.LOGIN_USERNAME, user.getUserName());
-//        values.put(Constants.LOGIN_PASSWORD, user.getPassword());
-//        db.insert(Constants.TABLE_LOGIN, null, values);
-//    }
+
+
+
 
 
 }
