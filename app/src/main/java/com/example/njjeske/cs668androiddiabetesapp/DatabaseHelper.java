@@ -6,15 +6,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 
+import java.sql.SQLOutput;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+
+    private String password = "password";
 
     private static final String DATABASE_NAME = "ACTIVITY_DB";
     private static final String TABLE_NAME = "ACTIVITY_TABLE";
     private static final String colActivityId = "ACTIVITY_ID";
     private static final String colActivityType = "ACTIVITY_TYPE";
     private static final String colTime = "TIME";
-    private static final String colAmount = "AMOUNT";
-    private static final String colName = "NAME";
+    private static final String colDate = "DATE";
+    private static final String colDescription = "DESCRIPTION";
     private static final int DATABASE_VERSION = 1;
 
     public DatabaseHelper(Context context) {
@@ -28,9 +33,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE_NAME + "("
                 + colActivityId + "INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + colActivityType + "TEXT NOT NULL,"
+                + colDate + "TEXT NOT NULL,"
                 + colTime + "TEXT NOT NULL,"
-                + colAmount + "INTEGER NOT NULL,"
-                + colName + "TEXT NOT NULL);");
+                + colDescription + "TEXT NOT NULL);");
     }
 
     @Override
@@ -39,16 +44,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String activityType, String time, String amount, String name) {
+    public void insertData(String activityType, String date, String time, String description) {
         SQLiteDatabase DB = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(colActivityType, activityType);
-        contentValues.put(colTime, time);
-        contentValues.put(colAmount, amount);
-        contentValues.put(colName, name);
-        long result = DB.insert(TABLE_NAME, null, contentValues);
 
-        return result != -1;
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(colActivityType, activityType);
+        contentValues.put(colDate, date);
+        contentValues.put(colTime, time);
+        contentValues.put(colDescription, description);
+        DB.insert(TABLE_NAME, null, contentValues);
+
+
+        System.out.println("ADDED TO DB");
+        DB.close();
     }
 
 
@@ -76,7 +85,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (result == 0)
             return false;
         return true;
+
+
     }
+
+//    public void addUser(User user) {
+//        SQLiteDatabase db = getWritableDatabase(password);
+//        ContentValues values = new ContentValues();
+//        values.put(Constants.LOGIN_USERNAME, user.getUserName());
+//        values.put(Constants.LOGIN_PASSWORD, user.getPassword());
+//        db.insert(Constants.TABLE_LOGIN, null, values);
+//    }
 
 
 }

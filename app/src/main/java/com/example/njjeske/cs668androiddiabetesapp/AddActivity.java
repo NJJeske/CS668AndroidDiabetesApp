@@ -34,11 +34,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     private int mYear, mMonth, mDay, mHour, mMinute;
     Calendar c;
     private Button submitbutton;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_activity);
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -47,6 +49,8 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(1); //add activity index
         menuItem.setChecked(true);
+
+        db = new DatabaseHelper(this);
 
         addListenerOnSpinnerItemSelection();
         if (getIntent().getStringExtra("SPINNER_SELECT") != null) {
@@ -134,25 +138,38 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                     case 0: // blood glucose
                         if (!(Double.parseDouble(description_editText.getText().toString()) < 40.0 ||
                                 Double.parseDouble(description_editText.getText().toString()) > 600.0)) {
+
+                            Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
+                            db.insertData("Blood Glucose", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
+
                             Toast.makeText(getApplicationContext(), "BGL was updated.",
                                     Toast.LENGTH_SHORT).show();
                             clearText();
                         } else {
+
                             Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
                                     Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case 1: // food
+
+                        db.insertData("Diet", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
+
                         Toast.makeText(getApplicationContext(), "Food was updated.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
                     case 2: // exercise
+
+                        db.insertData("Exercise", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
                         Toast.makeText(getApplicationContext(), "Exercise was updated.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
                     case 3: // medication
+
+                        db.insertData("Medication", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
+
                         Toast.makeText(getApplicationContext(), "Medication was updated.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();

@@ -106,7 +106,7 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/foodNameHint"
-            android:inputType="textPersonName"
+            android:inputType="textPersonName|textVisiblePassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/Meal.Name.label"
             app:layout_constraintTop_toBottomOf="@+id/Meal.heading" />
