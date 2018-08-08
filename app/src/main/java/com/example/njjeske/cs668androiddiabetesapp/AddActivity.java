@@ -136,20 +136,15 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
                 switch (spinner1.getSelectedItemPosition()) {
                     case 0: // blood glucose
-                        if (!(Double.parseDouble(description_editText.getText().toString()) < 40.0 ||
-                                Double.parseDouble(description_editText.getText().toString()) > 600.0)) {
 
-                            Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
+
+                        Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
                             db.insertData("Blood Glucose", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
 
                             Toast.makeText(getApplicationContext(), "BGL was updated.",
                                     Toast.LENGTH_SHORT).show();
                             clearText();
-                        } else {
 
-                            Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
-                                    Toast.LENGTH_SHORT).show();
-                        }
                         break;
                     case 1: // food
 

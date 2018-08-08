@@ -30,12 +30,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME + "("
-                + colActivityId + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + colActivityType + "TEXT NOT NULL,"
-                + colDate + "TEXT NOT NULL,"
-                + colTime + "TEXT NOT NULL,"
-                + colDescription + "TEXT NOT NULL);");
+//        db.execSQL("CREATE TABLE " + TABLE_NAME + "("
+////                + colActivityId + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+////                + colActivityType + "TEXT NOT NULL,"
+////                + colDate + "TEXT NOT NULL,"
+////                + colTime + "TEXT NOT NULL,"
+////                + colDescription + "TEXT NOT NULL);");
+
+        db.execSQL(" create table " + TABLE_NAME + " ("
+                + colActivityId + " integer primary key autoincrement, "
+                + colActivityType + " text, "
+                + colDate + " text, "
+                + colTime + " text, "
+                + colDescription + " text);");
     }
 
     @Override
@@ -88,6 +95,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
+//
+//    public Cursor getRegimenByDate(String date, String userName) {
+//        Cursor result = null;
+//        SQLiteDatabase db = getWritableDatabase(password);
+//        result = db.rawQuery("Select * from " + Constants.TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'", null);
+//        System.out.println("Select * from " + Constants.TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'");
+//        return result;
+//    }
+
 
 //    public void addUser(User user) {
 //        SQLiteDatabase db = getWritableDatabase(password);
