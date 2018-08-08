@@ -1,12 +1,15 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class Results extends AppCompatActivity {
-    // need to rename to Meal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,20 +24,37 @@ public class Results extends AppCompatActivity {
             //The key argument here must match that used in the other activity
         }
 
-        // enable back arrow
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // Ensure correct menu item is selected (where the magic happens)
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(2); //index of history
+        menuItem.setChecked(true);
 
     }
 
-    // navigate dynamically to parent activity
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                finish();
-                return true;
+    // Bottom Navigation actions
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(Results.this, Home.class));
+                    break;
+                case R.id.navigation_activity:
+                    startActivity(new Intent(Results.this, AddActivity.class));
+                    break;
+                case R.id.navigation_history:
+//                    startActivity(new Intent(Results.this, History.class));
+                    break;
+                case R.id.navigation_regimen:
+                    startActivity(new Intent(Results.this, Regimen.class));
+                    break;
+            }
+            return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
+    };
 }

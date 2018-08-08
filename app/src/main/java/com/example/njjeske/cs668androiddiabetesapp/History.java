@@ -1,5 +1,7 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,31 +12,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class History extends AppCompatActivity {
     private Button searchButton, graphs, lists, stats;
     private EditText fromDate, toDate, keywords;
     private RadioButton radio_bgl, radio_exercise, radio_diet, radio_medication;
-    private int[] buttonSelected, radioSelected;
+    DatabaseHelper db;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    Calendar c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        db = new DatabaseHelper(this);
+
         // connect buttons to XML & onClick listeners
         searchButton = (Button) findViewById(R.id.Data_search);
         searchButton.setOnClickListener(dataOnClickListener);
-
-        graphs = (Button) findViewById(R.id.Data_btn_graphs);
-        lists = (Button) findViewById(R.id.Data_btn_lists);
-        stats = (Button) findViewById(R.id.Data_btn_stats);
-        graphs.setOnClickListener(dataOnClickListener);
-        lists.setOnClickListener(dataOnClickListener);
-        stats.setOnClickListener(dataOnClickListener);
 
         // connect editText to XML
         fromDate = (EditText) findViewById(R.id.Data_editText_fromDate);
@@ -47,10 +49,6 @@ public class History extends AppCompatActivity {
         radio_diet = (RadioButton) findViewById(R.id.Data_Radio_diet);
         radio_medication = (RadioButton) findViewById(R.id.Data_Radio_medication);
 
-        // simple selected array
-        buttonSelected = new int[3];
-        radioSelected = new int[4];
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -58,6 +56,47 @@ public class History extends AppCompatActivity {
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(2); //index of history
         menuItem.setChecked(true);
+
+        c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        fromDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        fromDate.setText(monthOfYear + 1 + "/" + dayOfMonth + "/" + year);
+
+                    }
+                };
+
+                DatePickerDialog dpDialog = new DatePickerDialog(History.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
+                dpDialog.show();
+            }
+        });
+
+        toDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        toDate.setText(monthOfYear + 1 + "/" + dayOfMonth + "/" + year);
+
+                    }
+                };
+
+                DatePickerDialog dpDialog = new DatePickerDialog(History.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
+                dpDialog.show();
+            }
+        });
     }
 
     private View.OnClickListener dataOnClickListener = new View.OnClickListener() {
@@ -65,8 +104,6 @@ public class History extends AppCompatActivity {
         public void onClick(View v) {
             if (v.getId() == R.id.Data_search) {
                 search(v);
-            } else if (v.getId() == R.id.Data_btn_graphs || v.getId() == R.id.Data_btn_lists || v.getId() == R.id.Data_btn_stats) {
-                buttonSelect(v);
             } else {
                 radioSelect(v);
             }
@@ -79,40 +116,19 @@ public class History extends AppCompatActivity {
         // TODO unselect other radio buttons
     }
 
-    private void buttonSelect(View v) {
-        Log.d("Button", "Button clicked!");
-        // TODO change in private selection array
-        // TODO change color of button & return rest to normal
-    }
-
     // submit into database
     private void search(View v) {
-        Log.d("Button", "History clicked");
-        // checkData to make sure valid info passed
-        if (checkData()) {
-            String submitString;
-            submitString = String.format("%s, %s, %s", fromDate.getText().toString(), toDate.getText().toString(), keywords.getText().toString());
+        Log.d("HISTORY", "History clicked");
+        String submitString;
+        submitString = String.format("%s, %s, %s", fromDate.getText().toString(), toDate.getText().toString(), keywords.getText().toString());
+        Log.d("HISTORY", "Submit string: " + submitString);
 
-            // TODO add search in database in DatabaseHelper
+        // TODO add search in database in DatabaseHelper
 //        DatabaseHelper.search(submitString);
 
-            // start new Results activity from query
-            Intent i;
-            i = new Intent(this, Results.class);
-            startActivity(i);
-        }
-    }
+        // start new Results activity from query
+        Toast.makeText(this, "SEARCHING...", Toast.LENGTH_SHORT).show();
 
-    // check dates in proper MM/DD/YYYY format
-    private boolean checkData() {
-        if (!fromDate.getText().toString().matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
-            Toast.makeText(getApplicationContext(), "Incorrect date format for FROM DATE", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (!toDate.getText().toString().matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
-            Toast.makeText(getApplicationContext(), "Incorrect date format for TO DATE", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
     }
 
     // Bottom Navigation actions

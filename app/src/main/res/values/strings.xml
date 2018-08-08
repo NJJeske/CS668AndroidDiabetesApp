@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CS 668 Android Diabetes App</string>
+    <string name="app_name">Diabetes Management</string>
     <string name="txtView_data">Data</string>
     <string name="btn_graph">GRAPHS</string>
     <string name="btn_lists">LISTS</string>
@@ -11,7 +11,7 @@
     <string name="txtView_search_from">From:</string>
     <string name="txtView_search_to">To:</string>
     <string name="search">Search</string>
-    <string name="txtView_search_keyword">Keyword</string>
+    <string name="txtView_search_keyword">Keyword:</string>
     <string name="graph_preview">Graph Preview</string>
     <string name="appbar_scrolling_view_behavior">Menu</string>
     <string name="hint_keyword">Enter keywords</string>
@@ -43,6 +43,9 @@
     <string name="description">Description:</string>
     <string name="date">Date:</string>
     <string name="welcome">Welcome</string>
+    <string name="bgl">BGL</string>
+    <string name="hint_from_date">From Date</string>
+    <string name="hint_end_date">End Date</string>
     <string-array name="activity_array">
         <item>Blood Glucose</item>
         <item>Food</item>
