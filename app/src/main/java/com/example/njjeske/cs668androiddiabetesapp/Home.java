@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -116,7 +115,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                     startActivity(new Intent(Home.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-                    startActivity(new Intent(Home.this, History.class));
+                    startActivity(new Intent(Home.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
                     startActivity(new Intent(Home.this, Regimen.class));

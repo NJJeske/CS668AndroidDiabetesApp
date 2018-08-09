@@ -28,35 +28,35 @@
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutRadio"
+            android:id="@+id/linearLayoutCheckbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/Data.Radio.bloodGlucose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="@string/bgl" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/Data.Radio.exercise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="@string/exercise" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/Data.Radio.diet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="@string/diet" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/Data.Radio.medication"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,11 +86,9 @@
                 android:id="@+id/Data.editText.fromDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:focusable="false"
-                android:ems="10"
                 android:hint="@string/hint_from_date"
                 android:inputType="date"
                 tools:layout_editor_absoluteY="104dp" />
@@ -99,10 +97,9 @@
                 android:id="@+id/Data.editText.toDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:focusable="false"
-                android:ems="10"
                 android:hint="@string/hint_end_date"
                 android:inputType="date" />
         </LinearLayout>
@@ -111,9 +108,10 @@
             android:id="@+id/llrow3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
 
             <TextView
                 android:id="@+id/txtView_data_searchKeyword"
@@ -131,9 +129,45 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
                 android:hint="@string/hint_keyword"
                 android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llrow4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/txtView_data_values"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Values:"
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/Data.editText.keywords"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/Data.editText.startval"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="40.0"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/Data.editText.endval"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="600.0"
+                android:inputType="number" />
         </LinearLayout>
 
         <Button

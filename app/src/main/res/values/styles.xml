@@ -47,4 +47,11 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+
+    <style name="button_delete" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 </resources>

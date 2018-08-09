@@ -38,7 +38,7 @@ public class Regimen extends AppCompatActivity {
                     startActivity(new Intent(Regimen.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-                    startActivity(new Intent(Regimen.this, History.class));
+                    startActivity(new Intent(Regimen.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
 //                    startActivity(new Intent(Regimen.this, Regimen.class));

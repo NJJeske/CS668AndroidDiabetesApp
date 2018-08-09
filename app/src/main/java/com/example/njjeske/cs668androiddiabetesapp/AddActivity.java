@@ -292,7 +292,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                     break;
                 case R.id.navigation_history:
                     //TODO: switch bottom nav to history
-                    startActivity(new Intent(AddActivity.this, History.class));
+                    startActivity(new Intent(AddActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
                     //TODO: switch bottom nav to regimen
