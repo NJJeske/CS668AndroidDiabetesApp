@@ -2,6 +2,7 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -136,28 +137,43 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
                 switch (spinner1.getSelectedItemPosition()) {
                     case 0: // blood glucose
+                        Log.v("ADDACTIVITY", "BGL Value: " + description_editText.getText().toString());
+                        if (!(Double.parseDouble(description_editText.getText().toString()) < 40.0 ||
+                                Double.parseDouble(description_editText.getText().toString()) > 600.0)) {
 
-
-                        Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
+                            Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
                             db.insertData("Blood Glucose", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
 
-                            Toast.makeText(getApplicationContext(), "BGL was updated.",
+                            Toast.makeText(getApplicationContext(), "BGL was added.",
                                     Toast.LENGTH_SHORT).show();
                             clearText();
 
+                            // check if data is actually in db (delete later)
+                            Cursor cursor = db.getAllData();
+                            if (cursor != null && cursor.moveToFirst()) {
+                                do {
+                                    Log.v("ADDACTIVITY", "DB DATA: " + String.format("%s, %s, %s, %s", cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
+                                } while (cursor.moveToNext());
+                            } else {
+                                Log.v("ADDACTIVITY", "CURSOR EMPTY");
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 1: // food
 
                         db.insertData("Diet", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
 
-                        Toast.makeText(getApplicationContext(), "Food was updated.",
+                        Toast.makeText(getApplicationContext(), "Food was added.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
                     case 2: // exercise
 
                         db.insertData("Exercise", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-                        Toast.makeText(getApplicationContext(), "Exercise was updated.",
+                        Toast.makeText(getApplicationContext(), "Exercise was added.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
@@ -165,7 +181,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
                         db.insertData("Medication", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
 
-                        Toast.makeText(getApplicationContext(), "Medication was updated.",
+                        Toast.makeText(getApplicationContext(), "Medication was added.",
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
