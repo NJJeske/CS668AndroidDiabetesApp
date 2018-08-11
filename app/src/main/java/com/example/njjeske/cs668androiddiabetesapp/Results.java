@@ -48,7 +48,7 @@ public class Results extends AppCompatActivity {
                     startActivity(new Intent(Results.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-//                    startActivity(new Intent(Results.this, History.class));
+//                    startActivity(new Intent(Results.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
                     startActivity(new Intent(Results.this, Regimen.class));

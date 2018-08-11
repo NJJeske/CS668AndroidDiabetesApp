@@ -3,6 +3,9 @@ package com.example.njjeske.cs668androiddiabetesapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,18 +14,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class History extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     private Button searchButton, graphs, lists, stats;
-    private EditText fromDate, toDate, keywords;
-    private RadioButton radio_bgl, radio_exercise, radio_diet, radio_medication;
+    private EditText fromDate, toDate, keywords, startValue, endValue;
+    private CheckBox check_bgl, check_exercise, check_diet, check_medication;
     DatabaseHelper db;
     private int mYear, mMonth, mDay, mHour, mMinute;
     Calendar c;
@@ -30,24 +35,24 @@ public class History extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_search);
 
         db = new DatabaseHelper(this);
 
         // connect buttons to XML & onClick listeners
         searchButton = (Button) findViewById(R.id.Data_search);
-        searchButton.setOnClickListener(dataOnClickListener);
+        searchButton.setOnClickListener(searchOnClickListener);
 
-        // connect editText to XML
+        // connect to XML
         fromDate = (EditText) findViewById(R.id.Data_editText_fromDate);
         toDate = (EditText) findViewById(R.id.Data_editText_toDate);
         keywords = (EditText) findViewById(R.id.Data_editText_keywords);
-
-        // connect radio to XML
-        radio_bgl = (RadioButton) findViewById(R.id.Data_Radio_bloodGlucose);
-        radio_exercise = (RadioButton) findViewById(R.id.Data_Radio_exercise);
-        radio_diet = (RadioButton) findViewById(R.id.Data_Radio_diet);
-        radio_medication = (RadioButton) findViewById(R.id.Data_Radio_medication);
+        startValue = (EditText) findViewById(R.id.Data_editText_startval);
+        endValue = (EditText) findViewById(R.id.Data_editText_endval);
+        check_bgl = (CheckBox) findViewById(R.id.Data_Radio_bloodGlucose);
+        check_exercise = (CheckBox) findViewById(R.id.Data_Radio_exercise);
+        check_diet = (CheckBox) findViewById(R.id.Data_Radio_diet);
+        check_medication = (CheckBox) findViewById(R.id.Data_Radio_medication);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -57,6 +62,7 @@ public class History extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(2); //index of history
         menuItem.setChecked(true);
 
+        // set up Calendar for DatePickerDialog
         c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -76,7 +82,7 @@ public class History extends AppCompatActivity {
                     }
                 };
 
-                DatePickerDialog dpDialog = new DatePickerDialog(History.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
+                DatePickerDialog dpDialog = new DatePickerDialog(SearchActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
                 dpDialog.show();
             }
         });
@@ -93,43 +99,51 @@ public class History extends AppCompatActivity {
                     }
                 };
 
-                DatePickerDialog dpDialog = new DatePickerDialog(History.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
+                DatePickerDialog dpDialog = new DatePickerDialog(SearchActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, listener, mYear, mMonth, mDay);
                 dpDialog.show();
             }
         });
+
+        fillListview();
+
     }
 
-    private View.OnClickListener dataOnClickListener = new View.OnClickListener() {
+    private void fillListview() {
+        Cursor cursor = db.getAllData();
+        if (cursor != null && cursor.moveToFirst()) {
+            // Find ListView to populate
+            ListView lvItems = (ListView) findViewById(R.id.Data_listView);
+            lvItems.setPadding(20, 10, 20, 10);
+            lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
+            lvItems.setDividerHeight(20);
+            // Setup cursor adapter using cursor from last step
+            DataAdapter dataAdapter = new DataAdapter(this, cursor);
+            // Attach cursor adapter to the ListView
+            lvItems.setAdapter(dataAdapter);
+        } else {
+            Log.v("SEARCH", "SEARCH: fillListView failed, cursor empty");
+        }
+    }
+
+    // Search: load new Results activity with passed string
+    private View.OnClickListener searchOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.Data_search) {
-                search(v);
-            } else {
-                radioSelect(v);
-            }
-        }
-    };
+            Log.d("HISTORY", "SearchActivity clicked");
+            String submitString;
+            submitString = String.format("%s, %s, %s",
+                    fromDate.getText().toString(),
+                    toDate.getText().toString(),
+                    keywords.getText().toString());
+            Log.d("HISTORY", "Submit string: " + submitString);
 
-    private void radioSelect(View v) {
-        Log.d("RadioButton", "RadioButton clicked!");
-        // TODO change in private selection array
-        // TODO unselect other radio buttons
-    }
-
-    // submit into database
-    private void search(View v) {
-        Log.d("HISTORY", "History clicked");
-        String submitString;
-        submitString = String.format("%s, %s, %s", fromDate.getText().toString(), toDate.getText().toString(), keywords.getText().toString());
-        Log.d("HISTORY", "Submit string: " + submitString);
-
-        // TODO add search in database in DatabaseHelper
+            // TODO add search in database in DatabaseHelper
 //        DatabaseHelper.search(submitString);
 
-        // start new Results activity from query
-        Toast.makeText(this, "SEARCHING...", Toast.LENGTH_SHORT).show();
-
-    }
+            // start new Results activity from query
+            Toast.makeText(getApplicationContext(), "SEARCHING...", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     // Bottom Navigation actions
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -139,16 +153,16 @@ public class History extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    startActivity(new Intent(History.this, Home.class));
+                    startActivity(new Intent(SearchActivity.this, Home.class));
                     break;
                 case R.id.navigation_activity:
-                    startActivity(new Intent(History.this, AddActivity.class));
+                    startActivity(new Intent(SearchActivity.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-//                    startActivity(new Intent(History.this, History.class));
+//                    startActivity(new Intent(SearchActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    startActivity(new Intent(History.this, Regimen.class));
+                    startActivity(new Intent(SearchActivity.this, Regimen.class));
                     break;
             }
             return true;

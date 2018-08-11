@@ -2,6 +2,7 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -96,7 +97,20 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 mTimePicker = new TimePickerDialog(AddActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        time_editText.setText(selectedHour + ":" + selectedMinute);
+                        if (selectedMinute < 10) {
+                            if (selectedHour < 10) {
+                                time_editText.setText("0" + selectedHour + ":0" + selectedMinute);
+                            } else {
+                                time_editText.setText(selectedHour + ":0" + selectedMinute);
+                            }
+                        } else {
+                            if (selectedHour < 10) {
+                                time_editText.setText("0" + selectedHour + ":" + selectedMinute);
+                            } else {
+                                time_editText.setText(selectedHour + ":" + selectedMinute);
+                            }
+                        }
+
                     }
                 }, hour, minute, true);
                 mTimePicker.setTitle("Select Time");
@@ -131,44 +145,56 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                     !date_editText.getText().toString().isEmpty() &&
                     !time_editText.getText().toString().isEmpty()) {
                 String submitString;
-                submitString = String.format("%s, %s, %s", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-                Log.v("ADDACTIVITY", "Submit string: " + submitString);
+                submitString = String.format("%s at %s, %s", description_editText.getText().toString(), date_editText.getText().toString(), time_editText.getText().toString());
 
                 switch (spinner1.getSelectedItemPosition()) {
                     case 0: // blood glucose
+                        if (!(Double.parseDouble(description_editText.getText().toString()) < 40.0 ||
+                                Double.parseDouble(description_editText.getText().toString()) > 600.0)) {
 
-
-                        Log.v("ADDACTIVITY", "TRYING TO INSERT ACTIVITY INTO DATABASE!!!!");
                             db.insertData("Blood Glucose", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-
-                            Toast.makeText(getApplicationContext(), "BGL was updated.",
+                            Log.v("ADDACTIVITY", String.format("BGL: %s was added.", submitString));
+                            Toast.makeText(getApplicationContext(), String.format("BGL: %s was added.", submitString),
                                     Toast.LENGTH_SHORT).show();
                             clearText();
-
+                        } else {
+                            Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case 1: // food
 
                         db.insertData("Diet", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-
-                        Toast.makeText(getApplicationContext(), "Food was updated.",
+                        Log.v("ADDACTIVITY", String.format("FOOD: %s was added.", submitString));
+                        Toast.makeText(getApplicationContext(), String.format("FOOD: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
                     case 2: // exercise
-
                         db.insertData("Exercise", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-                        Toast.makeText(getApplicationContext(), "Exercise was updated.",
+                        Log.v("ADDACTIVITY", String.format("EXERCISE: %s was added.", submitString));
+                        Toast.makeText(getApplicationContext(), String.format("EXERCISE: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
                     case 3: // medication
 
                         db.insertData("Medication", date_editText.getText().toString(), time_editText.getText().toString(), description_editText.getText().toString());
-
-                        Toast.makeText(getApplicationContext(), "Medication was updated.",
+                        Log.v("ADDACTIVITY", String.format("MEDICINE: %s was added.", submitString));
+                        Toast.makeText(getApplicationContext(), String.format("MEDICINE: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
                         clearText();
                         break;
+                }
+
+                // check if data is actually in db (delete later)
+                Cursor cursor = db.getAllData();
+                if (cursor != null && cursor.moveToFirst()) {
+                    do {
+                        Log.v("ADDACTIVITY", "DB DATA: " + String.format("%s, %s, %s, %s", cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
+                    } while (cursor.moveToNext());
+                } else {
+                    Log.v("ADDACTIVITY", "CURSOR EMPTY");
                 }
 
             } else {
@@ -292,7 +318,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                     break;
                 case R.id.navigation_history:
                     //TODO: switch bottom nav to history
-                    startActivity(new Intent(AddActivity.this, History.class));
+                    startActivity(new Intent(AddActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
                     //TODO: switch bottom nav to regimen

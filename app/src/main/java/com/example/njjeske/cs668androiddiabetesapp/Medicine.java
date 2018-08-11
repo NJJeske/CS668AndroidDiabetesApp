@@ -13,7 +13,7 @@ public class Medicine extends AppCompatActivity {
     private EditText value;
     private EditText time;
     private Button submit;
-    private DatabaseHelper DB;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class Medicine extends AppCompatActivity {
         value = (EditText) findViewById(R.id.Medicine_editText_value);
         time = (EditText) findViewById(R.id.Medicine_editText_time);
         submit = (Button) findViewById(R.id.Meal_Submit);
-        DB = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
 
 
         submit.setOnClickListener(new View.OnClickListener() {
