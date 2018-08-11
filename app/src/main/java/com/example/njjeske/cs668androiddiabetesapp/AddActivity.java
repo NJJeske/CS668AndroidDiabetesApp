@@ -1,7 +1,9 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -28,7 +30,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private Spinner spinner1;
+    private Spinner spinner_type;
     private TextView value;
     private ImageView img;
     private EditText time_editText, date_editText, description_editText;
@@ -53,21 +55,23 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         db = new DatabaseHelper(this);
 
-        addListenerOnSpinnerItemSelection();
+        spinner_type = (Spinner) findViewById(R.id.spinner);
+        spinner_type.setOnItemSelectedListener(this);
+
         if (getIntent().getStringExtra("SPINNER_SELECT") != null) {
             String spinner_select = getIntent().getStringExtra("SPINNER_SELECT");
             switch (spinner_select) {
                 case "BGL": // blood glucose
-                    spinner1.setSelection(0);
+                    spinner_type.setSelection(0);
                     break;
                 case "Food": // food
-                    spinner1.setSelection(1);
+                    spinner_type.setSelection(1);
                     break;
                 case "Exercise": // exercise
-                    spinner1.setSelection(2);
+                    spinner_type.setSelection(2);
                     break;
                 case "Medicine": // medication
-                    spinner1.setSelection(3);
+                    spinner_type.setSelection(3);
                     break;
             }
         }
@@ -134,6 +138,8 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 dpDialog.show();
             }
         });
+
+        showSharedPreferences();
     }
 
     private View.OnClickListener submitOnClickListener = new View.OnClickListener() {
@@ -147,7 +153,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 String submitString;
                 submitString = String.format("%s at %s, %s", description_editText.getText().toString(), date_editText.getText().toString(), time_editText.getText().toString());
 
-                switch (spinner1.getSelectedItemPosition()) {
+                switch (spinner_type.getSelectedItemPosition()) {
                     case 0: // blood glucose
                         if (!(Double.parseDouble(description_editText.getText().toString()) < 40.0 ||
                                 Double.parseDouble(description_editText.getText().toString()) > 600.0)) {
@@ -156,6 +162,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                             Log.v("ADDACTIVITY", String.format("BGL: %s was added.", submitString));
                             Toast.makeText(getApplicationContext(), String.format("BGL: %s was added.", submitString),
                                     Toast.LENGTH_SHORT).show();
+                            clearSharedPreferences();
                             clearText();
                         } else {
                             Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
@@ -168,6 +175,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         Log.v("ADDACTIVITY", String.format("FOOD: %s was added.", submitString));
                         Toast.makeText(getApplicationContext(), String.format("FOOD: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
+                        clearSharedPreferences();
                         clearText();
                         break;
                     case 2: // exercise
@@ -175,6 +183,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         Log.v("ADDACTIVITY", String.format("EXERCISE: %s was added.", submitString));
                         Toast.makeText(getApplicationContext(), String.format("EXERCISE: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
+                        clearSharedPreferences();
                         clearText();
                         break;
                     case 3: // medication
@@ -183,6 +192,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                         Log.v("ADDACTIVITY", String.format("MEDICINE: %s was added.", submitString));
                         Toast.makeText(getApplicationContext(), String.format("MEDICINE: %s was added.", submitString),
                                 Toast.LENGTH_SHORT).show();
+                        clearSharedPreferences();
                         clearText();
                         break;
                 }
@@ -260,12 +270,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
-    private void addListenerOnSpinnerItemSelection() {
-        spinner1 = (Spinner) findViewById(R.id.spinner);
-        spinner1.setOnItemSelectedListener(this);
-    }
-
-    //Performing action onItemSelected and onNothing selected
+    //Performing SPINNER action onItemSelected and onNothing selected
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
         //TODO: change appearance of view on select
@@ -310,22 +315,59 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    //TODO: switch bottom nav to home
                     startActivity(new Intent(AddActivity.this, Home.class));
                     break;
                 case R.id.navigation_activity:
 //                    startActivity(new Intent(AddActivity.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-                    //TODO: switch bottom nav to history
                     startActivity(new Intent(AddActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    //TODO: switch bottom nav to regimen
                     startActivity(new Intent(AddActivity.this, Regimen.class));
                     break;
             }
             return true;
         }
     };
+
+    public void saveSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("spinnerIndex", spinner_type.getSelectedItemPosition());
+        editor.putString("date", date_editText.getText().toString());
+        editor.putString("time", time_editText.getText().toString());
+        editor.putString("description", description_editText.getText().toString());
+        editor.commit();
+    }
+
+    //use this inside onCreate()
+    public void showSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
+        if (!sp.equals(null)) {
+            spinner_type.setSelection(sp.getInt("spinnerIndex", 0));
+            date_editText.setText(sp.getString("date", ""));
+            time_editText.setText(sp.getString("time", ""));
+            description_editText.setText(sp.getString("description", ""));
+        }
+    }
+
+    public void clearSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveSharedPreferences();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

@@ -12,6 +12,10 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="@dimen/activity_vertical_margin"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -69,7 +73,7 @@
             android:id="@+id/create_pw_requirements"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:text="@string/Textview"
+            android:text="@string/textview"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.508"

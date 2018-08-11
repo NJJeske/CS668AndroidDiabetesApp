@@ -2,7 +2,9 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -105,6 +107,7 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         fillListview();
+        showSharedPreferences();
 
     }
 
@@ -142,6 +145,8 @@ public class SearchActivity extends AppCompatActivity {
 
             // start new Results activity from query
             Toast.makeText(getApplicationContext(), "SEARCHING...", Toast.LENGTH_SHORT).show();
+
+            clearSharedPreferences();
         }
     };
 
@@ -168,4 +173,54 @@ public class SearchActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    public void saveSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("to_date", fromDate.getText().toString());
+        editor.putString("from_date", toDate.getText().toString());
+        editor.putString("keywords", keywords.getText().toString());
+        editor.putString("start_val", startValue.getText().toString());
+        editor.putString("end_val", endValue.getText().toString());
+        editor.putBoolean("bgl_check", check_bgl.isChecked());
+        editor.putBoolean("exercise_check", check_exercise.isChecked());
+        editor.putBoolean("diet_check", check_diet.isChecked());
+        editor.putBoolean("medication_check", check_medication.isChecked());
+        editor.commit();
+    }
+
+    //use this inside onCreate()
+    public void showSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
+        if (!sp.equals(null)) {
+            fromDate.setText(sp.getString("to_date", ""));
+            toDate.setText(sp.getString("from_date", ""));
+            keywords.setText(sp.getString("keywords", ""));
+            startValue.setText(sp.getString("start_val", ""));
+            endValue.setText(sp.getString("end_val", ""));
+            check_bgl.setChecked(sp.getBoolean("bgl_check", false));
+            check_exercise.setChecked(sp.getBoolean("exercise_check", false));
+            check_diet.setChecked(sp.getBoolean("diet_check", false));
+            check_medication.setChecked(sp.getBoolean("medication_check", false));
+        }
+    }
+
+    public void clearSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveSharedPreferences();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

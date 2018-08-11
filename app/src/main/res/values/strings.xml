@@ -54,4 +54,13 @@
     </string-array>
     <string name="title_activity_etc">etc</string>
     <string name="your_recent_activity"><u>Your Recent Activity</u></string>
+    <string name="create_user">Create User</string>
+    <string name="re_enter_password">Re-Enter Password</string>
+    <string name="password">Password</string>
+    <string name="re_enter_email">Re-enter Email</string>
+    <string name="name_email_com">name@email.com</string>
+    <string name="textview">TextView</string>
+    <string name="no_account_yet_create_one">No account yet? Create One</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
 </resources>

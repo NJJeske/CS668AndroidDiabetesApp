@@ -1,7 +1,9 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -190,15 +192,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         startActivity(startMain);
     }
 
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        db.close();
     }
 }
