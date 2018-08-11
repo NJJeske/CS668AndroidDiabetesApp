@@ -80,8 +80,7 @@
                 android:layout_weight="1"
                 android:focusable="false"
                 android:hint="@string/hint_from_date"
-                android:inputType="date"
-                tools:layout_editor_absoluteY="104dp" />
+                android:inputType="date"/>
 
             <EditText
                 android:id="@+id/Data.editText.toDate"
@@ -102,7 +101,46 @@
             android:orientation="horizontal"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
+            <TextView
+                android:id="@+id/txtView_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Time:"
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
+            <EditText
+                android:id="@+id/Data.editText.fromTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:hint="00:00"
+                android:inputType="date"/>
+
+            <EditText
+                android:id="@+id/Data.editText.toTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:hint="24:00"
+                android:inputType="date" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llrow4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
             <TextView
                 android:id="@+id/txtView_data_searchKeyword"
                 android:layout_width="wrap_content"
@@ -122,9 +160,8 @@
                 android:hint="@string/hint_keyword"
                 android:inputType="textPersonName" />
         </LinearLayout>
-
         <LinearLayout
-            android:id="@+id/llrow4"
+            android:id="@+id/llrow5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -173,16 +210,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/recyclerViewListData"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@drawable/recycler_rounded_corner"-->
-    <!--app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--app:layout_constraintRight_toRightOf="parent"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/linearLayoutWrapper"-->
-    <!--app:layout_constraintBottom_toTopOf="@id/navigation"/>-->
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

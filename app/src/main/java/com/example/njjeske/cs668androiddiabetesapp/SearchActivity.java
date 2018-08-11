@@ -2,6 +2,7 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,10 +29,10 @@ import java.util.Calendar;
 
 public class SearchActivity extends AppCompatActivity {
     private Button searchButton, graphs, lists, stats;
-    private EditText fromDate, toDate, keywords, startValue, endValue;
+    private EditText fromDate, toDate, fromTime, toTime, keywords, startValue, endValue;
     private CheckBox check_bgl, check_exercise, check_diet, check_medication;
     DatabaseHelper db;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mYear, mMonth, mDay;
     Calendar c;
     BottomNavigationView navigation;
 
@@ -48,6 +50,8 @@ public class SearchActivity extends AppCompatActivity {
         // connect to XML
         fromDate = (EditText) findViewById(R.id.Data_editText_fromDate);
         toDate = (EditText) findViewById(R.id.Data_editText_toDate);
+        fromTime = (EditText) findViewById(R.id.Data_editText_fromTime);
+        toTime = (EditText) findViewById(R.id.Data_editText_toTime);
         keywords = (EditText) findViewById(R.id.Data_editText_keywords);
         startValue = (EditText) findViewById(R.id.Data_editText_startval);
         endValue = (EditText) findViewById(R.id.Data_editText_endval);
@@ -65,8 +69,68 @@ public class SearchActivity extends AppCompatActivity {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
+
+        fromTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(SearchActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        if (selectedMinute < 10) {
+                            if (selectedHour < 10) {
+                                fromTime.setText("0" + selectedHour + ":0" + selectedMinute);
+                            } else {
+                                fromTime.setText(selectedHour + ":0" + selectedMinute);
+                            }
+                        } else {
+                            if (selectedHour < 10) {
+                                fromTime.setText("0" + selectedHour + ":" + selectedMinute);
+                            } else {
+                                fromTime.setText(selectedHour + ":" + selectedMinute);
+                            }
+                        }
+
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
+
+        toTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(SearchActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        if (selectedMinute < 10) {
+                            if (selectedHour < 10) {
+                                toTime.setText("0" + selectedHour + ":0" + selectedMinute);
+                            } else {
+                                toTime.setText(selectedHour + ":0" + selectedMinute);
+                            }
+                        } else {
+                            if (selectedHour < 10) {
+                                toTime.setText("0" + selectedHour + ":" + selectedMinute);
+                            } else {
+                                toTime.setText(selectedHour + ":" + selectedMinute);
+                            }
+                        }
+
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
 
         fromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,11 +180,10 @@ public class SearchActivity extends AppCompatActivity {
         lvItems.setPadding(20, 10, 20, 10);
         lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
         lvItems.setDividerHeight(20);
-        // Setup cursor adapter using cursor from last step
         // Construct the data source
         ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
-        // Attach cursor adapter to the ListView
+        // Attach adapter to the ListView
         lvItems.setAdapter(dataAdapter);
     }
 
@@ -131,20 +194,28 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Log.d("HISTORY", "SearchActivity clicked");
-            String submitString;
-            submitString = String.format("%s, %s, %s",
-                    fromDate.getText().toString(),
-                    toDate.getText().toString(),
-                    keywords.getText().toString());
-            Log.d("HISTORY", "Submit string: " + submitString);
-
-            // TODO add search in database in DatabaseHelper
-//        DatabaseHelper.search(submitString);
+            SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
+            String submitString = String.format("%s, %s, %s, %s, %s, %s, %s",
+                    sp.getString("to_date", ""),
+                    sp.getString("from_date", ""),
+                    sp.getString("to_time", ""),
+                    sp.getString("from_time", ""),
+                    sp.getString("keywords", ""),
+                    sp.getString("start_val", ""),
+                    sp.getString("end_val", ""));
+            String checkboxString = String.format("%b, %b, %b, %b",
+                    sp.getBoolean("bgl_check", false),
+                    sp.getBoolean("exercise_check", false),
+                    sp.getBoolean("diet_check", false),
+                    sp.getBoolean("medication_check", false));
+            Log.d("HISTORY", "Submit string: " + submitString+ " "+checkboxString);
 
             // start new Results activity from query
             Toast.makeText(getApplicationContext(), "SEARCHING...", Toast.LENGTH_SHORT).show();
-
-            clearSharedPreferences();
+            //Add search queries into SharedPreferences
+            Intent i = new Intent(SearchActivity.this, Results.class);
+            saveSharedPreferences();
+            startActivity(i);
         }
     };
 
@@ -182,6 +253,8 @@ public class SearchActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("to_date", fromDate.getText().toString());
         editor.putString("from_date", toDate.getText().toString());
+        editor.putString("to_time",toTime.getText().toString());
+        editor.putString("from_time",fromTime.getText().toString());
         editor.putString("keywords", keywords.getText().toString());
         editor.putString("start_val", startValue.getText().toString());
         editor.putString("end_val", endValue.getText().toString());
@@ -200,6 +273,8 @@ public class SearchActivity extends AppCompatActivity {
         if (!sp.equals(null)) {
             fromDate.setText(sp.getString("to_date", ""));
             toDate.setText(sp.getString("from_date", ""));
+            fromTime.setText(sp.getString("from_time",""));
+            toTime.setText(sp.getString("to_time",""));
             keywords.setText(sp.getString("keywords", ""));
             startValue.setText(sp.getString("start_val", ""));
             endValue.setText(sp.getString("end_val", ""));
@@ -234,6 +309,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearSharedPreferences();
         db.close();
     }
 }
