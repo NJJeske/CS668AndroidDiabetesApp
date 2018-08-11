@@ -6,40 +6,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-class DataAdapter extends CursorAdapter {
-    public DataAdapter(Context context, Cursor cursor) {
-        super(context, cursor, 0);
+import java.util.ArrayList;
+
+class DataAdapter extends ArrayAdapter<DB_Object> {
+    public DataAdapter(Context context, ArrayList<DB_Object> objects) {
+        super(context, 0, objects);
     }
 
-    // The newView method is used to inflate a new view and return it,
-    // you don't bind any data to the view at this point.
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.item_result, parent, false);
-    }
-
-    // The bindView method is used to bind all data to a given view
-    // such as setting the text on a TextView.
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        // Find fields to populate in inflated template
-        TextView tvType = (TextView) view.findViewById(R.id.ItemResult_Type);
-        TextView tvDate = (TextView) view.findViewById(R.id.ItemResult_Date);
-        TextView tvTime = (TextView) view.findViewById(R.id.ItemResult_Time);
-        TextView tvDescription = (TextView) view.findViewById(R.id.ItemResult_Description);
-
-        // Extract properties from cursor
-        String type = cursor.getString(1);
-        String date = cursor.getString(2);
-        String time = cursor.getString(3);
-        String description = cursor.getString(4);
-        // Populate fields with extracted properties
-        tvType.setText(type);
-        tvDate.setText(date);
-        tvTime.setText(time);
-        tvDescription.setText(description);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the data item for this position
+        DB_Object activity = getItem(position);
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_result, parent, false);
+        }
+        // Lookup view for data population
+        TextView tvType = (TextView) convertView.findViewById(R.id.ItemResult_Type);
+        TextView tvDate = (TextView) convertView.findViewById(R.id.ItemResult_Date);
+        TextView tvTime = (TextView) convertView.findViewById(R.id.ItemResult_Time);
+        TextView tvDescription = (TextView) convertView.findViewById(R.id.ItemResult_Description);
+        // Populate the data into the template view using the data object
+        tvType.setText(activity.getActivityType());
+        tvDate.setText(activity.getDate());
+        tvTime.setText(activity.getTime());
+        tvDescription.setText(activity.getDescription());
+        // Return the completed view to render on screen
+        return convertView;
     }
 }

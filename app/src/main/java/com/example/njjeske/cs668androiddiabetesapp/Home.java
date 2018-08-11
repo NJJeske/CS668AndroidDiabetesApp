@@ -1,10 +1,7 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -21,6 +18,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
     private CardView bglCard, foodCard, exerciseCard, medicineCard;
@@ -55,24 +54,24 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // setup listview
-        fillListview();
+        fillListView();
     }
 
-    private void fillListview() {
-        Cursor cursor = db.getAllData();
-        if (cursor != null && cursor.moveToFirst()) {
-            // Find ListView to populate
-            ListView lvItems = (ListView) findViewById(R.id.Home_listView);
-            lvItems.setPadding(20, 10, 20, 10);
-            lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
-            lvItems.setDividerHeight(20);
-            // Setup cursor adapter using cursor from last step
-            DataAdapter dataAdapter = new DataAdapter(this, cursor);
-            // Attach cursor adapter to the ListView
-            lvItems.setAdapter(dataAdapter);
-        } else {
-            Log.v("HOME", "HOME: fillListView failed, cursor empty");
-        }
+    /**
+     * Fills the ListView with items from DataAdapter
+     */
+    private void fillListView() {
+        Log.v("HOME","fillListView()");
+        // Find ListView to populate
+        ListView lvItems = (ListView) findViewById(R.id.Home_listView);
+        lvItems.setPadding(20, 10, 20, 10);
+        lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
+        lvItems.setDividerHeight(20);
+        // Construct the data source
+        ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
+        DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
+        // Attach cursor adapter to the ListView
+        lvItems.setAdapter(dataAdapter);
     }
 
     // This method will add main_menu.xml to this activity.
@@ -86,7 +85,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
-    // Card Navigation
+    /**
+     * Spinner onClick actions
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         Intent i = new Intent(this, AddActivity.class);
@@ -113,7 +115,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    // Bottom Navigation actions
+    /**
+     * Bottom Navigation actions for onClick
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

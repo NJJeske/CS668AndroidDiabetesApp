@@ -61,6 +61,10 @@
             android:name=".About"
             android:label="About"
             android:parentActivityName=".Home" />
+        <activity
+            android:name=".Create"/>
+        <activity
+            android:name=".Login"/>
     </application>
 
 </manifest>

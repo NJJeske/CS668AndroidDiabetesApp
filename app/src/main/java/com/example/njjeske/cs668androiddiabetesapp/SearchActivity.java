@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -24,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SearchActivity extends AppCompatActivity {
@@ -106,29 +105,31 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        fillListview();
+        fillListView();
         showSharedPreferences();
 
     }
 
-    private void fillListview() {
-        Cursor cursor = db.getAllData();
-        if (cursor != null && cursor.moveToFirst()) {
-            // Find ListView to populate
-            ListView lvItems = (ListView) findViewById(R.id.Data_listView);
-            lvItems.setPadding(20, 10, 20, 10);
-            lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
-            lvItems.setDividerHeight(20);
-            // Setup cursor adapter using cursor from last step
-            DataAdapter dataAdapter = new DataAdapter(this, cursor);
-            // Attach cursor adapter to the ListView
-            lvItems.setAdapter(dataAdapter);
-        } else {
-            Log.v("SEARCH", "SEARCH: fillListView failed, cursor empty");
-        }
+    /**
+     * Fills the ListView with items from DataAdapter
+     */
+    private void fillListView() {
+        // Find ListView to populate
+        ListView lvItems = (ListView) findViewById(R.id.Data_listView);
+        lvItems.setPadding(20, 10, 20, 10);
+        lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
+        lvItems.setDividerHeight(20);
+        // Setup cursor adapter using cursor from last step
+        // Construct the data source
+        ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
+        DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
+        // Attach cursor adapter to the ListView
+        lvItems.setAdapter(dataAdapter);
     }
 
-    // Search: load new Results activity with passed string
+    /**
+     * Search button onClickListener: load new Results activity with passed string
+     */
     private View.OnClickListener searchOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -150,7 +151,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
-    // Bottom Navigation actions
+    /**
+     * Bottom Navigation actions for onClick
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -174,6 +177,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Save SharedPreferences as extra precaution
+     */
     public void saveSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -189,7 +195,9 @@ public class SearchActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    //use this inside onCreate()
+    /**
+     * Show SharedPreferences: use inside onCreate()
+     */
     public void showSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         if (!sp.equals(null)) {
@@ -205,6 +213,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clear SharedPreferences upon submit
+     */
     public void clearSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

@@ -270,7 +270,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
-    //Performing SPINNER action onItemSelected and onNothing selected
+    /**
+     * Performing Spinner action onItemSelected to change image & label description depending on activity type
+     * @param arg0
+     * @param arg1
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
         //TODO: change appearance of view on select
@@ -307,7 +313,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
-    // Bottom Navigation actions
+    /**
+     * Bottom Navigation actions for onClick
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -331,6 +339,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         }
     };
 
+    /**
+     * Save SharedPreferences as extra precaution
+     */
     public void saveSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -341,7 +352,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         editor.commit();
     }
 
-    //use this inside onCreate()
+    /**
+     * Show SharedPreferences: use inside onCreate()
+     */
     public void showSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
         if (!sp.equals(null)) {
@@ -352,6 +365,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         }
     }
 
+    /**
+     * Clear SharedPreferences upon submit
+     */
     public void clearSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

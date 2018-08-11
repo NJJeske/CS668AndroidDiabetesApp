@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -85,7 +86,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     }
-
 
     public Cursor getAllData() {
 
@@ -168,10 +168,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return registered;
     }
 
-
+    /**
+     * Reset the database (clear all data)
+     */
     public void reset() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME_ACT, null, null);
         System.out.println("DELETED ALL ROWS... TABLE EMPTY");
+    }
+
+    /**
+     * Returns all activities from the database for ArrayAdapter use in ListView
+     */
+    public ArrayList<DB_Object> getAllActivity() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<DB_Object> listItems = new ArrayList<DB_Object>();
+        Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " order by " + colDate + " desc, " + colTime + " desc", new String[] {});
+
+        if (output.moveToFirst()) {
+            do {
+                DB_Object item = new DB_Object();
+                item.setActivityType(output.getString(1));
+                item.setDate(output.getString(2));
+                item.setTime(output.getString(3));
+                item.setDescription(output.getString(4));
+
+                listItems.add(item);
+            } while (output.moveToNext());
+        }else{
+            System.out.println("DATABASE HELPER: cursor empty");
+        }
+
+        output.close();
+
+        return listItems;
     }
 }

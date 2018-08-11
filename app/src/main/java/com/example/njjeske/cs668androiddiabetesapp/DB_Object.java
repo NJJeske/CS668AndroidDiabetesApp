@@ -1,33 +1,36 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+/**
+ * Database Object to represent the various activities to add from the app
+ */
 public class DB_Object {
-    String type, date, time, description;
+    String activityType, date, time, description;
     int id;
 
     public DB_Object() {
     }
 
-    public DB_Object(int id, String type, String date, String time, String description) {
+    public DB_Object(int id, String activityType, String date, String time, String description) {
         this.id = id;
-        this.type = type;
+        this.activityType = activityType;
         this.date = date;
         this.time = time;
         this.description = description;
     }
 
-    public DB_Object(String type, String date, String time, String description) {
-        this.type = type;
+    public DB_Object(String activityType, String date, String time, String description) {
+        this.activityType = activityType;
         this.date = date;
         this.time = time;
         this.description = description;
     }
 
-    public String getType() {
-        return type;
+    public String getActivityType() {
+        return activityType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 
     public String getDate() {
