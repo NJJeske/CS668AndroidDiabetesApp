@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 
-import java.sql.SQLOutput;
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String colName = "NAME";
     private static final String colPassword = "PASSWORD";
 
-    private static final String DATABASE_NAME = "ACTIVITY_DB";
+    private static final String DATABASE_NAME = "DIABETES_DB";
     private static final String TABLE_NAME_ACT = "ACTIVITY_TABLE";
     private static final String colActivityId = "ACTIVITY_ID";
     private static final String colActivityType = "ACTIVITY_TYPE";
@@ -68,47 +68,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-//    public void update(int ID, IDatabaseObject object) {
-//
-//        SQLiteDatabase db = getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        Activity act = (Activity) object;
-//
-//
-//        contentValues.put(colActivityType, activityType);
-//        contentValues.put(colDate, date);
-//        contentValues.put(colTime, time);
-//        contentValues.put(colDescription, description);
-//        db.update(TABLE_NAME_ACT, contentValues, colActivityId + " = ? ", new String[]{Integer.toString(id)});
-//
-//        db.close();
-//
-//
-//    }
+    public void updateActivity(int id, Activity object) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        Activity act = object;
+
+        contentValues.put(colActivityType, act.getActivityType());
+        contentValues.put(colDate, act.getDate());
+        contentValues.put(colTime, act.getTime());
+        contentValues.put(colDescription, act.getDescription());
+        db.update(TABLE_NAME_ACT, contentValues, colActivityId + " = ? ", new String[]{Integer.toString(id)});
+
+        db.close();
+
+
+    }
 
 
     public Cursor getAllData() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("SELECT * from " + TABLE_NAME_ACT, null);
-        return result;
+        Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT, null);
+        return output;
+    }
+
+    public Cursor getDataByActivity(String activity) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor output = null;
+        
+        switch (activity) {
+            case "Blood Glucose":
+                output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
+                break;
+            case "Diet":
+                output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
+                break;
+            case "Exercise":
+                output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
+                break;
+            case "Medicine":
+                output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
+                break;
+        }
+        return output;
     }
 
     public Cursor getRowByID(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor result = db.rawQuery("select * from " + TABLE_NAME_ACT + " where " + colActivityId + " = " + id, null);
-        return result;
+        Cursor output = db.rawQuery("select * from " + TABLE_NAME_ACT + " where " + colActivityId + " = " + id, null);
+        return output;
     }
 
     public boolean deleteRowByID(int id) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int result = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
-        if (result == 0)
+        int output = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
+        if (output == 0)
             return false;
         return true;
 
@@ -127,22 +149,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isUserRegistered(String userName) {
         boolean registered = false;
-        Cursor result;
+        Cursor output;
         User userFound = new User();
         // Will need password in db somehow
         SQLiteDatabase db = getWritableDatabase();
-        result = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
-        if (result.getCount() == 0) {
+        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
+        if (output.getCount() == 0) {
             System.out.println("User not found!");
             registered = false;
         } else {
             registered = true;
-            while (result.moveToNext()) {
-                userFound.setName(result.getString(0));
-                userFound.setPassword(result.getString(1));
+            while (output.moveToNext()) {
+                userFound.setName(output.getString(0));
+                userFound.setPassword(output.getString(1));
             }
         }
-        result.close();
+        output.close();
         return registered;
     }
 
