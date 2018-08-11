@@ -52,4 +52,6 @@
         <item>Exercise</item>
         <item>Medicine</item>
     </string-array>
+    <string name="title_activity_etc">etc</string>
+    <string name="your_recent_activity"><u>Your Recent Activity</u></string>
 </resources>

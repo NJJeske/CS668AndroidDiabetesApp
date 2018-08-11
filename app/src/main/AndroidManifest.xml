@@ -57,6 +57,10 @@
             android:name=".Regimen"
             android:label="Regimen"
             android:parentActivityName=".Home" />
+        <activity
+            android:name=".About"
+            android:label="About"
+            android:parentActivityName=".Home" />
     </application>
 
 </manifest>

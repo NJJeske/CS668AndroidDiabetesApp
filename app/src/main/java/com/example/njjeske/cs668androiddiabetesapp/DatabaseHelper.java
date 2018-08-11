@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 
-
+import java.sql.SQLOutput;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "DIABETES_DB";
     private static final String TABLE_NAME_ACT = "ACTIVITY_TABLE";
-    private static final String colActivityId = "ACTIVITY_ID";
+    private static final String colActivityId = "_id";
     private static final String colActivityType = "ACTIVITY_TYPE";
     private static final String colTime = "TIME";
     private static final String colDate = "DATE";
@@ -91,7 +91,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT, null);
+//        Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT, null);
+        // updated to return all results automatically in chronological desc order
+        Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " order by " + colDate + " desc, " + colTime + " desc", null);
         return output;
     }
 
@@ -99,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor output = null;
-        
+
         switch (activity) {
             case "Blood Glucose":
                 output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
@@ -130,9 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int output = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
-        if (output == 0)
-            return false;
-        return true;
+        return output != 0;
 
 
     }
@@ -169,9 +169,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
-
-
-
+    public void reset() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME_ACT, null, null);
+        System.out.println("DELETED ALL ROWS... TABLE EMPTY");
+    }
 }

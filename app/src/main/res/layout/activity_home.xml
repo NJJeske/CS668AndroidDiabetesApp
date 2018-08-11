@@ -38,9 +38,9 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/bgl_card"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="120dp"
+                android:layout_margin="5dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -52,26 +52,27 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/circlebackground"
-                        android:padding="15dp"
+                        android:padding="10dp"
                         android:src="@drawable/ic_icons8_diabetes_filled_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="center"
                         android:layout_marginTop="10dp"
-                        android:text="@string/blood_glucose"
+                        android:text="@string/bgl"
                         android:textStyle="bold" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/food_card"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="120dp"
+                android:layout_margin="5dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -83,10 +84,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/circlebackground"
-                        android:padding="15dp"
+                        android:padding="10dp"
                         android:src="@drawable/ic_icons8_vegetarian_food_filled_24" />
 
                     <TextView
@@ -97,20 +98,12 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:gravity="center"
-            android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/exercise_card"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="120dp"
+                android:layout_margin="5dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -122,10 +115,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/circlebackground"
-                        android:padding="15dp"
+                        android:padding="10dp"
                         android:src="@drawable/ic_icons8_walking_filled_24" />
 
                     <TextView
@@ -139,9 +132,9 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/medicine_card"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="120dp"
+                android:layout_margin="5dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -153,10 +146,10 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/circlebackground"
-                        android:padding="15dp"
+                        android:padding="10dp"
                         android:src="@drawable/ic_icons8_pills_filled_24" />
 
                     <TextView
@@ -170,12 +163,20 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/logout"
+            android:id="@+id/Home.txtView.recentActivity"
+            style="@style/textView_Heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="@string/logout" />
+            android:text="@string/your_recent_activity"
+            android:textAlignment="center" />
+
+        <ListView
+            android:id="@+id/Home.listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView

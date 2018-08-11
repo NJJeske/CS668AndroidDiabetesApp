@@ -3,6 +3,9 @@ package com.example.njjeske.cs668androiddiabetesapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,10 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -98,6 +103,26 @@ public class SearchActivity extends AppCompatActivity {
                 dpDialog.show();
             }
         });
+
+        fillListview();
+
+    }
+
+    private void fillListview() {
+        Cursor cursor = db.getAllData();
+        if (cursor != null && cursor.moveToFirst()) {
+            // Find ListView to populate
+            ListView lvItems = (ListView) findViewById(R.id.Data_listView);
+            lvItems.setPadding(20, 10, 20, 10);
+            lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
+            lvItems.setDividerHeight(20);
+            // Setup cursor adapter using cursor from last step
+            DataAdapter dataAdapter = new DataAdapter(this, cursor);
+            // Attach cursor adapter to the ListView
+            lvItems.setAdapter(dataAdapter);
+        } else {
+            Log.v("SEARCH", "SEARCH: fillListView failed, cursor empty");
+        }
     }
 
     // Search: load new Results activity with passed string

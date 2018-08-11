@@ -8,24 +8,15 @@
     <LinearLayout
         android:id="@+id/linearLayoutWrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txtView_dataActivity"
-            style="@style/textView_Heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/txtView_activity"
-            android:textSize="@dimen/textView_titleSize"
-            android:textStyle="bold" />
+
 
         <LinearLayout
             android:id="@+id/linearLayoutCheckbox"
@@ -34,7 +25,6 @@
             android:layout_margin="8dp"
             android:gravity="center"
             android:orientation="horizontal">
-
             <CheckBox
                 android:id="@+id/Data.Radio.bloodGlucose"
                 android:layout_width="wrap_content"
@@ -178,8 +168,10 @@
             android:text="@string/search" />
 
         <ListView
+            android:id="@+id/Data.listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <!--<android.support.v7.widget.RecyclerView-->

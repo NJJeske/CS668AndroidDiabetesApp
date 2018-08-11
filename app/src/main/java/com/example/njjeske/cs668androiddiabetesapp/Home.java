@@ -2,14 +2,21 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,46 +24,18 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private CardView bglCard, foodCard, exerciseCard, medicineCard;
     private TextView welcome, logout;
     private static final String HOME = "Home";
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        db = new DatabaseHelper(this);
+
         welcome = (TextView) findViewById(R.id.welcome);
 //        welcome.setText("Welcome "+name);
-        logout = (TextView) findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(Home.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-                builder1.setTitle(R.string.logout);
-                builder1.setMessage(R.string.dialog_message);
-                builder1.setCancelable(true);
 
-                builder1.setPositiveButton(
-                        R.string.dialog_yes,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //TODO: logout & switch to login screen
-                                //logout
-                                //startActivity(new Intent(this, Login.class));
-                                Toast.makeText(getApplicationContext(), "Logged out!",
-                                        Toast.LENGTH_SHORT).show(); // temp
-                            }
-                        });
-
-                builder1.setNegativeButton(
-                        R.string.dialog_no,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog logout_alert = builder1.create();
-                logout_alert.show();
-            }
-        });
         // defining Cards
         bglCard = (CardView) findViewById(R.id.bgl_card);
         foodCard = (CardView) findViewById(R.id.food_card);
@@ -72,6 +51,37 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         // Bottom Navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // setup listview
+        fillListview();
+    }
+
+    private void fillListview() {
+        Cursor cursor = db.getAllData();
+        if (cursor != null && cursor.moveToFirst()) {
+            // Find ListView to populate
+            ListView lvItems = (ListView) findViewById(R.id.Home_listView);
+            lvItems.setPadding(20, 10, 20, 10);
+            lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
+            lvItems.setDividerHeight(20);
+            // Setup cursor adapter using cursor from last step
+            DataAdapter dataAdapter = new DataAdapter(this, cursor);
+            // Attach cursor adapter to the ListView
+            lvItems.setAdapter(dataAdapter);
+        } else {
+            Log.v("HOME", "HOME: fillListView failed, cursor empty");
+        }
+    }
+
+    // This method will add main_menu.xml to this activity.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+
+
+        return true;
     }
 
     // Card Navigation
@@ -124,4 +134,71 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             return true;
         }
     };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.Logout_id:
+                Log.v("HOME", "HOME: Menu > Logout SELECTED");
+                // logout popup
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Home.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                builder1.setTitle(R.string.logout);
+                builder1.setMessage(R.string.dialog_message);
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        R.string.dialog_yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //TODO: logout & switch to login screen
+                                //logout
+                                //startActivity(new Intent(this, Login.class));
+                                Toast.makeText(getApplicationContext(), "Logged out!",
+                                        Toast.LENGTH_SHORT).show(); // temp
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        R.string.dialog_no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog logout_alert = builder1.create();
+                logout_alert.show();
+                return true;
+            case R.id.about_us_id:
+                Log.v("HOME", "HOME: Menu > About SELECTED");
+                startActivity(new Intent(Home.this, About.class));
+                return true;
+            case R.id.contact_us_id:
+                Log.v("HOME", "HOME: Menu > Contact Us SELECTED");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
