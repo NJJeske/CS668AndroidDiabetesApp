@@ -9,19 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class Regimen extends AppCompatActivity {
+    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regimen);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // Ensure correct menu item is selected (where the magic happens)
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(3); //add activity index
-        menuItem.setChecked(true);
+        navigation.setSelectedItemId(R.id.navigation_regimen);
     }
 
     // Bottom Navigation actions
@@ -47,4 +44,9 @@ public class Regimen extends AppCompatActivity {
             return true;
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        navigation.setSelectedItemId(R.id.navigation_home);
+    }
 }

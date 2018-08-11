@@ -38,6 +38,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
     Calendar c;
     private Button submitbutton;
     private DatabaseHelper db;
+    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +46,9 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         setContentView(R.layout.activity_add_activity);
 
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // Ensure correct menu item is selected (where the magic happens)
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(1); //add activity index
-        menuItem.setChecked(true);
+        navigation.setSelectedItemId(R.id.navigation_activity);
 
         db = new DatabaseHelper(this);
 
@@ -373,6 +370,11 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     @Override

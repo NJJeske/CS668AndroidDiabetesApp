@@ -32,6 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     DatabaseHelper db;
     private int mYear, mMonth, mDay, mHour, mMinute;
     Calendar c;
+    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +56,9 @@ public class SearchActivity extends AppCompatActivity {
         check_diet = (CheckBox) findViewById(R.id.Data_Radio_diet);
         check_medication = (CheckBox) findViewById(R.id.Data_Radio_medication);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // Ensure correct menu item is selected (where the magic happens)
-        Menu menu = navigation.getMenu();
-        MenuItem menuItem = menu.getItem(2); //index of history
-        menuItem.setChecked(true);
+        navigation.setSelectedItemId(R.id.navigation_history);
 
         // set up Calendar for DatePickerDialog
         c = Calendar.getInstance();
@@ -211,6 +208,11 @@ public class SearchActivity extends AppCompatActivity {
             check_diet.setChecked(sp.getBoolean("diet_check", false));
             check_medication.setChecked(sp.getBoolean("medication_check", false));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigation.setSelectedItemId(R.id.navigation_home);
     }
 
     /**

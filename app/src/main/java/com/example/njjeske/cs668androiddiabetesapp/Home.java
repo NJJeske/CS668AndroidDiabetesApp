@@ -26,6 +26,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private TextView welcome, logout;
     private static final String HOME = "Home";
     DatabaseHelper db;
+    BottomNavigationView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,13 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         medicineCard.setOnClickListener(this);
 
         // Bottom Navigation
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        // Ensure correct menu item is selected (where the magic happens)
+        Menu menu = navigation.getMenu();
+        MenuItem menuItem = menu.getItem(0); //add activity index
+        menuItem.setChecked(true);
 
         // setup listview
         fillListView();
