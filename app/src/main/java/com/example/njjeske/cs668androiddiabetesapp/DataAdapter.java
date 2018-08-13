@@ -57,9 +57,4 @@ class DataAdapter extends ArrayAdapter<DB_Object> {
         // Return the completed view to render on screen
         return convertView;
     }
-
-    public void filterList(ArrayList<DB_Object> filteredData) {
-        this.objects = filteredData;
-        notifyDataSetChanged();
-    }
 }

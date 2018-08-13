@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -96,17 +97,19 @@ public class Results extends AppCompatActivity {
         // Construct the data source
         // todo MAKE SURE TO CHECK IF EMPTY VALUES IN HELPER METHODS
         ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
+
+        // filter all results
+        if (sp.getBoolean("bgl_check", false)) {
+            Log.v("RESULTS", "FILTERING... w/BGL");
+            arrayOfActivities = filterByType(filterByDate(filterByTime(filterByBglValue(filterByKeyWords(arrayOfActivities)))));
+        } else {
+            Log.v("RESULTS", "FILTERING...");
+            arrayOfActivities = filterByType(filterByDate(filterByTime(filterByKeyWords(arrayOfActivities))));
+        }
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
 
         // Attach adapter to the ListView
         listView.setAdapter(dataAdapter);
-
-        // filter all results
-        if (sp.getBoolean("bgl_check", false)) {
-            dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByBglValue(filterByKeyWords(arrayOfActivities))))));
-        } else {
-            dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByKeyWords(arrayOfActivities)))));
-        }
 
         // Used to get the selected activity for edit
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,26 +173,33 @@ public class Results extends AppCompatActivity {
      * @return filtered list by type
      */
     private ArrayList<DB_Object> filterByType(ArrayList<DB_Object> objects) {
+        Log.v("RESULTS", "FILTERING BY TYPE");
+        Log.v("RESULTS", "TYPES - Starting List Size: " + objects.size());
         //new array list that will hold the filtered data
         ArrayList<DB_Object> filteredDataByType = new ArrayList<>();
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         if (sp != null) {
             for (int i = 0; i < objects.size(); i++) {
                 String type = objects.get(i).getActivityType();
+                Log.v("RESULTS", "Result item: " + type);
                 if (type.equals("Blood Glucose") && sp.getBoolean("bgl_check", false)) {
+                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
-                }
-                if (type.equals("Exercise") && sp.getBoolean("exercise_check", false)) {
+                } else if (type.equals("Exercise") && sp.getBoolean("exercise_check", false)) {
+                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
-                }
-                if (type.equals("Diet") && sp.getBoolean("diet_check", false)) {
+                } else if (type.equals("Diet") && sp.getBoolean("diet_check", false)) {
+                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
-                }
-                if (type.equals("Medication") && sp.getBoolean("medication_check", false)) {
+                } else if (type.equals("Medication") && sp.getBoolean("medication_check", false)) {
+                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
                 }
             }
+        } else {
+            Log.v("RESULTS", "SharedPreferences NULL");
         }
+        Log.v("RESULTS", "TYPES - Ending List Size: " + filteredDataByType.size());
         return filteredDataByType;
     }
 
@@ -200,6 +210,8 @@ public class Results extends AppCompatActivity {
      * @return filtered list by dates
      */
     private ArrayList<DB_Object> filterByDate(ArrayList<DB_Object> objects) {
+        Log.v("RESULTS", "FILTERING BY DATE");
+        Log.v("RESULTS", "DATE - Starting List Size: " + objects.size());
         ArrayList<DB_Object> filterdData = new ArrayList<>();
 
         for (int i = 0; i < objects.size(); i++) {
@@ -218,14 +230,24 @@ public class Results extends AppCompatActivity {
      * @return filtered list by time
      */
     private ArrayList<DB_Object> filterByTime(ArrayList<DB_Object> objects) {
-        ArrayList<DB_Object> filterdTime = new ArrayList<>();
+        Log.v("RESULTS", "FILTERING BY TIME");
+        Log.v("RESULTS", "TIME - Starting List Size: " + objects.size());
+        ArrayList<DB_Object> filteredTime = new ArrayList<>();
+        String fromTime = sp.getString("from_time", "");
+        String toTime = sp.getString("to_time", "");
+        if (fromTime.equals("")) {
+            fromTime = "00:00";
+        }
+        if (toTime.equals("")) {
+            toTime = "24:00";
+        }
 
         for (int i = 0; i < objects.size(); i++) {
-            if (isAfterTime(sp.getString("from_time", ""), objects.get(i).getDate()) &&
-                    !isAfterTime(sp.getString("to_time", ""), objects.get(i).getDate()))
-                filterdTime.add(objects.get(i));
+            if (isAfterTime(fromTime, objects.get(i).getTime()) &&
+                    !isAfterTime(toTime, objects.get(i).getTime()))
+                filteredTime.add(objects.get(i));
         }
-        return filterdTime;
+        return filteredTime;
     }
 
     /**
@@ -235,6 +257,8 @@ public class Results extends AppCompatActivity {
      * @return filtered list by the Bgl Values
      */
     private ArrayList<DB_Object> filterByBglValue(ArrayList<DB_Object> objects) {
+        Log.v("RESULTS", "FILTERING BY BGL VALUE");
+        Log.v("RESULTS", "BGL VAL - Starting List Size: " + objects.size());
         ArrayList<DB_Object> filterdBglValue = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i).getActivityType().equals("Blood Glucose")) {
@@ -255,6 +279,8 @@ public class Results extends AppCompatActivity {
      * @return filtered list of keywords
      */
     private ArrayList<DB_Object> filterByKeyWords(ArrayList<DB_Object> objects) {
+        Log.v("RESULTS", "FILTERING BY KEYWORDS");
+        Log.v("RESULTS", "KEYWORDS - Starting List Size: " + objects.size());
         ArrayList<DB_Object> filteredKeyWords = new ArrayList<>();
         String containsKeywords = sp.getString("keywords", "");
         for (int i = 0; i < objects.size(); i++) {
