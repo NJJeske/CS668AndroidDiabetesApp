@@ -14,10 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,7 +28,8 @@ public class Results extends AppCompatActivity {
     DatabaseHelper db;
     LinearLayout contentView;
     Button graphs_btn, lists_btn, stats_btn;
-    SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
+    SharedPreferences sp;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +41,17 @@ public class Results extends AppCompatActivity {
         graphs_btn = (Button) findViewById(R.id.Results_button_graph);
         lists_btn = (Button) findViewById(R.id.Results_button_list);
         stats_btn = (Button) findViewById(R.id.Results_button_stats);
+        graphs_btn.setOnClickListener(viewTypesOnClickListener);
+        lists_btn.setOnClickListener(viewTypesOnClickListener);
+        stats_btn.setOnClickListener(viewTypesOnClickListener);
+        sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
 
 
         // TODO get info from Shared Preferences for Results
-        //fillListView();
+        fillListView();
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        //navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Ensure correct menu item is selected (where the magic happens)
         Menu menu = navigation.getMenu();
@@ -58,15 +65,14 @@ public class Results extends AppCompatActivity {
      */
     private void fillListView() {
         // Create listView programmatically since we change depending on content
-        ListView lvItems = new ListView(this);
-        lvItems.setPadding(20, 10, 20, 10);
-        lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
-        lvItems.setDividerHeight(20);
+        listView = new ListView(this);
+        listView.setPadding(20, 10, 20, 10);
+        listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
+        listView.setDividerHeight(20);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         params.weight=1;
-        lvItems.setLayoutParams(params);
-        contentView.addView(lvItems);
-//        contentView.setVisibility(View.INVISIBLE);
+        listView.setLayoutParams(params);
+        contentView.addView(listView);
         //create query string
         if (!sp.equals(null)) {
             String submitString = String.format("%s, %s, %s, %s, %s, %s, %s",
@@ -88,23 +94,77 @@ public class Results extends AppCompatActivity {
             System.out.println("RESULTS: SharedPreferences Empty");
         }
         // Construct the data source
-        // todo MAKE SURE TO CHECK IF EMPTY VALUES IN DATABASEHELPER
+        // todo MAKE SURE TO CHECK IF EMPTY VALUES IN HELPER METHODS
         ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
 
         // Attach adapter to the ListView
-        lvItems.setAdapter(dataAdapter);
+        listView.setAdapter(dataAdapter);
 
-        // temp disabled for now
+        // filter all results
         if (sp.getBoolean("bgl_check", false)) {
-            //dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByBglValue(filterByKeyWords(arrayOfActivities))))));
+            dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByBglValue(filterByKeyWords(arrayOfActivities))))));
         } else {
-            //dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByKeyWords(arrayOfActivities)))));
+            dataAdapter.filterList(filterByType(filterByDate(filterByTime(filterByKeyWords(arrayOfActivities)))));
         }
+
+        // Used to get the selected activity for edit
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Intent i = new Intent(Results.this, EditActivity.class);
+                i.putExtra("Data", position);
+                startActivity(i);
+
+            }
+        });
     }
 
     /**
-     * Filters by activity type
+     * Top buttons onClickListener: switch between data results
+     */
+    private View.OnClickListener viewTypesOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.Results_button_graph:
+                    fillGraphsView();
+                    Toast.makeText(getApplicationContext(), "RESULTS: SHOWING GRAPHS", Toast.LENGTH_SHORT).show();
+                    Log.d("RESULTS", "Graphs Button clicked");
+                    break;
+                case R.id.Results_button_list:
+                    listView.setVisibility(View.VISIBLE);
+                    //TODO assignment 4 hide graphs & stats
+                    Toast.makeText(getApplicationContext(), "RESULTS: SHOWING LISTS", Toast.LENGTH_SHORT).show();
+                    Log.d("RESULTS", "Lists Button clicked");
+                    break;
+                case R.id.Results_button_stats:
+                    fillStatsView();
+                    listView.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(), "RESULTS: SHOWING STATS", Toast.LENGTH_SHORT).show();
+                    Log.d("RESULTS", "Stats Button clicked");
+                    break;
+                default:
+                    Log.d("RESULTS", "Button clicked");
+                    break;
+            }
+        }
+    };
+
+    private void fillStatsView() {
+        listView.setVisibility(View.INVISIBLE);
+        // TODO assignment 4
+    }
+
+    private void fillGraphsView() {
+        listView.setVisibility(View.INVISIBLE);
+        // TODO assignment 4
+    }
+
+    /**
+     * SEARCH HELPER: Filters by activity type
      *
      * @param objects
      * @return filtered list by type
@@ -134,7 +194,7 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Filters by date
+     * SEARCH HELPER: Filters by date
      *
      * @param objects
      * @return filtered list by dates
@@ -152,7 +212,7 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Filters list by time
+     * SEARCH HELPER: Filters list by time
      *
      * @param objects
      * @return filtered list by time
@@ -169,7 +229,7 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Filter database results by BGL Values
+     * SEARCH HELPER: Filter database results by BGL Values
      *
      * @param objects
      * @return filtered list by the Bgl Values
@@ -189,7 +249,7 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Filter database results by keywords
+     * SEARCH HELPER: Filter database results by keywords
      *
      * @param objects
      * @return filtered list of keywords
@@ -208,19 +268,21 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Compares between dates - afterDate
+     * SEARCH HELPER: Compares between dates - afterDate
      *
      * @param fromDate
      * @param dataBaseDate
      * @return filtered list of dates
      */
     private boolean isAfterDate(String fromDate, String dataBaseDate) {
+        if (fromDate.equals("")) {
+            return true;
+        }
         String[] dateOne = fromDate.split("/");
         String[] dateTwo = dataBaseDate.split("/");
-        String[] year1 = dateTwo[2].split(" ");
-        if (Integer.parseInt(dateOne[2]) > Integer.parseInt(year1[0])) {
+        if (Integer.parseInt(dateOne[2]) > Integer.parseInt(dateTwo[2])) {
             return false;
-        } else if (Integer.parseInt(dateOne[2]) < Integer.parseInt(year1[0])) {
+        } else if (Integer.parseInt(dateOne[2]) < Integer.parseInt(dateTwo[2])) {
             return true;
         } else if (Integer.parseInt(dateOne[0]) > Integer.parseInt(dateTwo[0])) {
             return false;
@@ -231,19 +293,21 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Compares between dates - beforeDate
+     * SEARCH HELPER: Compares between dates - beforeDate
      *
      * @param toDate
      * @param dataBaseDate
      * @return filtered list of dates
      */
     private boolean isBeforeDate(String toDate, String dataBaseDate) {
+        if (toDate.equals("")) {
+            return true;
+        }
         String[] dateOne = toDate.split("/");
         String[] dateTwo = dataBaseDate.split("/");
-        String[] year1 = dateTwo[2].split(" ");
-        if (Integer.parseInt(dateOne[2]) < Integer.parseInt(year1[0])) {
+        if (Integer.parseInt(dateOne[2]) < Integer.parseInt(dateTwo[2])) {
             return false;
-        } else if (Integer.parseInt(dateOne[2]) > Integer.parseInt(year1[0])) {
+        } else if (Integer.parseInt(dateOne[2]) > Integer.parseInt(dateTwo[2])) {
             return true;
         } else if (Integer.parseInt(dateOne[0]) < Integer.parseInt(dateTwo[0])) {
             return false;
@@ -253,18 +317,18 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Compares between times
+     * SEARCH HELPER: Compares between times
      *
      * @param fromTime
      * @param databaseTime
      * @return filtered list of times
      */
     private boolean isAfterTime(String fromTime, String databaseTime) {
+        if (fromTime.equals("")) {
+            return true;
+        }
         String[] timeOne = fromTime.split(":");
-        String[] date = databaseTime.split("/");
-        String[] YearAndTime = date[2].split(" ");
-        String[] time = YearAndTime[1].split(":");
-        Log.w("Values of Year And Time", YearAndTime[0] + " " + YearAndTime[1]);
+        String[] time = databaseTime.split(":");
         int hour = Integer.parseInt(time[0]);
         int minutes = Integer.parseInt(time[1]);
 
@@ -276,7 +340,7 @@ public class Results extends AppCompatActivity {
     }
 
     /**
-     * Compares between BGL values
+     * SEARCH HELPER: Compares between BGL values
      *
      * @param bglValueFrom
      * @param bglValueData
@@ -284,15 +348,28 @@ public class Results extends AppCompatActivity {
      * @return whether if actually between values
      */
     private boolean isBetweenBglValue(String bglValueFrom, String bglValueData, String bglValueTo) {
-        Double valueFrom = Double.parseDouble(bglValueFrom);
-        Double valueTo = Double.parseDouble(bglValueTo);
+        Double valueFrom, valueTo;
+        if (bglValueFrom.equals("") && bglValueTo.equals("")) {
+            return true; // default return if both entries empty
+        }
+
+        if (!bglValueFrom.equals("")) {
+            valueFrom = Double.parseDouble(bglValueFrom);
+        } else {
+            valueFrom = 40.0; //default min
+        }
+        if (!bglValueTo.equals("")) {
+            valueTo = Double.parseDouble(bglValueTo);
+        } else {
+            valueTo = 600.0;
+        }
         Double bglValueData2 = Double.parseDouble(bglValueData);
 
-        return (bglValueData2 < valueFrom || bglValueData2 > valueTo);
+        return (bglValueData2 <= valueFrom || bglValueData2 >= valueTo);
     }
 
     /**
-     * Compares using keywords
+     * SEARCH HELPER: Compares using keywords
      *
      * @param keywordString
      * @param fromData
@@ -307,6 +384,16 @@ public class Results extends AppCompatActivity {
         } else if (stringOne.contains("OR")) {
             return fromData.contains(stringOne.get(0)) || fromData.contains(stringOne.get(2));
         } else return fromData.contains(keywordString);
+    }
+
+    /**
+     * Clear SharedPreferences upon submit
+     */
+    public void clearSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear();
+        editor.commit();
     }
 
     // Bottom Navigation actions
@@ -336,11 +423,13 @@ public class Results extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         navigation.setSelectedItemId(R.id.navigation_history);
+        clearSharedPreferences();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearSharedPreferences();
         db.close();
     }
 }

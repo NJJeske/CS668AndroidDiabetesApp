@@ -77,8 +77,16 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         lvItems.setPadding(20, 10, 20, 10);
         lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
         lvItems.setDividerHeight(20);
-        // Construct the data source
+        // Construct the data source: MOST RECENT LIMIT 3
         arrayOfActivities = db.getAllActivity();
+        ArrayList<DB_Object> temp = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if (arrayOfActivities.get(i) != null) {
+                temp.add(arrayOfActivities.get(i));
+            }
+        }
+        arrayOfActivities = temp;
+
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
         // Attach cursor adapter to the ListView
         lvItems.setAdapter(dataAdapter);

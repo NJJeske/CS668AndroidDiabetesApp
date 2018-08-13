@@ -25,7 +25,6 @@ public class SearchActivity extends AppCompatActivity {
     private Button searchButton, graphs, lists, stats;
     private EditText fromDate, toDate, fromTime, toTime, keywords, startValue, endValue;
     private CheckBox check_bgl, check_exercise, check_diet, check_medication;
-    DatabaseHelper db;
     private int mYear, mMonth, mDay;
     Calendar c;
     BottomNavigationView navigation;
@@ -34,8 +33,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        db = new DatabaseHelper(this);
 
         // connect buttons to XML & onClick listeners
         searchButton = (Button) findViewById(R.id.Data_search);
@@ -159,43 +156,8 @@ public class SearchActivity extends AppCompatActivity {
                 dpDialog.show();
             }
         });
-
-        fillListView();
         showSharedPreferences();
 
-    }
-
-    /**
-     * Fills the ListView with items from DataAdapter
-     */
-    private void fillListView() {
-        // Find ListView to populate
-        ListView lvItems = (ListView) findViewById(R.id.Data_listView);
-        lvItems.setPadding(20, 10, 20, 10);
-        lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
-        lvItems.setDividerHeight(20);
-        // Construct the data source
-        ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
-        DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
-        // Attach adapter to the ListView
-        lvItems.setAdapter(dataAdapter);
-
-        /**
-         *  Used to get the selected activity for edit
-         */
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-
-                Intent i = new Intent(SearchActivity.this, EditActivity.class);
-                i.putExtra("Data", position);
-                startActivity(i);
-
-            }
-        });
     }
 
     /**
@@ -321,6 +283,5 @@ public class SearchActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         clearSharedPreferences();
-        db.close();
     }
 }
