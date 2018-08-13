@@ -69,18 +69,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateActivity(int id, Activity object) {
+    public void updateActivity(int id, DB_Object object) {
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        Activity act = object;
+        DB_Object act = object;
 
         contentValues.put(colActivityType, act.getActivityType());
         contentValues.put(colDate, act.getDate());
         contentValues.put(colTime, act.getTime());
         contentValues.put(colDescription, act.getDescription());
-        db.update(TABLE_NAME_ACT, contentValues, colActivityId + " = ? ", new String[]{Integer.toString(id)});
+        db.update(TABLE_NAME_ACT, contentValues, "_id =" + id, null);
 
         db.close();
 

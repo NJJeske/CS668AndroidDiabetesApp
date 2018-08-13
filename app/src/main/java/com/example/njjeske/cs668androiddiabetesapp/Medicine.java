@@ -23,7 +23,7 @@ public class Medicine extends AppCompatActivity {
         name = (EditText) findViewById(R.id.Medicine_editText_name);
         value = (EditText) findViewById(R.id.Medicine_editText_value);
         time = (EditText) findViewById(R.id.Medicine_editText_time);
-        submit = (Button) findViewById(R.id.Meal_Submit);
+        submit = (Button) findViewById(R.id.Activity_Edit);
         db = new DatabaseHelper(this);
 
 

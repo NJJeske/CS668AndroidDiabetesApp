@@ -26,6 +26,8 @@
     <string name="bloodGlucoseLevel">Blood Glucose Level</string>
     <string name="value">Value</string>
     <string name="valuehint">90</string>
+    <string name="activityhint">Activity</string>
+    <string name="descriptionhint">Description</string>
     <string name="medicine">Medicine</string>
     <string name="medication">Medication</string>
     <string name="medicationhint">Insulin</string>
@@ -40,6 +42,7 @@
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="add_activity">Add Activity</string>
+    <string name="edit_activity">Edit Activity</string>
     <string name="description">Description:</string>
     <string name="date">Date:</string>
     <string name="welcome">Welcome</string>

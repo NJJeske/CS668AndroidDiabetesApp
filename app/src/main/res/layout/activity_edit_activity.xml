@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context=".EditActivity">
+
+    <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="331dp"
+            android:layout_height="364dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedcorner"
+            android:elevation="8dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+                android:id="@+id/Activity.heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="17dp"
+                android:text="@string/activityhint"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/textView_Heading"/>
+
+        <TextView
+                android:id="@+id/Meal.Time.label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/time"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.time"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+                android:id="@+id/Meal.Amount.label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/date"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.amount"
+                app:layout_constraintEnd_toEndOf="@+id/Meal.Time.label" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+
+        <TextView
+                android:id="@+id/Meal.Name.label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/description"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.name"
+                app:layout_constraintEnd_toEndOf="@+id/Meal.Amount.label"
+                app:layout_constraintTop_toBottomOf="@+id/Activity.heading" app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toStartOf="@+id/Edit.editText.name"/>
+
+        <EditText
+                android:id="@+id/Edit.editText.time"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="@string/timehint"
+                android:inputType="time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/Meal.Time.label"
+                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.amount"
+                app:layout_constraintHorizontal_bias="0.957"/>
+
+        <EditText
+                android:id="@+id/Edit.editText.amount"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="@string/hint_date"
+                app:layout_constraintEnd_toEndOf="@+id/Edit.editText.time"
+                app:layout_constraintStart_toEndOf="@+id/Meal.Amount.label"
+                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.name"
+                app:layout_constraintHorizontal_bias="1.0" android:inputType="date" android:singleLine="false"/>
+
+        <EditText
+                android:id="@+id/Edit.editText.name"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="28dp"
+                android:ems="10"
+                android:hint="@string/descriptionhint"
+                android:inputType="textPersonName|textVisiblePassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/Meal.Name.label"
+                app:layout_constraintTop_toBottomOf="@+id/Activity.heading" app:layout_constraintHorizontal_bias="1.0"/>
+
+        <Button
+                android:id="@+id/Activity.Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.time"
+                style="@style/button_style"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/Meal.Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+    />
+
+</android.support.constraint.ConstraintLayout>

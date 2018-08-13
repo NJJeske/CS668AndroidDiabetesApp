@@ -18,12 +18,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
     private CardView bglCard, foodCard, exerciseCard, medicineCard;
     private TextView welcome, logout;
+    private ListView lvItems;
+    private ArrayList<DB_Object> arrayOfActivities;
     private static final String HOME = "Home";
     DatabaseHelper db;
     BottomNavigationView navigation;
@@ -69,15 +73,32 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     private void fillListView() {
         Log.v("HOME","fillListView()");
         // Find ListView to populate
-        ListView lvItems = (ListView) findViewById(R.id.Home_listView);
+        lvItems = (ListView) findViewById(R.id.Home_listView);
         lvItems.setPadding(20, 10, 20, 10);
         lvItems.setDivider(new ColorDrawable(Color.TRANSPARENT));
         lvItems.setDividerHeight(20);
         // Construct the data source
-        ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
+        arrayOfActivities = db.getAllActivity();
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
         // Attach cursor adapter to the ListView
         lvItems.setAdapter(dataAdapter);
+
+        /**
+         *  Used to get the selected activity for edit
+         */
+        lvItems.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+
+                Intent i = new Intent(Home.this, EditActivity.class);
+                i.putExtra("Data", position);
+                startActivity(i);
+
+            }
+        });
     }
 
     // This method will add main_menu.xml to this activity.

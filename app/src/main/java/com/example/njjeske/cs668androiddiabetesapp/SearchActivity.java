@@ -16,13 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -185,6 +179,23 @@ public class SearchActivity extends AppCompatActivity {
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
         // Attach adapter to the ListView
         lvItems.setAdapter(dataAdapter);
+
+        /**
+         *  Used to get the selected activity for edit
+         */
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+
+                Intent i = new Intent(SearchActivity.this, EditActivity.class);
+                i.putExtra("Data", position);
+                startActivity(i);
+
+            }
+        });
     }
 
     /**
