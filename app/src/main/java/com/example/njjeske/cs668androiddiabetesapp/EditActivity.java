@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.*;
 import android.widget.Toast;
 import android.database.Cursor;
-
+import android.content.Intent;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -136,7 +136,7 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was added.", ""),
                     Toast.LENGTH_SHORT).show();
             clearSharedPreferences();
-            clear();
+
 
             // check if data is actually in db (delete later)
             Cursor cursor = db.getAllData();
@@ -152,14 +152,18 @@ public class EditActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Cannot submit, empty values in text fields.",
                     Toast.LENGTH_SHORT).show();
         }
+
+        clear();
     }
 
 
     private void clear() {
 
-        description.setText(null);
-        date.setText(null);
-        time.setText(null);
+        Intent intent = new Intent(EditActivity.this, Home.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+
     }
 
     private DB_Object getDB_Object(int position) {

@@ -18,6 +18,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String colName = "NAME";
     private static final String colPassword = "PASSWORD";
 
+    private static final String TABLE_REGIMEN = "REGIMEN_DB";
+    private static final String colRegID ="_id";
+    private static final String colRegName = "REG_NAME";
+    private static final String colRegDescription = "REG_DESCRIPTION";
+    private static final String colRegDate = "REG_DATE";
+
     private static final String DATABASE_NAME = "DIABETES_DB";
     private static final String TABLE_NAME_ACT = "ACTIVITY_TABLE";
     private static final String colActivityId = "_id";
@@ -40,6 +46,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + colName + " text primary key, "
                 + colPassword + " text);");
 
+        db.execSQL(" create table " + TABLE_REGIMEN + " ("
+                + colRegID + " integer primary key autoincrement, "
+                + colRegName + " text, "
+                + colRegDescription + " text, "
+                + colRegDate + " text);");
+
         db.execSQL(" create table " + TABLE_NAME_ACT + " ("
                 + colActivityId + " integer primary key autoincrement, "
                 + colActivityType + " text, "
@@ -51,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_LOGIN);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REGIMEN);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ACT);
         onCreate(db);
     }
@@ -71,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateActivity(int id, DB_Object object) {
 
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         DB_Object act = object;
@@ -114,6 +127,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 break;
             case "Medicine":
                 output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
+                break;
+            case "Regimen":
+                output = db.rawQuery("SELECT * from " + TABLE_REGIMEN + " order by " + colRegDate + " desc", null);
                 break;
         }
         return output;
@@ -202,5 +218,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         output.close();
 
         return listItems;
+    }
+
+    public Cursor getRegimenByDate(String date, String userName) {
+        Cursor result = null;
+        SQLiteDatabase db = getWritableDatabase();
+        result = db.rawQuery("Select * from " + TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'", null);
+       // System.out.println("Select * from " + TABLE_REGIMEN + " WHERE USERNAME='" + userName + "' AND DATE like '"+date+"%'");
+        return result;
     }
 }
