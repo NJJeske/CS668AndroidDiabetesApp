@@ -23,7 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
-public class Home extends AppCompatActivity implements View.OnClickListener {
+public class Home extends AppCompatActivity {
     private CardView bglCard, foodCard, exerciseCard, medicineCard;
     private TextView welcome, logout;
     private ListView lvItems;
@@ -49,10 +49,10 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         medicineCard = (CardView) findViewById(R.id.medicine_card);
 
         // Add click listeners to the card
-        bglCard.setOnClickListener(this);
-        foodCard.setOnClickListener(this);
-        exerciseCard.setOnClickListener(this);
-        medicineCard.setOnClickListener(this);
+        bglCard.setOnClickListener(cardOnClickListener);
+        foodCard.setOnClickListener(cardOnClickListener);
+        exerciseCard.setOnClickListener(cardOnClickListener);
+        medicineCard.setOnClickListener(cardOnClickListener);
 
         // Bottom Navigation
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -120,35 +120,33 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
-    /**
-     * Spinner onClick actions
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-        Intent i = new Intent(this, AddActivity.class);
+    private View.OnClickListener cardOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(Home.this, AddActivity.class);
 
-        switch (v.getId()) {
-            case R.id.bgl_card:
-                i.putExtra("SPINNER_SELECT", "BGL");
-                startActivity(i);
-                break;
-            case R.id.food_card:
-                i.putExtra("SPINNER_SELECT", "Food");
-                startActivity(i);
-                break;
-            case R.id.exercise_card:
-                i.putExtra("SPINNER_SELECT", "Exercise");
-                startActivity(i);
-                break;
-            case R.id.medicine_card:
-                i.putExtra("SPINNER_SELECT", "Medicine");
-                startActivity(i);
-                break;
-            default:
-                break;
+            switch (v.getId()) {
+                case R.id.bgl_card:
+                    i.putExtra("SPINNER_SELECT", "BGL");
+                    startActivity(i);
+                    break;
+                case R.id.food_card:
+                    i.putExtra("SPINNER_SELECT", "Food");
+                    startActivity(i);
+                    break;
+                case R.id.exercise_card:
+                    i.putExtra("SPINNER_SELECT", "Exercise");
+                    startActivity(i);
+                    break;
+                case R.id.medicine_card:
+                    i.putExtra("SPINNER_SELECT", "Medicine");
+                    startActivity(i);
+                    break;
+                default:
+                    break;
+            }
         }
-    }
+    };
 
     /**
      * Bottom Navigation actions for onClick
