@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 
+import java.net.SocketPermission;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 
@@ -93,7 +94,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(colDate, act.getDate());
         contentValues.put(colTime, act.getTime());
         contentValues.put(colDescription, act.getDescription());
-        db.update(TABLE_NAME_ACT, contentValues, "_id =" + id, null);
+
+        String where = "_id=?";
+        String[] whereArgs = new String[] {String.valueOf(id)};
+
+        try {
+            db.update(TABLE_NAME_ACT, contentValues, where, whereArgs);
+        }
+        catch (Exception e){
+            String error =  e.getMessage().toString();
+            System.out.println(error);
+        }
 
         db.close();
 
@@ -155,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addUser(User user) {
         // Will need password in db somehow
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(colName, user.getName());
         values.put(colPassword, user.getPassword());
@@ -168,7 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor output;
         User userFound = new User();
         // Will need password in db somehow
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
         if (output.getCount() == 0) {
             System.out.println("User not found!");
