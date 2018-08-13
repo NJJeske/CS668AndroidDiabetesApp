@@ -12,8 +12,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 class DataAdapter extends ArrayAdapter<DB_Object> {
+    // Store a member variable for the data
+    private ArrayList<DB_Object> objects;
+    private Context context;
+
+    private static class ViewHolder {
+        TextView tvType, tvDate, tvTime, tvDescription;
+    }
+
     public DataAdapter(Context context, ArrayList<DB_Object> objects) {
         super(context, 0, objects);
+        this.objects = objects;
+        this.context = context;
     }
 
     @Override
@@ -21,20 +31,35 @@ class DataAdapter extends ArrayAdapter<DB_Object> {
         // Get the data item for this position
         DB_Object activity = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
+        ViewHolder viewHolder; // view lookup cache stored in tag
+        // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_result, parent, false);
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.item_result, parent, false);
+            // Lookup view for data population
+            viewHolder.tvType = (TextView) convertView.findViewById(R.id.ItemResult_Type);
+            viewHolder.tvDate = (TextView) convertView.findViewById(R.id.ItemResult_Date);
+            viewHolder.tvTime = (TextView) convertView.findViewById(R.id.ItemResult_Time);
+            viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.ItemResult_Description);
+            // Cache the viewHolder object inside the fresh view
+            convertView.setTag(viewHolder);
+        } else {
+            // View is being recycled, retrieve the viewHolder object from tag
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        // Lookup view for data population
-        TextView tvType = (TextView) convertView.findViewById(R.id.ItemResult_Type);
-        TextView tvDate = (TextView) convertView.findViewById(R.id.ItemResult_Date);
-        TextView tvTime = (TextView) convertView.findViewById(R.id.ItemResult_Time);
-        TextView tvDescription = (TextView) convertView.findViewById(R.id.ItemResult_Description);
-        // Populate the data into the template view using the data object
-        tvType.setText(activity.getActivityType());
-        tvDate.setText(activity.getDate());
-        tvTime.setText(activity.getTime());
-        tvDescription.setText(activity.getDescription());
+        // Populate the data from the data object via the viewHolder object
+        // into the template view.
+        viewHolder.tvType.setText(activity.getActivityType());
+        viewHolder.tvDate.setText(activity.getDate());
+        viewHolder.tvTime.setText(activity.getTime());
+        viewHolder.tvDescription.setText(activity.getDescription());
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    public void filterList(ArrayList<DB_Object> filteredData) {
+        this.objects = filteredData;
+        notifyDataSetChanged();
     }
 }
