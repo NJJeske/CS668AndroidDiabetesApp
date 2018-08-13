@@ -80,8 +80,8 @@ public class Home extends AppCompatActivity {
         // Construct the data source: MOST RECENT LIMIT 3
         arrayOfActivities = db.getAllActivity();
         ArrayList<DB_Object> temp = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            if (arrayOfActivities.get(i) != null) {
+        for (int i = 0; i < arrayOfActivities.size(); i++) {
+            if (arrayOfActivities.get(i) != null && i < 3) {
                 temp.add(arrayOfActivities.get(i));
             }
         }
