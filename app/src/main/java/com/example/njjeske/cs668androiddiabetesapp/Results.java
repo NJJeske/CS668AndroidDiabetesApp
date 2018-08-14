@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -70,8 +69,8 @@ public class Results extends AppCompatActivity {
         listView.setPadding(20, 10, 20, 10);
         listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
         listView.setDividerHeight(20);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        params.weight=1;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        params.weight = 1;
         listView.setLayoutParams(params);
         contentView.addView(listView);
         //create query string
@@ -84,27 +83,29 @@ public class Results extends AppCompatActivity {
                     sp.getString("keywords", ""),
                     sp.getString("start_val", ""),
                     sp.getString("end_val", ""));
-            System.out.println("RESULTS: submitString - "+submitString);
+            System.out.println("RESULTS: submitString - " + submitString);
             String checkboxString = String.format("%b, %b, %b, %b",
                     sp.getBoolean("bgl_check", false),
                     sp.getBoolean("exercise_check", false),
                     sp.getBoolean("diet_check", false),
                     sp.getBoolean("medication_check", false));
-            System.out.println("RESULTS: CHECKBOXES - "+checkboxString);
+            System.out.println("RESULTS: CHECKBOXES - " + checkboxString);
         } else {
             System.out.println("RESULTS: SharedPreferences Empty");
         }
         // Construct the data source
         // todo MAKE SURE TO CHECK IF EMPTY VALUES IN HELPER METHODS
-        ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
+        ArrayList<DB_Object> arrayOfActivities;
+        // search by keyword first
+        arrayOfActivities = db.getByKeyword(sp.getString("keywords", ""));
 
         // filter all results
         if (sp.getBoolean("bgl_check", false)) {
             Log.v("RESULTS", "FILTERING... w/BGL");
-            arrayOfActivities = filterByType(filterByDate(filterByTime(filterByBglValue(filterByKeyWords(arrayOfActivities)))));
+            arrayOfActivities = filterByType(filterByDate(filterByTime(filterByBglValue(arrayOfActivities))));
         } else {
             Log.v("RESULTS", "FILTERING...");
-            arrayOfActivities = filterByType(filterByDate(filterByTime(filterByKeyWords(arrayOfActivities))));
+            arrayOfActivities = filterByType(filterByDate(filterByTime(arrayOfActivities)));
         }
         DataAdapter dataAdapter = new DataAdapter(this, arrayOfActivities);
 
@@ -391,7 +392,7 @@ public class Results extends AppCompatActivity {
         }
         Double bglValueData2 = Double.parseDouble(bglValueData);
 
-        return (bglValueData2 <= valueFrom || bglValueData2 >= valueTo);
+        return (valueFrom <= bglValueData2 && bglValueData2 <= valueTo);
     }
 
     /**

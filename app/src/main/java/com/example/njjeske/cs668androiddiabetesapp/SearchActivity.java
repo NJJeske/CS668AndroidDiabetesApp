@@ -6,19 +6,21 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SearchActivity extends AppCompatActivity {
@@ -54,6 +56,23 @@ public class SearchActivity extends AppCompatActivity {
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_history);
+
+        // set BGL checkbox listener
+        check_bgl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isChecked()) {
+                    startValue.setEnabled(true);
+                    endValue.setEnabled(true);
+                } else {
+                    startValue.setEnabled(false);
+                    endValue.setEnabled(false);
+                    startValue.getText().clear();
+                    endValue.getText().clear();
+                }
+            }
+
+        });
 
         // set up Calendar for DatePickerDialog
         c = Calendar.getInstance();
@@ -251,10 +270,15 @@ public class SearchActivity extends AppCompatActivity {
             keywords.setText(sp.getString("keywords", ""));
             startValue.setText(sp.getString("start_val", ""));
             endValue.setText(sp.getString("end_val", ""));
-            check_bgl.setChecked(sp.getBoolean("bgl_check", false));
-            check_exercise.setChecked(sp.getBoolean("exercise_check", false));
-            check_diet.setChecked(sp.getBoolean("diet_check", false));
-            check_medication.setChecked(sp.getBoolean("medication_check", false));
+            check_bgl.setChecked(sp.getBoolean("bgl_check", true));
+            check_exercise.setChecked(sp.getBoolean("exercise_check", true));
+            check_diet.setChecked(sp.getBoolean("diet_check", true));
+            check_medication.setChecked(sp.getBoolean("medication_check", true));
+        } else {
+            check_bgl.setChecked(true);
+            check_exercise.setChecked(true);
+            check_diet.setChecked(true);
+            check_medication.setChecked(true);
         }
     }
 

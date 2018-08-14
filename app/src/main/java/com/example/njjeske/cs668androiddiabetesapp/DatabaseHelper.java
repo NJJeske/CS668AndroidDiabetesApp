@@ -2,12 +2,10 @@ package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.Cursor;
 
-import java.net.SocketPermission;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -228,6 +226,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         output.close();
 
+        return listItems;
+    }
+
+    /**
+     * Filter by Keywords
+     *
+     * @param keywords
+     * @return
+     */
+    public ArrayList<DB_Object> getByKeyword(String keywords) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<DB_Object> listItems = new ArrayList<DB_Object>();
+        if (keywords.equals("")) {
+            listItems = getAllActivity();
+        } else {
+            Cursor output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT
+                    + " WHERE DESCRIPTION LIKE '%" + keywords + "%'"
+                    + " order by " + colDate + " desc, " + colTime + " desc", new String[]{});
+            if (output.moveToFirst()) {
+                do {
+                    DB_Object item = new DB_Object();
+                    item.setActivityType(output.getString(1));
+                    item.setDate(output.getString(2));
+                    item.setTime(output.getString(3));
+                    item.setDescription(output.getString(4));
+
+                    listItems.add(item);
+                } while (output.moveToNext());
+            } else {
+                System.out.println("DATABASE HELPER: cursor empty");
+            }
+
+            output.close();
+        }
         return listItems;
     }
 

@@ -1,137 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context=".EditActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".EditActivity"
+    android:background="@drawable/gradient_bluegreen">
 
-    <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="331dp"
-            android:layout_height="364dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/roundedcorner"
-            android:elevation="8dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ImageView
+        android:id="@+id/EditActivity.image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/circlebackground"
+        android:padding="25dp"
+        android:src="@drawable/ic_icons8_diabetes_filled_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-        <TextView
-                android:id="@+id/Activity.heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="17dp"
-                android:text="@string/activityhint"
-                android:textAppearance="@android:style/TextAppearance.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/textView_Heading"/>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/EditActivity.image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-                android:id="@+id/Meal.Time.label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:text="@string/time"
-                android:textAppearance="@android:style/TextAppearance.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.time"
-                app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/Activity.heading"
+            style="@style/textView_Heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/activityhint"
+            android:textAlignment="center" />
 
-        <TextView
-                android:id="@+id/Meal.Amount.label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="@string/date"
-                android:textAppearance="@android:style/TextAppearance.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.amount"
-                app:layout_constraintEnd_toEndOf="@+id/Meal.Time.label" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp"/>
+        <TableRow>
 
-        <TextView
-                android:id="@+id/Meal.Name.label"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/EditActivity.Value.label"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/description"
-                android:textAppearance="@android:style/TextAppearance.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/Edit.editText.name"
-                app:layout_constraintEnd_toEndOf="@+id/Meal.Amount.label"
-                app:layout_constraintTop_toBottomOf="@+id/Activity.heading" app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toStartOf="@+id/Edit.editText.name"/>
+                android:textAlignment="center"
+                android:text="@string/description" />
 
-        <EditText
-                android:id="@+id/Edit.editText.time"
-                android:layout_width="185dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="@string/timehint"
-                android:inputType="time"
-            android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/Meal.Time.label"
-                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.amount"
-                app:layout_constraintHorizontal_bias="0.957"/>
-
-        <EditText
-                android:id="@+id/Edit.editText.amount"
-                android:layout_width="185dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="@string/hint_date"
-            android:focusable="false"
-                app:layout_constraintEnd_toEndOf="@+id/Edit.editText.time"
-                app:layout_constraintStart_toEndOf="@+id/Meal.Amount.label"
-                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.name"
-                app:layout_constraintHorizontal_bias="1.0" android:inputType="date" android:singleLine="false"/>
-
-        <EditText
+            <EditText
                 android:id="@+id/Edit.editText.name"
-                android:layout_width="185dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="28dp"
                 android:ems="10"
-                android:hint="@string/descriptionhint"
-                android:inputType="textPersonName|textVisiblePassword"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/Meal.Name.label"
-                app:layout_constraintTop_toBottomOf="@+id/Activity.heading" app:layout_constraintHorizontal_bias="1.0"/>
+                android:inputType="time" />
+        </TableRow>
 
-        <Button
-                android:id="@+id/Activity.Edit"
-                android:layout_width="wrap_content"
+        <TableRow>
+
+            <TextView
+                android:id="@+id/EditActivity.Date.label"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/submit"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Edit.editText.time"
-                style="@style/button_style"/>
-    </android.support.constraint.ConstraintLayout>
+                android:textAlignment="center"
+                android:text="@string/date" />
+
+            <EditText
+                android:id="@+id/Edit.editText.date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="date" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/EditActivity.Time.label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/time" />
+
+            <EditText
+                android:id="@+id/Edit.editText.time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:focusable="false"
+                android:inputType="time" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/Activity.Edit"
+                style="@style/button_style"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:text="Save" />
+
+            <Button
+                android:id="@+id/Activity.delete"
+                style="@style/button_delete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Delete" />
+        </TableRow>
+    </TableLayout>
 
 </android.support.constraint.ConstraintLayout>

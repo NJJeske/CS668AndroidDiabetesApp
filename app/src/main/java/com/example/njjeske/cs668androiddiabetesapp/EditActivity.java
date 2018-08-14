@@ -4,16 +4,16 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-import android.widget.Toast;
-import android.database.Cursor;
-import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,12 +23,13 @@ public class EditActivity extends AppCompatActivity {
     private EditText description;
     private EditText date;
     private EditText time;
-    private Button submit;
+    private Button submit, deleteBtn;
     private DatabaseHelper db;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private int value;
     private DB_Object object;
     Calendar c;
+    private ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,11 @@ public class EditActivity extends AppCompatActivity {
 
         header = (TextView) findViewById(R.id.Activity_heading);
         description = (EditText) findViewById(R.id.Edit_editText_name);
-        date = (EditText) findViewById(R.id.Edit_editText_amount);
+        date = (EditText) findViewById(R.id.Edit_editText_date);
         time = (EditText) findViewById(R.id.Edit_editText_time);
         submit = (Button) findViewById(R.id.Activity_Edit);
+        deleteBtn = (Button) findViewById(R.id.Activity_delete);
+        img = (ImageView) findViewById(R.id.EditActivity_image);
         db = new DatabaseHelper(this);
 
 
@@ -111,14 +114,35 @@ public class EditActivity extends AppCompatActivity {
             description.setText(object.description);
             date.setText(object.date);
             time.setText(object.time);
+
+            switch (object.activityType) {
+                case "Blood Glucose":
+                    img.setImageResource(R.drawable.ic_icons8_diabetes_filled_24);
+                    break;
+                case "Diet":
+                    img.setImageResource(R.drawable.ic_icons8_vegetarian_food_filled_24);
+                    break;
+                case "Exercise":
+                    img.setImageResource(R.drawable.ic_icons8_walking_filled_24);
+                    break;
+                case "Medication":
+                    img.setImageResource(R.drawable.ic_icons8_pills_filled_24);
+                    break;
+            }
         }
-
-
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submit(v);
+            }
+
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete(v);
             }
 
         });
@@ -132,8 +156,8 @@ public class EditActivity extends AppCompatActivity {
 
 
             db.updateActivity(value, object);
-            Log.v("EDITACTIVITY", String.format(header.getText().toString() + ": %s was added.", ""));
-            Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was added.", ""),
+            Log.v("EDITACTIVITY", String.format(header.getText().toString() + ": %s was saved.", ""));
+            Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was saved.", ""),
                     Toast.LENGTH_SHORT).show();
             clearSharedPreferences();
 
@@ -154,6 +178,46 @@ public class EditActivity extends AppCompatActivity {
         }
 
         clear();
+    }
+
+    private void delete(View v) {
+        int id = object.getId();
+        System.out.println("ID: " + id); // not pulling up an id
+
+        AlertDialog.Builder builder1 =
+                new AlertDialog.Builder(EditActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+        builder1.setTitle("Delete");
+        builder1.setMessage("Are you sure you want to delete?");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                R.string.dialog_yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        System.out.println("TODO DELETE METHOD");
+
+//                        if(db.deleteRowByID(id)){
+//                            Toast.makeText(getApplicationContext(), "Deleted item.",
+//                                    Toast.LENGTH_SHORT).show();
+//                            System.out.println("Deleted item with id "+id);
+//                        } else {
+//                            System.out.println("ERROR: Cannot delete item.");
+//                        }
+//
+//                        clear();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                R.string.dialog_no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog delete_alert = builder1.create();
+        delete_alert.show();
     }
 
 
