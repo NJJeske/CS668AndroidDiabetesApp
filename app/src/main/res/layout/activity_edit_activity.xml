@@ -84,6 +84,7 @@
                 android:ems="10"
                 android:hint="@string/timehint"
                 android:inputType="time"
+            android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Meal.Time.label"
                 app:layout_constraintTop_toBottomOf="@+id/Edit.editText.amount"
@@ -97,6 +98,7 @@
                 android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="@string/hint_date"
+            android:focusable="false"
                 app:layout_constraintEnd_toEndOf="@+id/Edit.editText.time"
                 app:layout_constraintStart_toEndOf="@+id/Meal.Amount.label"
                 app:layout_constraintTop_toBottomOf="@+id/Edit.editText.name"
@@ -131,15 +133,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/Edit.editText.time"
                 style="@style/button_style"/>
     </android.support.constraint.ConstraintLayout>
-
-    <ImageButton
-        android:id="@+id/Meal.Data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-    />
 
 </android.support.constraint.ConstraintLayout>

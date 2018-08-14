@@ -25,6 +25,10 @@ public class DB_Object {
         this.description = description;
     }
 
+    public String toString() {
+        return String.format("%s, %s, %s, %s", activityType, date, time, description);
+    }
+
     public String getActivityType() {
         return activityType;
     }

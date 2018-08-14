@@ -55,24 +55,6 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
         spinner_type = (Spinner) findViewById(R.id.spinner);
         spinner_type.setOnItemSelectedListener(this);
 
-        if (getIntent().getStringExtra("SPINNER_SELECT") != null) {
-            String spinner_select = getIntent().getStringExtra("SPINNER_SELECT");
-            switch (spinner_select) {
-                case "BGL": // blood glucose
-                    spinner_type.setSelection(0);
-                    break;
-                case "Food": // food
-                    spinner_type.setSelection(1);
-                    break;
-                case "Exercise": // exercise
-                    spinner_type.setSelection(2);
-                    break;
-                case "Medicine": // medication
-                    spinner_type.setSelection(3);
-                    break;
-            }
-        }
-
         value = (TextView) findViewById(R.id.AddActivity_Value_label);
         img = (ImageView) findViewById(R.id.AddActivity_image);
         description_editText = (EditText) findViewById(R.id.AddActivity_editText_value);
@@ -135,6 +117,29 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 dpDialog.show();
             }
         });
+
+
+        if (getIntent().getStringExtra("SPINNER_SELECT") != null) {
+            String spinner_select = getIntent().getStringExtra("SPINNER_SELECT");
+            Log.v("ADDACTIVITY", "SPINNER_SELECT: " + spinner_select);
+            switch (spinner_select) {
+                case "BGL": // blood glucose
+                    spinner_type.setSelection(0);
+                    break;
+                case "Food": // food
+                    spinner_type.setSelection(1);
+                    break;
+                case "Exercise": // exercise
+                    spinner_type.setSelection(2);
+                    break;
+                case "Medicine": // medication
+                    spinner_type.setSelection(3);
+                    break;
+            }
+            saveSharedPreferences();
+        } else {
+            Log.v("ADDACTIVITY", "SPINNER_SELECT is NULL");
+        }
 
         showSharedPreferences();
     }
