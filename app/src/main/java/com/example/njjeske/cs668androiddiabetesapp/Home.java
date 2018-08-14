@@ -215,6 +215,7 @@ public class Home extends AppCompatActivity {
                 return true;
             case R.id.contact_us_id:
                 Log.v("HOME", "HOME: Menu > Contact Us SELECTED");
+                startActivity(new Intent(Home.this, Login.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

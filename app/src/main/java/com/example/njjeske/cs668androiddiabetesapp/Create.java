@@ -16,6 +16,7 @@ public class Create extends AppCompatActivity {
     private EditText email, reEnterEmail, pw, reEnterPw;
     private Button createUser;
     private TextView createErrorMsg;
+    private DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class Create extends AppCompatActivity {
         createUser = (Button) findViewById(R.id.create_newUser_btn);
 
         createUser.setOnClickListener(createUserOnClickListener);
+
+        db = new DatabaseHelper(this);
     }
 
     private boolean match() {
@@ -56,13 +59,19 @@ public class Create extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "User Created",
                         Toast.LENGTH_SHORT).show();
 
+                User user = new User();
+                user.setName(userEmail);
+                user.setPassword(userPw);
+                db.addUser(user);
+
                 SharedPreferences.Editor editor = preferences.edit();
 
                 editor.putString(userEmail, userPw);
+                editor.putBoolean("rememberUser", true);
                 editor.commit();
 
-                Intent addActivity = new Intent(Create.this, AddActivity.class);
-                startActivity(addActivity);
+                Intent home = new Intent(Create.this, Home.class);
+                startActivity(home);
 
             } else {
                 createErrorMsg.setText("Email and/or Username does not match");

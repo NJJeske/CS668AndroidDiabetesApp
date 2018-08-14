@@ -58,6 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:gravity="center"
+            android:clickable="true"
+            android:onClick="onClick"
             android:text="@string/no_account_yet_create_one"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
             tools:layout_editor_absoluteX="209dp"
