@@ -34,7 +34,7 @@
             tools:layout_editor_absoluteY="72dp" />
 
         <EditText
-            android:id="@+id/password_login"
+            android:id="@+id/login_password_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
