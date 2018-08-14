@@ -42,7 +42,7 @@
             android:text="@string/btn_stats" />
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/Results.content"
         android:layout_width="match_parent"
         android:layout_height="0dp"

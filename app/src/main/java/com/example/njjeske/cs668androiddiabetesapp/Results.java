@@ -8,6 +8,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,9 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.njjeske.cs668androiddiabetesapp.Fragments.GraphFragment;
+import com.example.njjeske.cs668androiddiabetesapp.Fragments.StatsFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,10 +33,12 @@ import java.util.Arrays;
 public class Results extends AppCompatActivity {
     BottomNavigationView navigation;
     DatabaseHelper db;
-    LinearLayout contentView;
+    FrameLayout contentView;
     Button graphs_btn, lists_btn, stats_btn;
     SharedPreferences sp;
     ListView listView;
+    Fragment fragment;
+    FragmentManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +46,7 @@ public class Results extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         db = new DatabaseHelper(this);
-        contentView = (LinearLayout) findViewById(R.id.Results_content);
+        contentView = (FrameLayout) findViewById(R.id.Results_content);
         graphs_btn = (Button) findViewById(R.id.Results_button_graph);
         lists_btn = (Button) findViewById(R.id.Results_button_list);
         stats_btn = (Button) findViewById(R.id.Results_button_stats);
@@ -49,6 +58,12 @@ public class Results extends AppCompatActivity {
 
         // TODO get info from Shared Preferences for Results
         fillListView();
+//        if (fragment == null) {
+//            fragment = new ListsFragment();
+//            FragmentTransaction transaction = manager.beginTransaction();
+//            transaction.add(R.id.Results_content, fragment);
+//            transaction.commit();
+//        }
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -57,6 +72,9 @@ public class Results extends AppCompatActivity {
         Menu menu = navigation.getMenu();
         MenuItem menuItem = menu.getItem(2); //index of history
         menuItem.setChecked(true);
+
+        manager = getSupportFragmentManager();
+        fragment = manager.findFragmentById(R.id.Results_content);
 
     }
 
@@ -69,10 +87,22 @@ public class Results extends AppCompatActivity {
         listView.setPadding(20, 10, 20, 10);
         listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
         listView.setDividerHeight(20);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
-        params.weight = 1;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         listView.setLayoutParams(params);
         contentView.addView(listView);
+
+        // TODO assignment 4
+//        if (fragment == null) {
+//            fragment = new ListsFragment();
+//            FragmentTransaction transaction = manager.beginTransaction();
+//            transaction.add(R.id.Results_content, fragment);
+//            transaction.commit();
+//        } else {
+//            FragmentTransaction ft = manager.beginTransaction();
+//            ListsFragment listsFragment = new ListsFragment();
+//            ft.replace(R.id.Results_content, listsFragment).commit();
+//        }
+
         //create query string
         if (!sp.equals(null)) {
             String submitString = String.format("%s, %s, %s, %s, %s, %s, %s",
@@ -134,19 +164,22 @@ public class Results extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.Results_button_graph:
+                    listView.setVisibility(View.INVISIBLE);
                     fillGraphsView();
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING GRAPHS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Graphs Button clicked");
                     break;
                 case R.id.Results_button_list:
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.hide(fragment);
+                    transaction.commit();
                     listView.setVisibility(View.VISIBLE);
-                    //TODO assignment 4 hide graphs & stats
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING LISTS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Lists Button clicked");
                     break;
                 case R.id.Results_button_stats:
-                    fillStatsView();
                     listView.setVisibility(View.INVISIBLE);
+                    fillStatsView();
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING STATS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Stats Button clicked");
                     break;
@@ -158,13 +191,31 @@ public class Results extends AppCompatActivity {
     };
 
     private void fillStatsView() {
-        listView.setVisibility(View.INVISIBLE);
         // TODO assignment 4
+        if (fragment == null) {
+            fragment = new StatsFragment();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(R.id.Results_content, fragment);
+            transaction.commit();
+        } else {
+            FragmentTransaction ft = manager.beginTransaction();
+            fragment = new StatsFragment();
+            ft.replace(R.id.Results_content, fragment).commit();
+        }
     }
 
     private void fillGraphsView() {
-        listView.setVisibility(View.INVISIBLE);
         // TODO assignment 4
+        if (fragment == null) {
+            fragment = new GraphFragment();
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(R.id.Results_content, fragment);
+            transaction.commit();
+        } else {
+            FragmentTransaction ft = manager.beginTransaction();
+            fragment = new GraphFragment();
+            ft.replace(R.id.Results_content, fragment).commit();
+        }
     }
 
     /**

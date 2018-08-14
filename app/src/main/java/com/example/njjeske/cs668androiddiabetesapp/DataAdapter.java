@@ -1,8 +1,6 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class DataAdapter extends ArrayAdapter<DB_Object> {
+public class DataAdapter extends ArrayAdapter<DB_Object> {
     // Store a member variable for the data
     private ArrayList<DB_Object> objects;
     private Context context;
