@@ -188,8 +188,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void delete(View v) {
-        int id = object.getId();
-        System.out.println("ID: " + id); // not pulling up an id
+        final int _id = object.getId();
 
         AlertDialog.Builder builder1 =
                 new AlertDialog.Builder(EditActivity.this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
@@ -201,10 +200,9 @@ public class EditActivity extends AppCompatActivity {
                 R.string.dialog_yes,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        System.out.println("TODO DELETE METHOD");
 
-                        if (db.deleteRowByID(id)) {
-                            System.out.println("Deleted item with id " + id);
+                        if (db.deleteRowByID(_id)) {
+                            System.out.println("Deleted item with id " + _id);
                         } else {
                             System.out.println("ERROR: Cannot delete item.");
                         }
