@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -117,15 +118,19 @@ public class EditActivity extends AppCompatActivity {
 
             switch (object.activityType) {
                 case "Blood Glucose":
+                    description.setInputType(InputType.TYPE_CLASS_NUMBER);
                     img.setImageResource(R.drawable.ic_icons8_diabetes_filled_24);
                     break;
                 case "Diet":
+                    description.setInputType(InputType.TYPE_CLASS_TEXT);
                     img.setImageResource(R.drawable.ic_icons8_vegetarian_food_filled_24);
                     break;
                 case "Exercise":
+                    description.setInputType(InputType.TYPE_CLASS_TEXT);
                     img.setImageResource(R.drawable.ic_icons8_walking_filled_24);
                     break;
                 case "Medication":
+                    description.setInputType(InputType.TYPE_CLASS_TEXT);
                     img.setImageResource(R.drawable.ic_icons8_pills_filled_24);
                     break;
             }
@@ -153,10 +158,12 @@ public class EditActivity extends AppCompatActivity {
         if (!description.getText().toString().isEmpty() &&
                 !date.getText().toString().isEmpty() &&
                 !time.getText().toString().isEmpty()) {
-
+            object.setDate(date.getText().toString());
+            object.setTime(time.getText().toString());
+            object.setDescription(description.getText().toString());
 
             db.updateActivity(value, object);
-            Log.v("EDITACTIVITY", String.format(header.getText().toString() + ": %s was saved.", ""));
+            Log.v("EDITACTIVITY", String.format(header.getText().toString() + ": %s was saved.", object.toString()));
             Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was saved.", ""),
                     Toast.LENGTH_SHORT).show();
             clearSharedPreferences();
@@ -196,15 +203,13 @@ public class EditActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         System.out.println("TODO DELETE METHOD");
 
-//                        if(db.deleteRowByID(id)){
-//                            Toast.makeText(getApplicationContext(), "Deleted item.",
-//                                    Toast.LENGTH_SHORT).show();
-//                            System.out.println("Deleted item with id "+id);
-//                        } else {
-//                            System.out.println("ERROR: Cannot delete item.");
-//                        }
-//
-//                        clear();
+                        if (db.deleteRowByID(id)) {
+                            System.out.println("Deleted item with id " + id);
+                        } else {
+                            System.out.println("ERROR: Cannot delete item.");
+                        }
+
+                        clear();
                     }
                 });
 
@@ -230,13 +235,14 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-    private DB_Object getDB_Object(int position) {
+    private DB_Object getDB_Object(int id) {
         ArrayList<DB_Object> arrayOfActivities = db.getAllActivity();
         DB_Object object = new DB_Object();
 
         for (int i = 0; i < arrayOfActivities.size(); i++) {
-            if (position == i) {
+            if (id == arrayOfActivities.get(i).id) {
                 object = arrayOfActivities.get(i);
+                System.out.println("OBJECT RETRIEVED: " + object.toString());
             }
         }
 
@@ -248,6 +254,13 @@ public class EditActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearSharedPreferences();
+        db.close();
     }
 
 }

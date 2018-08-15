@@ -102,7 +102,9 @@ public class Home extends AppCompatActivity {
 
 
                 Intent i = new Intent(Home.this, EditActivity.class);
-                i.putExtra("Data", position);
+                DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
+                System.out.println("Item: " + obj.toString());
+                i.putExtra("Data", obj.getId());
                 startActivity(i);
 
             }

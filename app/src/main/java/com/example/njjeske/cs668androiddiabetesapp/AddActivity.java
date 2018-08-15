@@ -1,33 +1,31 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 
 import java.util.Calendar;
-
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TimePicker;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinner_type;
@@ -203,7 +201,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 Cursor cursor = db.getAllData();
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
-                        Log.v("ADDACTIVITY", "DB DATA: " + String.format("%s, %s, %s, %s", cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
+                        Log.v("ADDACTIVITY", "DB DATA: " + String.format("%d %s, %s, %s, %s", cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4)));
                     } while (cursor.moveToNext());
                 } else {
                     Log.v("ADDACTIVITY", "CURSOR EMPTY");

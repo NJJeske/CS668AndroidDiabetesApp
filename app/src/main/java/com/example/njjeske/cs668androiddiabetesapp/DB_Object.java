@@ -26,7 +26,7 @@ public class DB_Object {
     }
 
     public String toString() {
-        return String.format("%s, %s, %s, %s", activityType, date, time, description);
+        return String.format("ID: %d, TYPE: %s, DATE: %s, TIME: %s, DESC: %s", id, activityType, date, time, description);
     }
 
     public String getActivityType() {

@@ -131,7 +131,9 @@ public class Results extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent i = new Intent(Results.this, EditActivity.class);
-                i.putExtra("Data", position);
+                DB_Object obj = (DB_Object) listView.getItemAtPosition(position);
+                System.out.println("Item: " + obj.toString());
+                i.putExtra("Data", obj.getId());
                 startActivity(i);
 
             }

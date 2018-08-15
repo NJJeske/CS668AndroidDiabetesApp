@@ -1,6 +1,7 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,12 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
         super(context, 0, objects);
         this.objects = objects;
         this.context = context;
+    }
+
+    @Nullable
+    @Override
+    public DB_Object getItem(int position) {
+        return objects.get(position);
     }
 
     @Override
