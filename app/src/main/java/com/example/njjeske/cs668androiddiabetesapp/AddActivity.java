@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -78,19 +79,15 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 mTimePicker = new TimePickerDialog(AddActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String correctMinute = selectedMinute + "";
+                        String correctHour = selectedHour + "";
                         if (selectedMinute < 10) {
-                            if (selectedHour < 10) {
-                                time_editText.setText("0" + selectedHour + ":0" + selectedMinute);
-                            } else {
-                                time_editText.setText(selectedHour + ":0" + selectedMinute);
-                            }
-                        } else {
-                            if (selectedHour < 10) {
-                                time_editText.setText("0" + selectedHour + ":" + selectedMinute);
-                            } else {
-                                time_editText.setText(selectedHour + ":" + selectedMinute);
-                            }
+                            correctMinute = "0" + selectedMinute;
                         }
+                        if (selectedHour < 10) {
+                            correctHour = "0" + selectedHour;
+                        }
+                        time_editText.setText(correctHour + ":" + correctMinute);
 
                     }
                 }, hour, minute, true);
@@ -105,9 +102,13 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                 DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
 
                     @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        date_editText.setText(monthOfYear + 1 + "/" + dayOfMonth + "/" + year);
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, month, day);
 
+                        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                        String strDate = format.format(calendar.getTime());
+                        date_editText.setText(strDate);
                     }
                 };
 
@@ -285,7 +286,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
 
         switch (position) {
             case 0: // blood glucose
-                description_editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                description_editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 value.setText(R.string.value);
                 img.setImageResource(R.drawable.ic_icons8_diabetes_filled_24);
                 break;

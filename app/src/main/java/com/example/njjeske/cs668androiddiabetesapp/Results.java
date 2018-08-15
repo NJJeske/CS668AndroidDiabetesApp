@@ -27,8 +27,12 @@ import android.widget.Toast;
 import com.example.njjeske.cs668androiddiabetesapp.Fragments.GraphFragment;
 import com.example.njjeske.cs668androiddiabetesapp.Fragments.StatsFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 public class Results extends AppCompatActivity {
     BottomNavigationView navigation;
@@ -76,16 +80,18 @@ public class Results extends AppCompatActivity {
      * Fills the ListView with items from DataAdapter
      */
     private void fillListView() {
-        // Create listView programmatically since we change depending on content
-        listView = new ListView(this);
-        listView.setPadding(20, 10, 20, 10);
-        listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
-        listView.setDividerHeight(20);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        listView.setLayoutParams(params);
-        contentView.addView(listView);
+        if (listView == null) {
+            // Create listView programmatically since we change depending on content
+            listView = new ListView(this);
+            listView.setPadding(20, 10, 20, 10);
+            listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
+            listView.setDividerHeight(20);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            listView.setLayoutParams(params);
+            contentView.addView(listView);
+        }
 
-        //create query string
+        //Check SharedPreferences values
         if (!sp.equals(null)) {
             String submitString = String.format("%s, %s, %s, %s, %s, %s, %s",
                     sp.getString("to_date", ""),
@@ -135,7 +141,6 @@ public class Results extends AppCompatActivity {
                 System.out.println("Item: " + obj.toString());
                 i.putExtra("Data", obj.getId());
                 startActivity(i);
-
             }
         });
     }
@@ -217,18 +222,18 @@ public class Results extends AppCompatActivity {
         if (sp != null) {
             for (int i = 0; i < objects.size(); i++) {
                 String type = objects.get(i).getActivityType();
-                Log.v("RESULTS", "Result item: " + type);
+//                Log.v("RESULTS", "Result item: " + type);
                 if (type.equals("Blood Glucose") && sp.getBoolean("bgl_check", false)) {
-                    Log.v("RESULTS", type + " added to results list");
+//                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
                 } else if (type.equals("Exercise") && sp.getBoolean("exercise_check", false)) {
-                    Log.v("RESULTS", type + " added to results list");
+//                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
                 } else if (type.equals("Diet") && sp.getBoolean("diet_check", false)) {
-                    Log.v("RESULTS", type + " added to results list");
+//                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
                 } else if (type.equals("Medication") && sp.getBoolean("medication_check", false)) {
-                    Log.v("RESULTS", type + " added to results list");
+//                    Log.v("RESULTS", type + " added to results list");
                     filteredDataByType.add(objects.get(i));
                 }
             }
@@ -283,6 +288,8 @@ public class Results extends AppCompatActivity {
                     !isAfterTime(toTime, objects.get(i).getTime()))
                 filteredTime.add(objects.get(i));
         }
+
+        Log.v("RESULTS", "TIME - Ending List Size: " + filteredTime.size());
         return filteredTime;
     }
 
@@ -295,38 +302,18 @@ public class Results extends AppCompatActivity {
     private ArrayList<DB_Object> filterByBglValue(ArrayList<DB_Object> objects) {
         Log.v("RESULTS", "FILTERING BY BGL VALUE");
         Log.v("RESULTS", "BGL VAL - Starting List Size: " + objects.size());
-        ArrayList<DB_Object> filterdBglValue = new ArrayList<>();
+        ArrayList<DB_Object> filteredBglValue = new ArrayList<>();
         for (int i = 0; i < objects.size(); i++) {
             if (objects.get(i).getActivityType().equals("Blood Glucose")) {
                 if (isBetweenBglValue(sp.getString("start_val", ""), objects.get(i).getDescription(), sp.getString("end_val", ""))) {
-                    filterdBglValue.add(objects.get(i));
+                    filteredBglValue.add(objects.get(i));
                 }
             } else {
-                filterdBglValue.add(objects.get(i));
+                filteredBglValue.add(objects.get(i));
             }
         }
-        return filterdBglValue;
-    }
-
-    /**
-     * SEARCH HELPER: Filter database results by keywords
-     *
-     * @param objects
-     * @return filtered list of keywords
-     */
-    private ArrayList<DB_Object> filterByKeyWords(ArrayList<DB_Object> objects) {
-        Log.v("RESULTS", "FILTERING BY KEYWORDS");
-        Log.v("RESULTS", "KEYWORDS - Starting List Size: " + objects.size());
-        ArrayList<DB_Object> filteredKeyWords = new ArrayList<>();
-        String containsKeywords = sp.getString("keywords", "");
-        for (int i = 0; i < objects.size(); i++) {
-            if (!objects.get(i).getActivityType().equals("Blood Glucose")) {
-                if (containsWords(containsKeywords, objects.get(i).getDescription())) {
-                    filteredKeyWords.add(objects.get(i));
-                }
-            } else filteredKeyWords.add(objects.get(i));
-        }
-        return filteredKeyWords;
+        Log.v("RESULTS", "BGL VAL - Ending List Size: " + filteredBglValue.size());
+        return filteredBglValue;
     }
 
     /**
@@ -340,17 +327,28 @@ public class Results extends AppCompatActivity {
         if (fromDate.equals("")) {
             return true;
         }
-        String[] dateOne = fromDate.split("/");
-        String[] dateTwo = dataBaseDate.split("/");
-        if (Integer.parseInt(dateOne[2]) > Integer.parseInt(dateTwo[2])) {
-            return false;
-        } else if (Integer.parseInt(dateOne[2]) < Integer.parseInt(dateTwo[2])) {
-            return true;
-        } else if (Integer.parseInt(dateOne[0]) > Integer.parseInt(dateTwo[0])) {
-            return false;
-        } else if (Integer.parseInt(dateOne[0]) < Integer.parseInt(dateTwo[0])) {
-            return true;
-        } else return Integer.parseInt(dateOne[1]) <= Integer.parseInt(dateTwo[1]);
+        try {
+            Date start = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                    .parse(fromDate);
+            Date end = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                    .parse(dataBaseDate);
+
+            System.out.println(start);
+            System.out.println(end);
+
+            if (start.compareTo(end) > 0) {
+//                System.out.println("isAfterDate: fromDate is after dbDate");
+                return false;
+            } else if (start.compareTo(end) <= 0) {
+//                System.out.println("isAfterDate: fromDate is before dbDate");
+                return true;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("isAfterDate failed...");
+        return false;
 
     }
 
@@ -365,17 +363,28 @@ public class Results extends AppCompatActivity {
         if (toDate.equals("")) {
             return true;
         }
-        String[] dateOne = toDate.split("/");
-        String[] dateTwo = dataBaseDate.split("/");
-        if (Integer.parseInt(dateOne[2]) < Integer.parseInt(dateTwo[2])) {
-            return false;
-        } else if (Integer.parseInt(dateOne[2]) > Integer.parseInt(dateTwo[2])) {
-            return true;
-        } else if (Integer.parseInt(dateOne[0]) < Integer.parseInt(dateTwo[0])) {
-            return false;
-        } else if (Integer.parseInt(dateOne[0]) > Integer.parseInt(dateTwo[0])) {
-            return true;
-        } else return Integer.parseInt(dateOne[1]) >= Integer.parseInt(dateTwo[1]);
+        try {
+            Date start = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                    .parse(dataBaseDate);
+            Date end = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                    .parse(toDate);
+
+            System.out.println(start);
+            System.out.println(end);
+
+            if (start.compareTo(end) > 0) {
+//                System.out.println("isBeforeDate: dataBaseDate is after toDate");
+                return false;
+            } else if (start.compareTo(end) <= 0) {
+//                System.out.println("isBeforeDate: dataBaseDate is before toDate");
+                return true;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("isBeforeDate failed...");
+        return false;
     }
 
     /**
@@ -486,6 +495,12 @@ public class Results extends AppCompatActivity {
     public void onBackPressed() {
         navigation.setSelectedItemId(R.id.navigation_history);
         clearSharedPreferences();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fillListView(); // if you come back from EditActivity
     }
 
     @Override

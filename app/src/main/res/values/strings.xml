@@ -66,4 +66,7 @@
     <string name="no_account_yet_create_one">No account yet? Create One</string>
     <string name="email">Email</string>
     <string name="login">Login</string>
+    <string name="add_regimen">Add Regimen</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

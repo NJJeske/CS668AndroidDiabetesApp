@@ -25,6 +25,14 @@ public class DB_Object {
         this.description = description;
     }
 
+    // regimen
+    public DB_Object(int id, String activityType, String time, String description) {
+        this.id = id;
+        this.activityType = activityType;
+        this.time = time;
+        this.description = description;
+    }
+
     public String toString() {
         return String.format("ID: %d, TYPE: %s, DATE: %s, TIME: %s, DESC: %s", id, activityType, date, time, description);
     }

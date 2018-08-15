@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,8 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -64,19 +70,15 @@ public class EditActivity extends AppCompatActivity {
                 mTimePicker = new TimePickerDialog(EditActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String correctMinute = selectedMinute + "";
+                        String correctHour = selectedHour + "";
                         if (selectedMinute < 10) {
-                            if (selectedHour < 10) {
-                                time.setText("0" + selectedHour + ":0" + selectedMinute);
-                            } else {
-                                time.setText(selectedHour + ":0" + selectedMinute);
-                            }
-                        } else {
-                            if (selectedHour < 10) {
-                                time.setText("0" + selectedHour + ":" + selectedMinute);
-                            } else {
-                                time.setText(selectedHour + ":" + selectedMinute);
-                            }
+                            correctMinute = "0" + selectedMinute;
                         }
+                        if (selectedHour < 10) {
+                            correctHour = "0" + selectedHour;
+                        }
+                        time.setText(correctHour + ":" + correctMinute);
 
                     }
                 }, hour, minute, true);
@@ -92,8 +94,13 @@ public class EditActivity extends AppCompatActivity {
                 DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
 
                     @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        date.setText(monthOfYear + 1 + "/" + dayOfMonth + "/" + year);
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, month, day);
+
+                        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+                        String strDate = format.format(calendar.getTime());
+                        date.setText(strDate);
 
                     }
                 };
@@ -118,7 +125,7 @@ public class EditActivity extends AppCompatActivity {
 
             switch (object.activityType) {
                 case "Blood Glucose":
-                    description.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    description.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     img.setImageResource(R.drawable.ic_icons8_diabetes_filled_24);
                     break;
                 case "Diet":
@@ -139,6 +146,13 @@ public class EditActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!(Double.parseDouble(description.getText().toString()) < 40.0 ||
+                        Double.parseDouble(description.getText().toString()) > 600.0)) {
+                    submit(v);
+                } else {
+                    Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
+                            Toast.LENGTH_SHORT).show();
+                }
                 submit(v);
             }
 
@@ -165,7 +179,7 @@ public class EditActivity extends AppCompatActivity {
             db.updateActivity(value, object);
             Log.v("EDITACTIVITY", String.format(header.getText().toString() + ": %s was saved.", object.toString()));
             Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was saved.", ""),
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
             clearSharedPreferences();
 
 
@@ -203,6 +217,8 @@ public class EditActivity extends AppCompatActivity {
 
                         if (db.deleteRowByID(_id)) {
                             System.out.println("Deleted item with id " + _id);
+                            Toast.makeText(getApplicationContext(), String.format(header.getText().toString() + " %s was Deleted.", ""),
+                                    Toast.LENGTH_LONG).show();
                         } else {
                             System.out.println("ERROR: Cannot delete item.");
                         }
@@ -225,12 +241,7 @@ public class EditActivity extends AppCompatActivity {
 
 
     private void clear() {
-
-        Intent intent = new Intent(EditActivity.this, Home.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT", true);
-        startActivity(intent);
-
+        finish();
     }
 
     private DB_Object getDB_Object(int id) {

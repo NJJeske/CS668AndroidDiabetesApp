@@ -22,21 +22,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
-        <activity
-            android:name=".BGL"
-            android:label="Blood Glucose"
-            android:parentActivityName=".Home" />
-        <activity
-            android:name=".Exercise"
-            android:label="Exercise"
-            android:parentActivityName=".Home" />
-        <activity
-            android:name=".Medicine"
-            android:label="Medicine"
-            android:parentActivityName=".Home" />
         <activity
                 android:name=".EditActivity"
                 android:label="Edit an Activity"
@@ -69,6 +56,14 @@
             android:name=".Home"
             android:label="Home"
             android:parentActivityName=".Login" />
+        <activity
+            android:name=".AddRegimen"
+            android:label="Add a Regimen"
+            android:parentActivityName=".Regimen" />
+        <activity
+            android:name=".EditRegimen"
+            android:label="Edit Regimen"
+            android:parentActivityName=".Regimen" />
 
     </application>
 

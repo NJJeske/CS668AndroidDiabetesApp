@@ -243,8 +243,8 @@ public class SearchActivity extends AppCompatActivity {
     public void saveSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("to_date", fromDate.getText().toString());
-        editor.putString("from_date", toDate.getText().toString());
+        editor.putString("from_date", fromDate.getText().toString());
+        editor.putString("to_date", toDate.getText().toString());
         editor.putString("to_time",toTime.getText().toString());
         editor.putString("from_time",fromTime.getText().toString());
         editor.putString("keywords", keywords.getText().toString());
@@ -263,8 +263,8 @@ public class SearchActivity extends AppCompatActivity {
     public void showSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("searchActivityInfo", Context.MODE_PRIVATE);
         if (!sp.equals(null)) {
-            fromDate.setText(sp.getString("to_date", ""));
-            toDate.setText(sp.getString("from_date", ""));
+            fromDate.setText(sp.getString("from_date", ""));
+            toDate.setText(sp.getString("to_date", ""));
             fromTime.setText(sp.getString("from_time",""));
             toTime.setText(sp.getString("to_time",""));
             keywords.setText(sp.getString("keywords", ""));

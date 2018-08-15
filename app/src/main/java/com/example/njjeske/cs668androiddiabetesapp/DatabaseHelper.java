@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String colRegID ="_id";
     private static final String colRegName = "REG_NAME";
     private static final String colRegDescription = "REG_DESCRIPTION";
-    private static final String colRegDate = "REG_DATE";
+    private static final String colRegTime = "REG_TIME";
 
     private static final String DATABASE_NAME = "DIABETES_DB";
     private static final String TABLE_NAME_ACT = "ACTIVITY_TABLE";
@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + colRegID + " integer primary key autoincrement, "
                 + colRegName + " text, "
                 + colRegDescription + " text, "
-                + colRegDate + " text);");
+                + colRegTime + " text);");
 
         db.execSQL(" create table " + TABLE_NAME_ACT + " ("
                 + colActivityId + " integer primary key autoincrement, "
@@ -81,6 +81,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void insertRegimen(String activityType, String time, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(colRegName, activityType);
+        contentValues.put(colRegDescription, description);
+        contentValues.put(colRegTime, time);
+        db.insert(TABLE_REGIMEN, null, contentValues);
+
+        db.close();
+    }
+
     public void updateActivity(int id, DB_Object object) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -101,6 +114,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         catch (Exception e){
             String error =  e.getMessage().toString();
+            System.out.println(error);
+        }
+
+        db.close();
+
+
+    }
+
+    public void updateRegimen(int id, DB_Object object) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        DB_Object act = object;
+
+        contentValues.put(colRegName, act.getActivityType());
+        contentValues.put(colRegTime, act.getTime());
+        contentValues.put(colRegDescription, act.getDescription());
+
+        String where = "_id = ?";
+        String[] whereArgs = new String[]{String.valueOf(id)};
+
+        try {
+            db.update(TABLE_REGIMEN, contentValues, where, whereArgs);
+        } catch (Exception e) {
+            String error = e.getMessage().toString();
             System.out.println(error);
         }
 
@@ -138,7 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 output = db.rawQuery("SELECT * from " + TABLE_NAME_ACT + " WHERE ACTIVITY_TYPE='" + activity + "'", null);
                 break;
             case "Regimen":
-                output = db.rawQuery("SELECT * from " + TABLE_REGIMEN + " order by " + colRegDate + " desc", null);
+                output = db.rawQuery("SELECT * from " + TABLE_REGIMEN + " order by " + colRegTime + " desc", null);
                 break;
         }
         return output;
@@ -157,6 +196,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         int output = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
+        return output != 0;
+
+
+    }
+
+    public boolean deleteRowByID(int id, String table) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        int output;
+        if (table.equals("Regimen")) {
+            output = db.delete(TABLE_REGIMEN, colRegID + "=" + id, null);
+        } else if (table.equals("Activity")) {
+            output = db.delete(TABLE_NAME_ACT, colActivityId + "=" + id, null);
+        } else {
+            return false;
+        }
+
         return output != 0;
 
 
@@ -279,6 +335,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             output.close();
         }
+        return listItems;
+    }
+
+    /**
+     * Returns all activities from the database for ArrayAdapter use in ListView
+     */
+    public ArrayList<DB_Object> getAllRegimen() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<DB_Object> listItems = new ArrayList<DB_Object>();
+        Cursor output = db.rawQuery("SELECT * from " + TABLE_REGIMEN + " order by " + colRegTime + " desc", new String[]{});
+
+        if (output.moveToFirst()) {
+            do {
+                DB_Object item = new DB_Object();
+                item.setId(output.getInt(0));
+                item.setActivityType(output.getString(1));
+                item.setDescription(output.getString(2));
+                item.setTime(output.getString(3));
+
+                listItems.add(item);
+            } while (output.moveToNext());
+        } else {
+            System.out.println("DATABASE HELPER: cursor empty");
+        }
+
+        output.close();
+
         return listItems;
     }
 

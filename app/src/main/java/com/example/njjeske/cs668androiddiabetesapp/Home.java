@@ -99,14 +99,11 @@ public class Home extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-
                 Intent i = new Intent(Home.this, EditActivity.class);
                 DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
                 System.out.println("Item: " + obj.toString());
                 i.putExtra("Data", obj.getId());
                 startActivity(i);
-
             }
         });
     }
@@ -231,6 +228,12 @@ public class Home extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fillListView(); // if you come back from EditActivity
     }
 
     @Override

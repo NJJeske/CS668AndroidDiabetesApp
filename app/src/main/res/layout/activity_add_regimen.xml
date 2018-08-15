@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".EditActivity"
+    tools:context=".AddRegimen"
     android:background="@drawable/gradient_bluegreen">
 
     <LinearLayout
+        android:id="@+id/AddRegimen.content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -21,80 +22,62 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/EditActivity.image"
+            android:id="@+id/AddRegimen.image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/circlebackground"
+            android:gravity="center"
             android:padding="25dp"
             android:src="@drawable/ic_icons8_diabetes_filled_24" />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:stretchColumns="*"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/EditActivity.image">
+            app:layout_constraintTop_toBottomOf="@id/AddRegimen.image">
 
-            <TextView
-                android:id="@+id/Activity.heading"
-                style="@style/textView_Heading"
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@string/activityhint"
-                android:textAlignment="center" />
+                android:entries="@array/activity_array"
+                android:text="Category:" />
 
             <TableRow>
 
                 <TextView
-                    android:id="@+id/EditActivity.Value.label"
+                    android:id="@+id/AddRegimen.Value.label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/description"
                     android:textAlignment="center" />
 
                 <EditText
-                    android:id="@+id/Edit.editText.name"
+                    android:id="@+id/AddRegimen.editText.value"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="time" />
+                    android:inputType="text" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:id="@+id/EditActivity.Date.label"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date"
-                    android:textAlignment="center" />
-
-                <EditText
-                    android:id="@+id/Edit.editText.date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:inputType="date" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/EditActivity.Time.label"
+                    android:id="@+id/AddRegimen.Time.label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/time"
                     android:textAlignment="center" />
 
                 <EditText
-                    android:id="@+id/Edit.editText.time"
+                    android:id="@+id/AddRegimen.editText.time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -102,28 +85,22 @@
                     android:inputType="time" />
             </TableRow>
 
-            <TableRow>
+            <LinearLayout
+                android:id="@+id/AddRegimen.buttonRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/Activity.Edit"
+                    android:id="@+id/AddRegimen.Submit"
                     style="@style/button_style"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:layout_weight="1"
                     android:text="@string/save" />
-
-                <Button
-                    android:id="@+id/Activity.delete"
-                    style="@style/button_delete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/delete" />
-            </TableRow>
+            </LinearLayout>
         </TableLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
