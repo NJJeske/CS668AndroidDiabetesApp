@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String password = "password";
 
     private static final String TABLE_NAME_LOGIN = "LOGIN_DB";
+    private static final String colEmail = "EMAIL";
     private static final String colName = "NAME";
     private static final String colPassword = "PASSWORD";
 
@@ -42,8 +43,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         db.execSQL(" create table " + TABLE_NAME_LOGIN + " ("
-                + colName + " text primary key, "
-                + colPassword + " text);");
+                + colEmail + " text primary key, "
+                + colPassword + " text, "
+                + colName + " text);");
 
         db.execSQL(" create table " + TABLE_REGIMEN + " ("
                 + colRegID + " integer primary key autoincrement, "
@@ -222,43 +224,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Will need password in db somehow
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(colName, user.getName());
+        values.put(colEmail, user.getEmail());
         values.put(colPassword, user.getPassword());
+        values.put(colName, user.getName());
         db.insert(TABLE_NAME_LOGIN, null, values);
         db.close();
     }
 
-    public boolean isUserRegistered(String userName) {
+    public boolean isUserRegistered(String email) {
         boolean registered = false;
         Cursor output;
-        User userFound = new User();
         // Will need password in db somehow
         SQLiteDatabase db = this.getWritableDatabase();
-        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
+        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colEmail + " = '" + email + "'", null);
         if (output.getCount() == 0) {
             System.out.println("User not found!");
             registered = false;
         } else {
-            registered = true;
             while (output.moveToNext()) {
-                userFound.setName(output.getString(0));
-                userFound.setPassword(output.getString(1));
+                if (output.getString(0).equals(email)) {//multiple users created
+                    System.out.println("Email (" + email + ") found!");
+                    registered = true;
+                }
             }
         }
         output.close();
         return registered;
     }
 
-    public User getUserByUserName(String userName) {
+    public User getUserByEmail(String email) {
         Cursor output;
         User userFound = new User();
         SQLiteDatabase db = getWritableDatabase();
-        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
+        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colEmail + " = '" + email + "'", null);
         if (output.getCount() == 0) {
             System.out.println("No Records");
         } else {
             while (output.moveToNext()) {
-                userFound.setName(output.getString(0));
+                userFound.setEmail(output.getString(0));
                 userFound.setPassword(output.getString(1));
             }
         }

@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.regex.Pattern;
+
 public class Create extends AppCompatActivity {
 
-    private EditText email, reEnterEmail, pw, reEnterPw;
+    private EditText email, password, name_editText;
     private Button createUser;
-    private TextView createErrorMsg;
+    private TextView createErrorMsg, createPasswordRequirements;
+    private CheckBox rememberMe;
     private DatabaseHelper db;
 
     @Override
@@ -24,58 +28,99 @@ public class Create extends AppCompatActivity {
 
         //EditText Views
         email = (EditText) findViewById(R.id.create_new_email);
-        reEnterEmail = (EditText) findViewById(R.id.create_re_enter_email);
-        pw = (EditText) findViewById(R.id.create_pw);
-        reEnterPw = (EditText) findViewById(R.id.create_re_enter_pw);
+        name_editText = (EditText) findViewById(R.id.create_name);
+        password = (EditText) findViewById(R.id.create_pw);
+
         //Error Message
         createErrorMsg = (TextView) findViewById(R.id.create_error_msg);
+        createPasswordRequirements = (TextView) findViewById(R.id.create_pw_requirements);
+        createPasswordRequirements.setVisibility(View.INVISIBLE);
         //Button
         createUser = (Button) findViewById(R.id.create_newUser_btn);
-
         createUser.setOnClickListener(createUserOnClickListener);
+
+        rememberMe = (CheckBox) findViewById(R.id.login_checkBox_rememberMe);
 
         db = new DatabaseHelper(this);
     }
 
-    private boolean match() {
-        String uEmail, uReEmail, uPw, uRePw;
-        uEmail = email.getText().toString();
-        uReEmail = reEnterEmail.getText().toString();
-        uPw = pw.getText().toString();
-        uRePw = reEnterPw.getText().toString();
+    public boolean isValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
 
-        return (uEmail.equals(uReEmail) && uPw.equals(uRePw));
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 
-    private boolean matchEmail() {
-        String uEmail, uReEmail, uPw, uRePw;
-        uEmail = email.getText().toString();
-        uReEmail = reEnterEmail.getText().toString();
+    private boolean checkNotEmpty() {
+        return email.length() > 0 &&
+                name_editText.length() > 0 &&
+                password.length() > 0;
+    }
 
-        return (uEmail.equals(uReEmail));
+    private boolean allChecks() {
+        String errMsg = "";
+        boolean passesAll = false;
+        if (checkNotEmpty() &&
+                password.length() >= 4 &&
+                isValid(email.getText().toString())) {
+            createPasswordRequirements.setVisibility(View.INVISIBLE);
+            passesAll = true;
+        } else {
+            if (!checkNotEmpty()) {
+                errMsg += "Name, email, or password is empty. Please fill it in.";
+                if (password.length() < 4) {
+                    createPasswordRequirements.setVisibility(View.VISIBLE);
+                } else {
+                    createPasswordRequirements.setVisibility(View.INVISIBLE);
+                }
+                if (!isValid(email.getText().toString())) {
+                    errMsg += "\n";
+                    errMsg += "Email not in valid form (abc@email.com).";
+                }
+            } else {
+                if (password.length() < 4) {
+                    createPasswordRequirements.setVisibility(View.VISIBLE);
+                } else {
+                    createPasswordRequirements.setVisibility(View.INVISIBLE);
+                }
+                if (!isValid(email.getText().toString())) {
+                    errMsg += "Email not in valid form (abc@email.com).";
+                }
+            }
+        }
+        createErrorMsg.setText(errMsg);
+        return passesAll;
     }
 
     private View.OnClickListener createUserOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (match()) {
-                SharedPreferences preferences = getSharedPreferences("USERPREFS", MODE_PRIVATE);
+            if (allChecks()) {
+                SharedPreferences preferences = getSharedPreferences("userInfo", MODE_PRIVATE);
                 String userEmail = email.getText().toString();
-                String userPw = pw.getText().toString();
+                String userName = name_editText.getText().toString();
+                String userPw = password.getText().toString();
 
                 if (!db.isUserRegistered(userEmail)) {
                     Toast.makeText(getApplicationContext(), "User Created",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
 
-                    User user = new User();
-                    user.setName(userEmail);
-                    user.setPassword(userPw);
+                    User user = new User(userEmail, userName, userPw);
                     db.addUser(user);
 
                     SharedPreferences.Editor editor = preferences.edit();
 
-                    editor.putString(userEmail, userPw);
-                    editor.putBoolean("rememberUser", true);
+                    editor.putString("email", userEmail);
+                    editor.putString("userName", userName);
+                    editor.putBoolean("loggedIn", true);
+                    if (rememberMe.isChecked())
+                        editor.putString("checkBox", "checked");
+                    else editor.putString("checkBox", "");
                     editor.commit();
 
                     Intent home = new Intent(Create.this, Home.class);
@@ -84,10 +129,6 @@ public class Create extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "User already created. Please login on previous page.",
                             Toast.LENGTH_SHORT).show();
                 }
-            } else if (!matchEmail()) {
-                createErrorMsg.setText("Email does not match.");
-            } else {
-                createErrorMsg.setText("Email and/or Username does not match.");
             }
 
         }

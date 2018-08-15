@@ -19,68 +19,30 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <TextView
-            android:id="@+id/create_email_text"
+        <EditText
+            android:id="@+id/create_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/textview"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="text"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="16dp"
-            tools:text="New User Email" />
-
+            tools:layout_editor_absoluteY="55dp" />
         <EditText
             android:id="@+id/create_new_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/name_email_com"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="55dp" />
-
-        <EditText
-            android:id="@+id/create_re-enter_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/re_enter_email"
-            android:inputType="textEmailAddress"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".504"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="109dp" />
-
-        <TextView
-            android:id="@+id/create_pw_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/textview"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="163dp"
-            tools:text="New User Password" />
-
-        <TextView
-            android:id="@+id/create_pw_requirements"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:text="@string/textview"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="198dp"
-            tools:text="Password: Must be at least (4) characters in length"
-            tools:textColor="#ff0000" />
 
         <EditText
             android:id="@+id/create_pw"
@@ -94,17 +56,23 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="231dp" />
 
-        <EditText
-            android:id="@+id/create_re-enter_pw"
+        <CheckBox
+            android:id="@+id/login_checkBox_rememberMe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/re_enter_password"
-            android:inputType="textPassword"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:text="Remember Me" />
+
+        <TextView
+            android:id="@+id/create_pw_requirements"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Password: Must be at least (4) characters in length."
+            android:textColor="@android:color/holo_red_dark"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.508"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="285dp" />
+            tools:layout_editor_absoluteY="198dp" />
 
         <TextView
             android:id="@+id/create_error_msg"

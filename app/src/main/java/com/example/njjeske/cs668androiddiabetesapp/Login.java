@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.w3c.dom.Text;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -19,7 +17,7 @@ import java.io.File;
 
 public class Login extends AppCompatActivity {
 
-    private EditText email, pw;
+    private EditText email, password;
     private TextView create;
     private Button login;
     private CheckBox rememberMe;
@@ -31,7 +29,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         email = (EditText) findViewById(R.id.login_email_login);
-        pw = (EditText) findViewById(R.id.login_password_login);
+        password = (EditText) findViewById(R.id.login_password_login);
         login = (Button) findViewById(R.id.login_button);
         create = (TextView) findViewById(R.id.createAccount_login);
         rememberMe = (CheckBox) findViewById(R.id.login_checkBox_rememberMe);
@@ -43,46 +41,25 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //See if user exists
-                if (!db.isUserRegistered(email.getText().toString())) {
-                    Toast.makeText(getApplicationContext(), "User not registered", Toast.LENGTH_SHORT).show();
-                } else {
-                    User user;
-                    user = db.getUserByUserName(email.getText().toString());
-                    if (user.getPassword().equals(pw.getText().toString())) {
-                        Intent intent = new Intent(Login.this, Home.class);
-                        intent.putExtra("userName", user.getName());
-                        startActivity(intent);
+                if (checkNotEmpty()) {
+                    //See if user exists
+                    if (!db.isUserRegistered(email.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "User not registered", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Password incorrect", Toast.LENGTH_SHORT).show();
+                        User user;
+                        user = db.getUserByEmail(email.getText().toString());
+                        if (user.getPassword().equals(password.getText().toString())) {
+                            saveSharedPreferences(true);
+                            Intent intent = new Intent(Login.this, Home.class);
+                            intent.putExtra("userName", user.getName());
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Password incorrect", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
         });
-
-//                SharedPreferences preferences = getSharedPreferences("USERPREFS", MODE_PRIVATE);
-//                User user = new User();
-//                user.setName(email.getText().toString());
-//                user.setPassword(pw.getText().toString());
-//                boolean registered = db.isUserRegistered(user.getName());
-//
-//                if (registered) {
-//                    if (rememberMe.isChecked()) {
-//                        SharedPreferences.Editor editor = preferences.edit();
-//
-//                        email.setText(db.getUserByUserName(user.getName()).toString());
-//                        editor.putString(email.getText().toString(), pw.getText().toString());
-//                        editor.putBoolean("rememberUser", true);
-//                        editor.commit();
-//                    }
-//
-//                    Intent home = new Intent(Login.this, Home.class);
-//                    startActivity(home);
-//                }
-
-//            }
-//        });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +72,19 @@ public class Login extends AppCompatActivity {
 
     }
 
+    private boolean checkNotEmpty() {
+        if (!email.getText().toString().equals("") &&
+                !password.getText().toString().equals("")) {
+            System.out.println("Fields not empty");
+            return true;
+        } else {
+            System.out.println("Fields empty");
+            Toast.makeText(getApplicationContext(), "Email or password is empty. Please fill it in.",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
     private void SQLCipherInit() {
         SQLiteDatabase.loadLibs(this);
         File dbFile = getDatabasePath("DIABETES_DB.db");
@@ -104,27 +94,31 @@ public class Login extends AppCompatActivity {
         db.close();
     }
 
-    //use this inside onPause()
-    public void saveSharedPreferences() {
+    //use this inside onPause() & login onClickListener
+    public void saveSharedPreferences(boolean loggingIn) {
         SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("name", email.getText().toString());
-        editor.putString("password", pw.getText().toString());
-        editor.putBoolean("loggedin", true);
+        editor.putString("email", email.getText().toString());
+        editor.putString("password", password.getText().toString());
+        if (loggingIn) {
+            editor.putBoolean("loggedIn", true);
+            editor.putString("password", ""); //never remember password
+        }
+
         if (rememberMe.isChecked())
             editor.putString("checkBox", "checked");
         else editor.putString("checkBox", "");
         editor.commit();
     }
 
-    //use this inside onCreate()
+    //use this inside onCreate() to go directly to Home
     public void showSharedPreferences() {
         SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
 
-        Boolean islog = sp.getBoolean("loggedin", false);
+        Boolean islog = sp.getBoolean("loggedIn", false);
         if (islog) {
             if (sp.getString("checkBox", "").equals("checked")) {
-                //rememberMe.setChecked(true);
+                // go directly to Home
                 Intent intent = new Intent(Login.this, Home.class);
                 intent.putExtra("userName", sp.getString("name", ""));
                 startActivity(intent);
@@ -137,13 +131,27 @@ public class Login extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if (rememberMe.isChecked()) {
-            saveSharedPreferences();
+            saveSharedPreferences(false);
         } else {
             SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.clear();
             editor.commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
     }
 
 }

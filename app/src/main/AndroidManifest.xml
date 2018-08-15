@@ -54,8 +54,7 @@
             android:parentActivityName=".Home" />
         <activity
             android:name=".Home"
-            android:label="Home"
-            android:parentActivityName=".Login" />
+            android:label="Home" />
         <activity
             android:name=".AddRegimen"
             android:label="Add a Regimen"

@@ -16,11 +16,4 @@
 
         tools:ignore="AppCompatResource" />
 
-    <item
-        android:id="@+id/contact_us_id"
-        android:title="Contact Us"
-        android:showAsAction="never"
-
-        tools:ignore="AppCompatResource" />
-
 </menu>

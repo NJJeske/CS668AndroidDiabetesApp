@@ -1,5 +1,6 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,7 +41,11 @@ public class Home extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         welcome = (TextView) findViewById(R.id.welcome);
-//        welcome.setText("Welcome "+name);
+        SharedPreferences sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        if (!sp.equals(null)) {
+            String name = sp.getString("userName", "");
+            welcome.setText("Welcome " + name);
+        }
 
         // defining Cards
         bglCard = (CardView) findViewById(R.id.bgl_card);
@@ -197,8 +202,9 @@ public class Home extends AppCompatActivity {
 
                                 SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sp.edit();
-                                editor.putBoolean("loggedin", false);
-                                editor.putString("name", "");
+                                editor.putBoolean("loggedIn", false);
+                                editor.putString("userName", "");
+                                editor.putString("checkBox", "");
                                 editor.commit();
                                 i.putExtra("userName", "");
                                 finish();
@@ -220,10 +226,6 @@ public class Home extends AppCompatActivity {
             case R.id.about_us_id:
                 Log.v("HOME", "HOME: Menu > About SELECTED");
                 startActivity(new Intent(Home.this, About.class));
-                return true;
-            case R.id.contact_us_id:
-                Log.v("HOME", "HOME: Menu > Contact Us SELECTED");
-                startActivity(new Intent(Home.this, Login.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
