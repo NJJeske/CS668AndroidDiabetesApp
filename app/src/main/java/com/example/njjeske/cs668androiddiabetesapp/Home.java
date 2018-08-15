@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
+import android.content.SharedPreferences;
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
@@ -194,9 +194,18 @@ public class Home extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 //TODO: logout & switch to login screen
                                 //logout
-                                //startActivity(new Intent(this, Login.class));
+                                Intent i = new Intent(Home.this, Login.class);
                                 Toast.makeText(getApplicationContext(), "Logged out!",
                                         Toast.LENGTH_SHORT).show(); // temp
+
+                                SharedPreferences sp = getSharedPreferences("userInfo", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putBoolean("loggedin", false);
+                                editor.putString("name", "");
+                                editor.commit();
+                                i.putExtra("userName", "");
+                                finish();
+                                startActivity(i);
                             }
                         });
 

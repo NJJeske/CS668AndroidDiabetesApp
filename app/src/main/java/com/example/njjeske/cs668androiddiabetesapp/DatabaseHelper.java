@@ -193,6 +193,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return registered;
     }
 
+    public User getUserByUserName(String userName) {
+        Cursor output;
+        User userFound = new User();
+        SQLiteDatabase db = getWritableDatabase();
+        output = db.rawQuery("Select * from " + TABLE_NAME_LOGIN + " WHERE " + colName + " = '" + userName + "'", null);
+        if (output.getCount() == 0) {
+            System.out.println("No Records");
+        } else {
+            while (output.moveToNext()) {
+                userFound.setName(output.getString(0));
+                userFound.setPassword(output.getString(1));
+            }
+        }
+        output.close();
+        return userFound;
+    }
+
     /**
      * Reset the database (clear all data)
      */
