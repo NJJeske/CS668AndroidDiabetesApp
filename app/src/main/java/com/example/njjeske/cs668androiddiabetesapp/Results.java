@@ -58,12 +58,6 @@ public class Results extends AppCompatActivity {
 
         // TODO get info from Shared Preferences for Results
         fillListView();
-//        if (fragment == null) {
-//            fragment = new ListsFragment();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.add(R.id.Results_content, fragment);
-//            transaction.commit();
-//        }
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -90,18 +84,6 @@ public class Results extends AppCompatActivity {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         listView.setLayoutParams(params);
         contentView.addView(listView);
-
-        // TODO assignment 4
-//        if (fragment == null) {
-//            fragment = new ListsFragment();
-//            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.add(R.id.Results_content, fragment);
-//            transaction.commit();
-//        } else {
-//            FragmentTransaction ft = manager.beginTransaction();
-//            ListsFragment listsFragment = new ListsFragment();
-//            ft.replace(R.id.Results_content, listsFragment).commit();
-//        }
 
         //create query string
         if (!sp.equals(null)) {

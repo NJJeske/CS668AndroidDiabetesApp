@@ -16,6 +16,7 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
 
     private static class ViewHolder {
         TextView tvType, tvDate, tvTime, tvDescription;
+        int id;
     }
 
     public DataAdapter(Context context, ArrayList<DB_Object> objects) {
@@ -48,6 +49,7 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
         }
         // Populate the data from the data object via the viewHolder object
         // into the template view.
+        viewHolder.id = activity.getId();
         viewHolder.tvType.setText(activity.getActivityType());
         viewHolder.tvDate.setText(activity.getDate());
         viewHolder.tvTime.setText(activity.getTime());

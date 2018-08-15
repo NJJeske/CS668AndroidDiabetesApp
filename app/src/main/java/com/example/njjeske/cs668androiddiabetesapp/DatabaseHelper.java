@@ -247,6 +247,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (output.moveToFirst()) {
                 do {
                     DB_Object item = new DB_Object();
+                    item.setId(output.getInt(0));
                     item.setActivityType(output.getString(1));
                     item.setDate(output.getString(2));
                     item.setTime(output.getString(3));
