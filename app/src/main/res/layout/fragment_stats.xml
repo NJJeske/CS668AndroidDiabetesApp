@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/statView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="25dp"
+
+                android:layout_marginLeft="10dp"
+                android:text="Average BGL"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000080"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statViewAve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+
+                android:text="Report your BGL"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#000080"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/statView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="25dp"
+
+                android:layout_marginLeft="10dp"
+                android:text="Minimum BGL"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000080"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statViewMin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+
+                android:text="Log Caloric Intake"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#000080"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/EXERCISEL"
+            android:layout_marginBottom="5dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/textViewMax"
+            android:layout_toRightOf="@+id/textViewMax"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/statView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="25dp"
+
+                android:layout_marginLeft="10dp"
+                android:text="Maximum BGL"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000080"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statViewMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:text="Log caloric output"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#000080"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/statView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="25dp"
+
+                android:layout_marginLeft="10dp"
+                android:text="Median BGL"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#000080"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statViewMedian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="5dp"
+
+                android:layout_marginLeft="10dp"
+                android:text="Log medicine"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#000080"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>
