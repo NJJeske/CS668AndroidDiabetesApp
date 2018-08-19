@@ -16,9 +16,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.content.Intent;
+import android.app.AlarmManager;
 
-import java.util.ArrayList;
+import java.util.Timer;
 import java.util.Calendar;
+import java.util.TimerTask;
+import java.util.ArrayList;
+
+import android.support.annotation.RequiresApi;
+import android.os.Build;
+import android.app.PendingIntent;
+import android.preference.PreferenceManager;
 
 public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinner_type;
@@ -29,6 +38,9 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
     Calendar c;
     private Button submitbutton;
     private DatabaseHelper db;
+    private String userInfo;
+    private String correctMinute;
+    private String correctHour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,7 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
+
         time_editText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,8 +74,8 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
                 mTimePicker = new TimePickerDialog(AddRegimen.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        String correctMinute = selectedMinute + "";
-                        String correctHour = selectedHour + "";
+                        correctMinute = selectedMinute + "";
+                        correctHour = selectedHour + "";
                         if (selectedMinute < 10) {
                             correctMinute = "0" + selectedMinute;
                         }
@@ -158,10 +171,22 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
                     Log.v("AddRegimen", "CURSOR EMPTY");
                 }
 
+                userInfo = getIntent().getStringExtra("userInfo");
+                Intent intentToPassVarToAlarmReceiver = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                intentToPassVarToAlarmReceiver.putExtra("userInfo", userInfo);
+                sendBroadcast(intentToPassVarToAlarmReceiver);
+
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putString("user", userInfo);
+                edit.commit();
+
             } else {
                 Toast.makeText(getApplicationContext(), "Cannot submit, empty values in text fields.",
                         Toast.LENGTH_SHORT).show();
             }
+
+            sendNotification();
         }
     };
 
@@ -226,6 +251,29 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
             time_editText.setText(sp.getString("time", ""));
             description_editText.setText(sp.getString("description", ""));
         }
+    }
+
+    /**
+     * Send Notification by Time Picked once added
+     */
+
+    public void sendNotification() {
+
+        Calendar cal = Calendar.getInstance();
+
+        //Set Time Here for Notification
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(correctHour));
+        cal.set(Calendar.MINUTE, Integer.parseInt(correctMinute));
+        cal.set(Calendar.SECOND, 0);
+
+        Intent notifyIntent = new Intent(getApplicationContext(), NotificationReceiver.class);
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, broadcast);
+
+
     }
 
     /**
