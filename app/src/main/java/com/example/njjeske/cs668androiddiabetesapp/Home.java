@@ -3,13 +3,14 @@ package com.example.njjeske.cs668androiddiabetesapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Menu;
@@ -19,9 +20,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
@@ -96,21 +95,21 @@ public class Home extends AppCompatActivity {
         // Attach cursor adapter to the ListView
         lvItems.setAdapter(dataAdapter);
 
-        /**
-         *  Used to get the selected activity for edit
-         */
-        lvItems.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent i = new Intent(Home.this, EditActivity.class);
-                DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
-                System.out.println("Item: " + obj.toString());
-                i.putExtra("Data", obj.getId());
-                startActivity(i);
-            }
-        });
+//        /**
+//         *  Used to get the selected activity for edit
+//         */
+//        lvItems.setOnItemClickListener(new OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                Intent i = new Intent(Home.this, EditActivity.class);
+//                DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
+//                System.out.println("Item: " + obj.toString());
+//                i.putExtra("Data", obj.getId());
+//                startActivity(i);
+//            }
+//        });
     }
 
     // This method will add main_menu.xml to this activity.
@@ -171,7 +170,7 @@ public class Home extends AppCompatActivity {
                     startActivity(new Intent(Home.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    startActivity(new Intent(Home.this, Regimen.class));
+                    startActivity(new Intent(Home.this, RegimenActivity.class));
                     break;
             }
             return true;
@@ -196,7 +195,7 @@ public class Home extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 //TODO: logout & switch to login screen
                                 //logout
-                                Intent i = new Intent(Home.this, Login.class);
+                                Intent i = new Intent(Home.this, LoginActivity.class);
                                 Toast.makeText(getApplicationContext(), "Logged out!",
                                         Toast.LENGTH_SHORT).show(); // temp
 

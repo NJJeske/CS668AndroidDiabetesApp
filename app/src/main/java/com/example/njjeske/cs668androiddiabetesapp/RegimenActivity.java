@@ -11,13 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class Regimen extends AppCompatActivity {
+public class RegimenActivity extends AppCompatActivity {
     BottomNavigationView navigation;
     ListView lvItems;
     private ArrayList<DB_Object> arrayOfRegimen;
@@ -56,21 +54,21 @@ public class Regimen extends AppCompatActivity {
         // Attach cursor adapter to the ListView
         lvItems.setAdapter(dataAdapter);
 
-        /**
-         *  Used to get the selected activity for edit
-         */
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent i = new Intent(Regimen.this, EditRegimen.class);
-                DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
-                System.out.println("Item: " + obj.toString());
-                i.putExtra("Data", obj.getId());
-                startActivity(i);
-            }
-        });
+//        /**
+//         *  Used to get the selected activity for edit
+//         */
+//        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                Intent i = new Intent(RegimenActivity.this, EditRegimen.class);
+//                DB_Object obj = (DB_Object) lvItems.getItemAtPosition(position);
+//                System.out.println("Item: " + obj.toString());
+//                i.putExtra("Data", obj.getId());
+//                startActivity(i);
+//            }
+//        });
     }
 
     // This method will add regimen_nav.xml to this activity.
@@ -85,7 +83,7 @@ public class Regimen extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
-        startActivity(new Intent(Regimen.this, AddRegimen.class));
+        startActivity(new Intent(RegimenActivity.this, AddRegimen.class));
         return true;
     }
 
@@ -97,16 +95,16 @@ public class Regimen extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    startActivity(new Intent(Regimen.this, Home.class));
+                    startActivity(new Intent(RegimenActivity.this, Home.class));
                     break;
                 case R.id.navigation_activity:
-                    startActivity(new Intent(Regimen.this, AddActivity.class));
+                    startActivity(new Intent(RegimenActivity.this, AddActivity.class));
                     break;
                 case R.id.navigation_history:
-                    startActivity(new Intent(Regimen.this, SearchActivity.class));
+                    startActivity(new Intent(RegimenActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-//                    startActivity(new Intent(Regimen.this, Regimen.class));
+//                    startActivity(new Intent(RegimenActivity.this, RegimenActivity.class));
                     break;
             }
             return true;

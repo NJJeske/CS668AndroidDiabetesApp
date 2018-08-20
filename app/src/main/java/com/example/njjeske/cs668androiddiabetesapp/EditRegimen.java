@@ -133,18 +133,18 @@ public class EditRegimen extends AppCompatActivity implements AdapterView.OnItem
                 object.setDescription(description.getText().toString());
 
                 db.updateRegimen(value, object);
-                Log.v("EDITACTIVITY", String.format("%s was saved.", object.toString()));
-                Toast.makeText(getApplicationContext(), String.format("%s was saved.", object.toString()),
+                Log.v("EDITREGIMEN", String.format("%s was saved.", object.toString()));
+                Toast.makeText(getApplicationContext(), String.format("%s: %s at %s was saved.", object.getActivityType(), object.getDescription(), object.getTime()),
                         Toast.LENGTH_SHORT).show();
                 clearSharedPreferences();
 
                 // check if data is actually in db (delete later)
                 ArrayList<DB_Object> cursor = db.getAllRegimen();
                 for (int i = 0; i < cursor.size(); i++) {
-                    Log.v("AddRegimen", "DB DATA: " + cursor.get(i).toString());
+                    Log.v("EDITREGIMEN", "DB DATA: " + cursor.get(i).toString());
                 }
                 if (cursor.size() == 0) {
-                    Log.v("AddRegimen", "CURSOR EMPTY");
+                    Log.v("EDITREGIMEN", "CURSOR EMPTY");
                 }
                 finish();
 
@@ -169,7 +169,7 @@ public class EditRegimen extends AppCompatActivity implements AdapterView.OnItem
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        if (db.deleteRowByID(_id, "Regimen")) {
+                        if (db.deleteRowByID(_id, "RegimenActivity")) {
                             System.out.println("Deleted item with id " + _id);
                             Toast.makeText(getApplicationContext(), "Regimen item was deleted.",
                                     Toast.LENGTH_LONG).show();

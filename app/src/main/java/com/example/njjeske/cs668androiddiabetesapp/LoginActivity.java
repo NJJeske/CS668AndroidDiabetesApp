@@ -15,7 +15,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import java.io.File;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText email, password;
     private TextView create;
@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
                         user = db.getUserByEmail(email.getText().toString());
                         if (user.getPassword().equals(password.getText().toString())) {
                             saveSharedPreferences(true);
-                            Intent intent = new Intent(Login.this, Home.class);
+                            Intent intent = new Intent(LoginActivity.this, Home.class);
                             intent.putExtra("userName", user.getName());
                             startActivity(intent);
                         } else {
@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent createUser = new Intent(Login.this, Create.class);
+                Intent createUser = new Intent(LoginActivity.this, CreateUserActivity.class);
                 startActivity(createUser);
             }
         });
@@ -119,7 +119,7 @@ public class Login extends AppCompatActivity {
         if (islog) {
             if (sp.getString("checkBox", "").equals("checked")) {
                 // go directly to Home
-                Intent intent = new Intent(Login.this, Home.class);
+                Intent intent = new Intent(LoginActivity.this, Home.class);
                 intent.putExtra("userName", sp.getString("name", ""));
                 startActivity(intent);
                 finish();

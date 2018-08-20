@@ -18,7 +18,7 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            app:srcCompat="@mipmap/AppIcon" />
+            app:srcCompat="@mipmap/appicon" />
 
         <TextView
             android:id="@+id/email_text_login"

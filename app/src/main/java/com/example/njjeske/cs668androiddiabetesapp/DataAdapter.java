@@ -1,6 +1,7 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
     private static class ViewHolder {
         TextView tvType, tvDate, tvTime, tvDescription;
         int id;
+        DB_Object activity;
     }
 
     public DataAdapter(Context context, ArrayList<DB_Object> objects) {
@@ -37,7 +39,7 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
         // Get the data item for this position
         DB_Object activity = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder; // view lookup cache stored in tag
+        final ViewHolder viewHolder; // view lookup cache stored in tag
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -61,6 +63,23 @@ public class DataAdapter extends ArrayAdapter<DB_Object> {
         viewHolder.tvDate.setText(activity.getDate());
         viewHolder.tvTime.setText(activity.getTime());
         viewHolder.tvDescription.setText(activity.getDescription());
+
+        //set onclicklistener
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i;
+                if (context.getClass().equals(RegimenActivity.class)) {
+                    i = new Intent(context, EditRegimen.class);
+                } else {
+                    i = new Intent(context, EditActivity.class);
+                }
+                i.putExtra("Data", viewHolder.id);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
+
         // Return the completed view to render on screen
         return convertView;
     }

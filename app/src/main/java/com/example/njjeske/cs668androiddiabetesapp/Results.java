@@ -81,7 +81,7 @@ public class Results extends AppCompatActivity {
      */
     private void fillListView() {
         if (listView == null) {
-            // Create listView programmatically since we change depending on content
+            // CreateUserActivity listView programmatically since we change depending on content
             listView = new ListView(this);
             listView.setPadding(20, 10, 20, 10);
             listView.setDivider(new ColorDrawable(Color.TRANSPARENT));
@@ -155,6 +155,7 @@ public class Results extends AppCompatActivity {
                 case R.id.Results_button_graph:
                     listView.setVisibility(View.INVISIBLE);
                     fillGraphsView();
+                    saveSharedPreferences("graphs");
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING GRAPHS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Graphs Button clicked");
                     break;
@@ -163,12 +164,14 @@ public class Results extends AppCompatActivity {
                     transaction.hide(fragment);
                     transaction.commit();
                     listView.setVisibility(View.VISIBLE);
+                    saveSharedPreferences("lists");
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING LISTS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Lists Button clicked");
                     break;
                 case R.id.Results_button_stats:
                     listView.setVisibility(View.INVISIBLE);
                     fillStatsView();
+                    saveSharedPreferences("stats");
                     Toast.makeText(getApplicationContext(), "RESULTS: SHOWING STATS", Toast.LENGTH_SHORT).show();
                     Log.d("RESULTS", "Stats Button clicked");
                     break;
@@ -458,10 +461,42 @@ public class Results extends AppCompatActivity {
     }
 
     /**
+     * Save SharedPreferences as extra precaution
+     */
+    public void saveSharedPreferences(String button) {
+        SharedPreferences sp = getSharedPreferences("ResultsInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("currentButton", button);
+        editor.commit();
+    }
+
+    /**
+     * Show SharedPreferences: use inside onCreate()
+     */
+    public void showSharedPreferences() {
+        SharedPreferences sp = getSharedPreferences("ResultsInfo", Context.MODE_PRIVATE);
+        if (!sp.equals(null)) {
+            System.out.println("RESULTS current button: " + sp.getString("currentButton", ""));
+            if (sp.getString("currentButton", "").equals("lists")) {
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.hide(fragment);
+                transaction.commit();
+                listView.setVisibility(View.VISIBLE);
+            } else if (sp.getString("currentButton", "").equals("graphs")) {
+                listView.setVisibility(View.INVISIBLE);
+                fillGraphsView();
+            } else if (sp.getString("currentButton", "").equals("stats")) {
+                listView.setVisibility(View.INVISIBLE);
+                fillStatsView();
+            }
+        }
+    }
+
+    /**
      * Clear SharedPreferences upon submit
      */
     public void clearSharedPreferences() {
-        SharedPreferences sp = getSharedPreferences("addActivityInfo", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("ResultsInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
         editor.commit();
@@ -484,7 +519,7 @@ public class Results extends AppCompatActivity {
                     startActivity(new Intent(Results.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    startActivity(new Intent(Results.this, Regimen.class));
+                    startActivity(new Intent(Results.this, RegimenActivity.class));
                     break;
             }
             return true;
@@ -498,9 +533,19 @@ public class Results extends AppCompatActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        db.close();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.hide(fragment);
+        transaction.commit();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         fillListView(); // if you come back from EditActivity
+        showSharedPreferences();
     }
 
     @Override

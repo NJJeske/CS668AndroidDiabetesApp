@@ -230,7 +230,7 @@ public class SearchActivity extends AppCompatActivity {
 //                    startActivity(new Intent(SearchActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    startActivity(new Intent(SearchActivity.this, Regimen.class));
+                    startActivity(new Intent(SearchActivity.this, RegimenActivity.class));
                     break;
             }
             return true;

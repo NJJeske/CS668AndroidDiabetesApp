@@ -1,6 +1,5 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -27,6 +26,8 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.mipmap.heart)
                 .setContentTitle("Diabetes Management")
                 .setContentText("You have a Regiment to complete!")
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true);
 
         notificationManager.notify(100, builder.build());

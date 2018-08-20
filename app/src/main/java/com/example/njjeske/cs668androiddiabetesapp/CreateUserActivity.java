@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
-public class Create extends AppCompatActivity {
+public class CreateUserActivity extends AppCompatActivity {
 
     private EditText email, password, name_editText;
     private Button createUser;
@@ -123,7 +123,7 @@ public class Create extends AppCompatActivity {
                     else editor.putString("checkBox", "");
                     editor.commit();
 
-                    Intent home = new Intent(Create.this, Home.class);
+                    Intent home = new Intent(CreateUserActivity.this, Home.class);
                     startActivity(home);
                 } else {
                     Toast.makeText(getApplicationContext(), "User already created. Please login on previous page.",

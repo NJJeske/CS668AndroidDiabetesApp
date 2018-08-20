@@ -1,10 +1,14 @@
 package com.example.njjeske.cs668androiddiabetesapp;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,18 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.content.Intent;
-import android.app.AlarmManager;
 
-import java.util.Timer;
-import java.util.Calendar;
-import java.util.TimerTask;
 import java.util.ArrayList;
-
-import android.support.annotation.RequiresApi;
-import android.os.Build;
-import android.app.PendingIntent;
-import android.preference.PreferenceManager;
+import java.util.Calendar;
 
 public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Spinner spinner_type;
@@ -175,6 +170,7 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
                 Intent intentToPassVarToAlarmReceiver = new Intent("android.media.action.DISPLAY_NOTIFICATION");
                 intentToPassVarToAlarmReceiver.putExtra("userInfo", userInfo);
                 sendBroadcast(intentToPassVarToAlarmReceiver);
+                sendNotification();
 
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor edit = pref.edit();
@@ -185,8 +181,6 @@ public class AddRegimen extends AppCompatActivity implements AdapterView.OnItemS
                 Toast.makeText(getApplicationContext(), "Cannot submit, empty values in text fields.",
                         Toast.LENGTH_SHORT).show();
             }
-
-            sendNotification();
         }
     };
 

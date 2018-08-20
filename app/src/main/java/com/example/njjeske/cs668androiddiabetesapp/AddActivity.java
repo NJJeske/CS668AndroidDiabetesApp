@@ -333,7 +333,7 @@ public class AddActivity extends AppCompatActivity implements AdapterView.OnItem
                     startActivity(new Intent(AddActivity.this, SearchActivity.class));
                     break;
                 case R.id.navigation_regimen:
-                    startActivity(new Intent(AddActivity.this, Regimen.class));
+                    startActivity(new Intent(AddActivity.this, RegimenActivity.class));
                     break;
             }
             return true;

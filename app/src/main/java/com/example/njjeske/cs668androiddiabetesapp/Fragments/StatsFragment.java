@@ -170,6 +170,12 @@ public class StatsFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        db.close();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         db.close();
