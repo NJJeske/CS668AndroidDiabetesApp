@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,7 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
 import java.util.regex.Pattern;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Create extends AppCompatActivity {
 
@@ -20,6 +25,7 @@ public class Create extends AppCompatActivity {
     private TextView createErrorMsg, createPasswordRequirements;
     private CheckBox rememberMe;
     private DatabaseHelper db;
+    private String AES = "AES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +122,7 @@ public class Create extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
 
                     editor.putString("email", userEmail);
-                    editor.putString("userName", userName);
+                    editor.putString("userInfo", userName);
                     editor.putBoolean("loggedIn", true);
                     if (rememberMe.isChecked())
                         editor.putString("checkBox", "checked");
@@ -133,5 +139,29 @@ public class Create extends AppCompatActivity {
 
         }
     };
+
+    private String encrypt(String data, String password) throws Exception {
+        SecretKeySpec key = generateKey(password);
+        Cipher cipher = Cipher.getInstance(AES);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+
+        byte[] encVal = cipher.doFinal(data.getBytes());
+        String encValue = Base64.encodeToString(encVal, Base64.DEFAULT);
+
+        return encValue;
+
+    }
+
+    private SecretKeySpec generateKey(String password) throws Exception {
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = password.getBytes("UTF-8");
+
+        digest.update(bytes, 0, bytes.length);
+
+        byte[] key = digest.digest();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
+
+    }
 
 }
