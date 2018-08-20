@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,6 +13,12 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            app:srcCompat="@mipmap/AppIcon" />
 
         <TextView
             android:id="@+id/email_text_login"
@@ -57,11 +64,11 @@
             android:id="@+id/createAccount_login"
             android:layout_width="match_parent"
             android:layout_height="29dp"
-            android:gravity="center"
             android:clickable="true"
+            android:gravity="center"
             android:onClick="onClick"
             android:text="@string/no_account_yet_create_one"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+            android:textAppearance="@android:style/TextAppearance.Large"
             tools:layout_editor_absoluteX="209dp"
             tools:layout_editor_absoluteY="252dp" />
     </LinearLayout>
