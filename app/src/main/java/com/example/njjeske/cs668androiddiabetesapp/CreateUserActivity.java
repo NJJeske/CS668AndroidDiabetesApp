@@ -11,7 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
 import java.util.regex.Pattern;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class CreateUserActivity extends AppCompatActivity {
 
@@ -20,6 +24,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private TextView createErrorMsg, createPasswordRequirements;
     private CheckBox rememberMe;
     private DatabaseHelper db;
+    private String AES = "AES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +128,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     else editor.putString("checkBox", "");
                     editor.commit();
 
-                    Intent home = new Intent(CreateUserActivity.this, Home.class);
+                    Intent home = new Intent(Create.this, Home.class);
                     startActivity(home);
                 } else {
                     Toast.makeText(getApplicationContext(), "User already created. Please login on previous page.",
@@ -133,5 +138,30 @@ public class CreateUserActivity extends AppCompatActivity {
 
         }
     };
+
+    private String encrypt(String data, String password) throws Exception {
+        SecretKeySpec key = generateKey(password);
+        Cipher cipher = Cipher.getInstance(AES);
+        cipher.init(Cipher.ENCRYPT_MODE, key);
+
+        byte[] encVal = cipher.doFinal(data.getBytes());
+        String encValue = Base64.encodeToString(encVal, Base64.DEFAULT);
+
+        return encValue;
+
+    }
+
+    private SecretKeySpec generateKey(String password) throws Exception {
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] bytes = password.getBytes("UTF-8");
+
+        digest.update(bytes, 0, bytes.length);
+
+        byte[] key = digest.digest();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
+
+
+    }
 
 }
