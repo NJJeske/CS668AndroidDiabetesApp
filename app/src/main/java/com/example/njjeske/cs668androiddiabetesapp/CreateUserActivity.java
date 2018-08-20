@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -128,7 +129,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     else editor.putString("checkBox", "");
                     editor.commit();
 
-                    Intent home = new Intent(Create.this, Home.class);
+                    Intent home = new Intent(CreateUserActivity.this, Home.class);
                     startActivity(home);
                 } else {
                     Toast.makeText(getApplicationContext(), "User already created. Please login on previous page.",
