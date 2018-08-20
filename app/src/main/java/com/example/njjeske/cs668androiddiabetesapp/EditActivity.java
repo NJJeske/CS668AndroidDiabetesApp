@@ -146,8 +146,8 @@ public class EditActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(Double.parseDouble(description.getText().toString()) < 40.0 ||
-                        Double.parseDouble(description.getText().toString()) > 600.0)) {
+                if ((header.getText().toString().equals("Blood Glucose") && !(Double.parseDouble(description.getText().toString()) < 40.0 ||
+                        Double.parseDouble(description.getText().toString()) > 600.0))) {
                     submit(v);
                 } else {
                     Toast.makeText(getApplicationContext(), "BGL value is outside the range (40-600).",
